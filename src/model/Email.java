@@ -34,6 +34,7 @@ Per l'implementazione dell'applicazione si può utilizzare, a scelta, SWING oppu
 
 // needed for Email
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Observable;
 import java.util.UUID;
 
@@ -49,15 +50,13 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 // needed for building XML
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
 
 
 public class Email extends Observable{
     private UUID IDEmail;
     private Account sender;
-    private Account reciver;
+    private Account receiver;
     private String argument;
     private String text;
     private Calendar dateOfSending;
@@ -65,26 +64,113 @@ public class Email extends Observable{
     /**
      * Constructor of Email Object
      * @param sender: the account of the sender
-     * @param reciver: the account of the reciver
+     * @param receiver: the account of the reciver
      * @param argument: the thread of the conversation
      * @param text: the text of the message
      */
-    public Email(Account sender, Account reciver, String argument, String text){
+    public Email(Account sender, Account receiver, String argument, String text){
         this.IDEmail = UUID.randomUUID();
         this.sender = sender;
-        this.reciver = reciver;
+        this.receiver = receiver;
         this.argument = argument;
         this.text = text;
         this.dateOfSending = Calendar.getInstance();
     }
 
+    // GETTERS ---------------------------------------------------------------------------------------------------------
+
     /**
-     * getter for an Email  Object
-     * @return the Email object in which is invoked
+     * getter for IDEmail parameter
+     * @return the ID of the Email
      */
-    public Email getEmail () {
-        return this;
+    public String getIDEmail() {
+        return IDEmail.toString();
     }
+
+    /**
+     * getter for sender parameter
+     * @return the sender of the Email
+     */
+    public String getSender() {
+        return sender.getEmail();
+    }
+
+    /**
+     * getter for receiver parameter
+     * @return the receiver of the Email
+     */
+    public String getReceiver() {
+        return receiver.getEmail();
+    }
+
+    /**
+     * getter for argument parameter
+     * @return the argument of the Email
+     */
+    public String getArgument() {
+        return argument;
+    }
+
+    /**
+     * getter for text parameter
+     * @return the text (body) of the Email
+     */
+    public String getText() {
+        return text;
+    }
+
+    /**
+     * getter for dateOfSending parameter
+     * @return the date in which the Email is send
+     */
+    public Calendar getDateOfSending() {
+        return dateOfSending;
+    }
+
+    // SETTERS ---------------------------------------------------------------------------------------------------------
+
+    /**
+     * Setter for the sender parameter
+     * @param newSender: the new sender address
+     */
+    public void setSender(Account newSender) {
+        this.sender = newSender;
+    }
+
+    /**
+     * Setter for the receiver parameter
+     * @param newReceiver: the new receiver address
+     */
+    public void setReceiver(Account newReceiver) {
+        this.receiver = newReceiver;
+    }
+
+    /**
+     * Setter for the argument parameter
+     * @param newArgument: the new argument for the email
+     */
+    public void setArgument(String newArgument) {
+        this.argument = newArgument;
+    }
+
+    /**
+     * Setter for the text parameter
+     * @param newText: the new text (body) for the email
+     */
+    public void setText(String newText) {
+        this.text = newText;
+    }
+
+    /**
+     * Setter for the dateOfSending parameter
+     * @param newDate: the new argument for the email
+     */
+    public void setDate(Calendar newDate) {
+        this.dateOfSending = newDate;
+    }
+
+
+    // OTHER -----------------------------------------------------------------------------------------------------------
 
     /**
      * Writes an Email and prints all its contents into an XML file
@@ -111,6 +197,46 @@ public class Email extends Observable{
     // UTILITY ---------------------------------------------------------------------------------------------------------
 
     /**
+     * Method for parsing an XML file
+     * @param pathOfXML: the path of the XML file to be read
+     */
+    private void readXML(String pathOfXML){
+        try {
+
+            File fXmlFile = new File(pathOfXML);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(fXmlFile);
+
+            //optional, but recommended
+            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+            doc.getDocumentElement().normalize();
+
+            NodeList nList = doc.getElementsByTagName("email");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                Node nNode = nList.item(temp);
+
+                // System.out.println("\nCurrent Element :" + nNode.getNodeName());
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element eElement = (Element) nNode;
+
+                    System.out.println("Email ID : " + eElement.getElementsByTagName("IDEmail").item(0).getTextContent());
+                    System.out.println("Sender : " + eElement.getElementsByTagName("sender").item(0).getTextContent());
+                    System.out.println("Receiver : " + eElement.getElementsByTagName("receiver").item(0).getTextContent());
+                    System.out.println("Argument : " + eElement.getElementsByTagName("argument").item(0).getTextContent());
+                    System.out.println("Text : " + eElement.getElementsByTagName("text").item(0).getTextContent());
+                    System.out.println("Date of sending : " + eElement.getElementsByTagName("date").item(0).getTextContent());
+
+                }
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+    } // end readXML
+
+    /**
      * It converts an Email object into a XML file.
      * @param toConvert: the Email object to convert
      */
@@ -130,42 +256,39 @@ public class Email extends Observable{
 
             // IDEmail element
             Element IDEmail = doc.createElement("IDEmail");
+            IDEmail.appendChild(doc.createTextNode(toConvert.getIDEmail()));
             rootElement.appendChild(IDEmail);
-
-            // set attribute to IDEmail element
-            IDEmail.setAttribute("id", toConvert.IDEmail.toString());
-
 
             // Sender elements
             Element sender = doc.createElement("sender");
-            sender.appendChild(doc.createTextNode(toConvert.sender.getEmail()));
+            sender.appendChild(doc.createTextNode(toConvert.getSender()));
             rootElement.appendChild(sender);
 
             // Reciver elements
-            Element reciver = doc.createElement("reciver");
-            reciver.appendChild(doc.createTextNode(toConvert.reciver.getEmail()));
-            rootElement.appendChild(reciver);
+            Element receiver = doc.createElement("receiver");
+            receiver.appendChild(doc.createTextNode(toConvert.getReceiver()));
+            rootElement.appendChild(receiver);
 
             // Argument elements
             Element argument = doc.createElement("argument");
-            argument.appendChild(doc.createTextNode(toConvert.argument));
+            argument.appendChild(doc.createTextNode(toConvert.getArgument()));
             rootElement.appendChild(argument);
 
             // Text elements
             Element text = doc.createElement("text");
-            text.appendChild(doc.createTextNode(toConvert.text));
+            text.appendChild(doc.createTextNode(toConvert.getText()));
             rootElement.appendChild(text);
 
             // Date of Sending elements
             Element dateOfSending = doc.createElement("date");
-            dateOfSending.appendChild(doc.createTextNode(toConvert.dateOfSending.toString()));
+            dateOfSending.appendChild(doc.createTextNode(toConvert.getDateOfSending().toString()));
             rootElement.appendChild(dateOfSending);
 
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("data/emails/email" + toConvert.IDEmail.toString() + ".xml"));
+            StreamResult result = new StreamResult(new File("data/emails/email" + toConvert.getIDEmail() + ".xml"));
 
             // Output to console for testing
             // StreamResult result = new StreamResult(System.out);
