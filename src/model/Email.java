@@ -32,40 +32,154 @@ della posta elettronica.
 Per l'implementazione dell'applicazione si può utilizzare, a scelta, SWING oppure JavaFX.
  */
 
+// needed for Email
 import java.util.Calendar;
 import java.util.Observable;
 import java.util.UUID;
 
-// MODEL (una parte)
+// needed for write XML
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+// needed for building XML
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 
 public class Email extends Observable{
     private UUID IDEmail;
-    private Account mittente;
-    private Account destinatario;
-    private String argomento;
-    private String testo;
-    private Calendar dataSpedizione;
+    private Account sender;
+    private Account reciver;
+    private String argument;
+    private String text;
+    private Calendar dateOfSending;
 
-    public Email(Account mittente, Account destinatario, String argomento, String testo){
+    /**
+     * Constructor of Email Object
+     * @param sender: the account of the sender
+     * @param reciver: the account of the reciver
+     * @param argument: the thread of the conversation
+     * @param text: the text of the message
+     */
+    public Email(Account sender, Account reciver, String argument, String text){
         this.IDEmail = UUID.randomUUID();
-        this.mittente = mittente;
-        this.destinatario = destinatario;
-        this.argomento = argomento;
-        this.testo = testo;
-        this.dataSpedizione = Calendar.getInstance();
+        this.sender = sender;
+        this.reciver = reciver;
+        this.argument = argument;
+        this.text = text;
+        this.dateOfSending = Calendar.getInstance();
     }
 
+    /**
+     * getter for an Email  Object
+     * @return the Email object in which is invoked
+     */
     public Email getEmail () {
         return this;
     }
 
-    public Email scriviEmail(Account destinatario, String argomento, String testo) {
-        Email messaggio = new Email (this.mittente, destinatario, argomento, testo);
-        return messaggio;
+    /**
+     * Writes an Email and prints all its contents into an XML file
+     * @param reciver: the account of the reciver
+     * @param argument: the thread of the conversation
+     * @param text: the text of the message
+     */
+    public void writeEmail(Account reciver, String argument, String text) {
+        Email message = new Email (this.sender, reciver, argument, text);
+        setChanged();
+        notifyObservers();
+        writeXML(message);
     }
 
-    public void rimuoviEmail(Email daRimuovere) {
-
+    /**
+     * Deletes a specific Email
+     * @param toDelete: the ID of the Email to delete
+     */
+    public void deleteEmail(Email toDelete) {
+        setChanged();
+        notifyObservers();
     }
 
-}
+    // UTILITY ---------------------------------------------------------------------------------------------------------
+
+    /**
+     * It converts an Email object into a XML file.
+     * @param toConvert: the Email object to convert
+     */
+    private void writeXML(Email toConvert) {
+
+        // src: https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
+
+        try {
+
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder email = docFactory.newDocumentBuilder();
+
+            // root elements, Email
+            Document doc = email.newDocument();
+            Element rootElement = doc.createElement("email");
+            doc.appendChild(rootElement);
+
+            // IDEmail element
+            Element IDEmail = doc.createElement("IDEmail");
+            rootElement.appendChild(IDEmail);
+
+            // set attribute to IDEmail element
+            IDEmail.setAttribute("id", toConvert.IDEmail.toString());
+
+
+            // Sender elements
+            Element sender = doc.createElement("sender");
+            sender.appendChild(doc.createTextNode(toConvert.sender.getEmail()));
+            rootElement.appendChild(sender);
+
+            // Reciver elements
+            Element reciver = doc.createElement("reciver");
+            reciver.appendChild(doc.createTextNode(toConvert.reciver.getEmail()));
+            rootElement.appendChild(reciver);
+
+            // Argument elements
+            Element argument = doc.createElement("argument");
+            argument.appendChild(doc.createTextNode(toConvert.argument));
+            rootElement.appendChild(argument);
+
+            // Text elements
+            Element text = doc.createElement("text");
+            text.appendChild(doc.createTextNode(toConvert.text));
+            rootElement.appendChild(text);
+
+            // Date of Sending elements
+            Element dateOfSending = doc.createElement("date");
+            dateOfSending.appendChild(doc.createTextNode(toConvert.dateOfSending.toString()));
+            rootElement.appendChild(dateOfSending);
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File("data/emails/email" + toConvert.IDEmail.toString() + ".xml"));
+
+            // Output to console for testing
+            // StreamResult result = new StreamResult(System.out);
+
+            transformer.transform(source, result);
+
+            System.out.println("File saved!");
+
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (TransformerException tfe) {
+            tfe.printStackTrace();
+        } // end CATCH block
+
+    } // end writeXML
+
+} // end Email Class

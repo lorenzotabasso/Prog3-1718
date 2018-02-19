@@ -10,35 +10,35 @@ import java.util.UUID;
 
 public class Account extends Observable{
     private UUID IDAccount;
-    private String nome;
-    private String cognome;
-    private String nomeUtente;
+    private String name;
+    private String surname;
+    private String email;
 
-    public Account(String nomeUtente){
+    public Account(String email){
         this.IDAccount = UUID.randomUUID();
-        this.nomeUtente = nomeUtente;
+        this.email = email;
     }
 
     public String getNome(){
-        return nome;
+        return name;
     }
 
     public String getCognome(){
-        return cognome;
+        return surname;
     }
 
-    public String getNomeUtente(){
-        return nomeUtente;
+    public String getEmail(){
+        return email;
     }
 
     public void setNome(String nome){
-        this.nome = nome;
+        this.name = nome;
         setChanged();
         notifyObservers();
     }
 
     public void setCognome(String cognome){
-        this.cognome = cognome;
+        this.surname = cognome;
         setChanged();
         notifyObservers();
     }
@@ -50,6 +50,6 @@ public class Account extends Observable{
 
     @Override
     public String toString() {
-        return "Nome: " + this.nome + ", Cognome: " + this.cognome;
+        return "Nome: " + this.name + ", Cognome: " + this.surname;
     }
 }
