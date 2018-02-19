@@ -34,7 +34,6 @@ Per l'implementazione dell'applicazione si può utilizzare, a scelta, SWING oppu
 
 // needed for Email
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Observable;
 import java.util.UUID;
 
