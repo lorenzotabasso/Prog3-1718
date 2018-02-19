@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-  <tabs>
-    <Tab text="Inbox">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <ToolBar prefHeight="15.0" prefWidth="600.0">
-                    <items>
-                      <Button mnemonicParsing="false" text="Scrivi" />
-                        <Button mnemonicParsing="false" text="Elimina" />
-                        <Button mnemonicParsing="false" text="Ricevi" />
-                    </items>
-                  </ToolBar>
-                  <VBox layoutY="39.0" prefHeight="328.0" prefWidth="106.0" />
-                  <VBox layoutX="106.0" layoutY="39.0" prefHeight="328.0" prefWidth="100.0" />
-                  <Pane layoutX="223.0" layoutY="38.0" prefHeight="329.0" prefWidth="377.0">
-                     <children>
-                        <ScrollBar layoutX="361.0" orientation="VERTICAL" prefHeight="329.0" prefWidth="17.0" />
-                     </children>
-                  </Pane>
-                  <ScrollBar layoutX="206.0" layoutY="39.0" orientation="VERTICAL" prefHeight="328.0" prefWidth="10.0" />
-               </children></AnchorPane>
-      </content>
-    </Tab>
-  </tabs>
-</TabPane>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TestDocumentController">
+   <children>
+      <Pane layoutX="-1.0" layoutY="-2.0" prefHeight="40.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="177.0" layoutY="12.0" prefHeight="17.0" prefWidth="247.0" text="Label" textAlignment="CENTER" />
+         </children>
+      </Pane>
+      <ToolBar layoutY="39.0" prefHeight="40.0" prefWidth="600.0">
+        <items>
+          <Button mnemonicParsing="false" text="Aggiorna" />
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
+            <Button mnemonicParsing="false" text="Scrivi" />
+            <Button mnemonicParsing="false" text="Rispondi" />
+            <Button mnemonicParsing="false" text="Rispondi a tutti" />
+            <Button mnemonicParsing="false" text="Inoltra" />
+            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
+            <Button mnemonicParsing="false" text="Elimina" />
+        </items>
+      </ToolBar>
+      <StackPane layoutX="-7.0" layoutY="77.0" prefHeight="323.0" prefWidth="600.0" />
+   </children>
+</Pane>
