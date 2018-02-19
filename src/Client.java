@@ -13,7 +13,7 @@ public class Client extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("view/gui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view/MainView.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();

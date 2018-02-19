@@ -18,7 +18,6 @@ import javax.xml.transform.stream.StreamResult;
 // needed for building XML
 import org.w3c.dom.*;
 
-
 public class Account extends Observable{
     private UUID IDAccount;
     private String name;

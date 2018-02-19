@@ -4,17 +4,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.text.Text;
 
 public class Controller {
 
     @FXML
-    private Label label;
+    private Label testo;
     public Button updateButton;
 
     @FXML
     private void updateButton(ActionEvent event) {
         System.out.println("You clicked me!");
-        label.setText("Hello World!");
+        testo.setText("Hello world!");
     }
 
 }
