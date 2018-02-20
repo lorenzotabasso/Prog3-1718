@@ -7,24 +7,24 @@
 <?import javafx.scene.text.*?>
 <?import java.util.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
     <children>
         <Pane layoutX="-1.0" layoutY="-2.0" prefHeight="40.0" prefWidth="600.0">
             <children>
-                <Label fx:id="testo" layoutX="167.0" layoutY="12.0" prefHeight="17.0" prefWidth="265.0" textAlignment="CENTER" />
-                <Label layoutX="432.0" layoutY="12.0" prefHeight="17.0" prefWidth="168.0" />
+                <Label fx:id="status" layoutX="167.0" layoutY="12.0" prefHeight="17.0" prefWidth="265.0" textAlignment="CENTER" />
+                <Label fx:id="email" layoutX="432.0" layoutY="12.0" prefHeight="17.0" prefWidth="168.0" />
             </children>
         </Pane>
         <ToolBar layoutY="39.0" prefHeight="40.0" prefWidth="600.0">
             <items>
-                <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateButton" text="Aggiorna" />
+                <Button fx:id="update" mnemonicParsing="false" text="Update" onAction="#updateButton" />
                 <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
-                <Button mnemonicParsing="false" text="Scrivi" />
-                <Button mnemonicParsing="false" text="Rispondi" />
-                <Button mnemonicParsing="false" text="Rispondi a tutti" />
-                <Button mnemonicParsing="false" text="Inoltra" />
+                <Button fx:id="write" mnemonicParsing="false" text="Write" onAction="#writeButton" />
+                <Button fx:id="reply" mnemonicParsing="false" text="Reply" onAction="#replyButton" />
+                <Button fx:id="replyToAll" mnemonicParsing="false" text="Reply to all" onAction="#replyToAllButton" />
+                <Button fx:id="forward" mnemonicParsing="false" text="Forward" onAction="#forwardButton" />
                 <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
-                <Button mnemonicParsing="false" text="Elimina" />
+                <Button fx:id="delete" mnemonicParsing="false" text="Delete" onAction="#deleteButton"/>
             </items>
         </ToolBar>
         <StackPane layoutX="-7.0" layoutY="78.0" prefHeight="322.0" prefWidth="183.0" />
