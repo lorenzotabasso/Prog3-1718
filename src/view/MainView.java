@@ -1,6 +1,8 @@
 package view;
 
 import controller.MainViewController;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -31,8 +33,8 @@ public class MainView implements Observer {
     /**
      * Costructor. It initialize the controller and all the button's listener
      */
-    public MainView(){
-        controller = new MainViewController();
+    public MainView(MainViewController c){
+        initializeController(c);
         initializeRoot();
         initializeUpdateButton();
         initializeWriteButton();
@@ -40,6 +42,10 @@ public class MainView implements Observer {
         initializeReplyToAllButton();
         initializeForwardButton();
         initializeDeleteButton();
+    }
+
+    public void initializeController(MainViewController c) {
+        this.controller = c;
     }
 
     /**
@@ -58,7 +64,12 @@ public class MainView implements Observer {
      */
     private void initializeUpdateButton(){
         Button update = (Button) root.lookup("#update"); // #button exists in FXMLDocument.fxml
-        update.setOnAction(e -> controller.updateButton(e));
+        update.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //label.setText("Accepted");
+                System.out.println("UPDATE");
+            }
+        });
     }
 
     /**
@@ -101,6 +112,9 @@ public class MainView implements Observer {
         delete.setOnAction(e -> controller.deleteButton(e));
     }
 
+    public Parent getRoot() {
+        return root;
+    }
 
     public void update(Observable ob, Object extra_args){}
 

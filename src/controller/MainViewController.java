@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class MainViewController {
 
+    public MainViewController() {}
+
     @FXML // MainView components
     public Label status;
     public Label email;

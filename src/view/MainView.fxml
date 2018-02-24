@@ -17,14 +17,14 @@
         </Pane>
         <ToolBar layoutY="39.0" prefHeight="40.0" prefWidth="600.0">
             <items>
-                <Button fx:id="update" mnemonicParsing="false" text="Update" onAction="#updateButton" />
+                <Button fx:id="update" mnemonicParsing="false" text="Update" onAction="#updateButton"/>
                 <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
                 <Button fx:id="write" mnemonicParsing="false" text="Write" onAction="#writeButton" />
                 <Button fx:id="reply" mnemonicParsing="false" text="Reply" onAction="#replyButton" />
                 <Button fx:id="replyToAll" mnemonicParsing="false" text="Reply to all" onAction="#replyToAllButton" />
                 <Button fx:id="forward" mnemonicParsing="false" text="Forward" onAction="#forwardButton" />
                 <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
-                <Button fx:id="delete" mnemonicParsing="false" text="Delete" onAction="#deleteButton"/>
+                <Button fx:id="delete" mnemonicParsing="false" text="Delete" onAction="#deleteButton" />
             </items>
         </ToolBar>
         <StackPane layoutX="-7.0" layoutY="78.0" prefHeight="322.0" prefWidth="183.0" />
