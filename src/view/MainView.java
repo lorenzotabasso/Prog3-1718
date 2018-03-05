@@ -25,7 +25,7 @@ La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzio
 public class MainView implements Observer {
 
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
-    // SEGUIREMO L'APPROCCIO 2
+    // SEGUIREMO L'APPROCCIO 1
 
     private MainViewController controller;
     private Parent root = null; // needed for find the buttons in the FXML file

@@ -1,12 +1,14 @@
 package controller;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -24,40 +26,88 @@ public class MainViewController {
     public Button forward;
     public Button delete;
 
+    /**
+     * It initialize the image of each button
+     */
+    public void setGraphics() {
+        // TO TEST
+        Image test = new Image(getClass().getResourceAsStream("img/update.png"));
+    }
+
     @FXML
     public void updateButton(ActionEvent event) {
-        System.out.println("You clicked me!");
-        status.setText("You clicked: Update");
+        update.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                status.setText(mess);
+                System.out.println(mess);
+            }
+        });
     }
 
     @FXML
     public void writeButton(ActionEvent event) {
-        System.out.println("You clicked: Write");
-        //write.setOnAction(WriteViewController(event));
+        write.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                status.setText(mess);
+                System.out.println(mess);
+            }
+        });
     }
 
     @FXML
     public void replyButton(ActionEvent event) {
-        System.out.println("You clicked me!");
-        status.setText("You clicked: " + status.getId());
+        reply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                status.setText(mess);
+                System.out.println(mess);
+            }
+        });
     }
 
     @FXML
     public void replyToAllButton(ActionEvent event) {
-        System.out.println("You clicked me!");
-        status.setText("You clicked: " + status.getId());
+        replyToAll.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                status.setText(mess);
+                System.out.println(mess);
+            }
+        });
     }
 
     @FXML
     public void forwardButton(ActionEvent event) {
-        System.out.println("You clicked me!");
-        status.setText("You clicked: " + status.getId());
+        forward.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                status.setText(mess);
+                System.out.println(mess);
+            }
+        });
     }
 
     @FXML
     public void deleteButton(ActionEvent event) {
-        System.out.println("You clicked me!");
-        status.setText("You clicked: " + status.getId());
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                status.setText(mess);
+                System.out.println(mess);
+            }
+        });
+    }
+
+    public void initialize() {
+        System.out.println("GUI Loaded"); // DEBUG
     }
 
 
