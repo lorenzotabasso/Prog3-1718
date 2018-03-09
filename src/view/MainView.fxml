@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
-    <children>
-        <Pane layoutX="-1.0" layoutY="-2.0" prefHeight="40.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="status" layoutX="167.0" layoutY="12.0" prefHeight="17.0" prefWidth="265.0" textAlignment="CENTER" />
-                <Label fx:id="email" layoutX="432.0" layoutY="12.0" prefHeight="17.0" prefWidth="168.0" />
-            </children>
-        </Pane>
-        <ToolBar layoutY="39.0" prefHeight="40.0" prefWidth="600.0">
-            <items>
-                <Button fx:id="update" mnemonicParsing="false" text="Update" onAction="#updateButton"/>
-                <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
-                <Button fx:id="write" mnemonicParsing="false" text="Write" onAction="#writeButton" />
-                <Button fx:id="reply" mnemonicParsing="false" text="Reply" onAction="#replyButton" />
-                <Button fx:id="replyToAll" mnemonicParsing="false" text="Reply to all" onAction="#replyToAllButton" />
-                <Button fx:id="forward" mnemonicParsing="false" text="Forward" onAction="#forwardButton" />
-                <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="3.0" />
-                <Button fx:id="delete" mnemonicParsing="false" text="Delete" onAction="#deleteButton" />
-            </items>
-        </ToolBar>
-        <StackPane layoutX="-7.0" layoutY="78.0" prefHeight="322.0" prefWidth="183.0" />
-        <Pane layoutX="176.0" layoutY="79.0" prefHeight="322.0" prefWidth="424.0" />
-    </children>
-</Pane>
+<TabPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
+  <tabs>
+    <Tab text="Inbox">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <items>
+                      <Button fx:id="update" mnemonicParsing="false" onAction="#updateButton" text="Update" />
+                        <Button fx:id="write" mnemonicParsing="false" onAction="#writeButton" text="Write" />
+                        <Button fx:id="reply" mnemonicParsing="false" onAction="#replyButton" text="Reply" />
+                        <Button fx:id="replyToAll" mnemonicParsing="false" onAction="#replyToAllButton" text="Reply to All" />
+                        <Button fx:id="forward" mnemonicParsing="false" onAction="#forwardButton" text="Forward" />
+                        <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
+                    </items>
+                  </ToolBar>
+               </top>
+               <left>
+                  <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+               </left>
+               <center>
+                  <VBox prefHeight="327.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+               </center>
+               <right>
+                  <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </right>
+            </BorderPane>
+         </content>
+    </Tab>
+  </tabs>
+</TabPane>

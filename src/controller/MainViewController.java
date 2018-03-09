@@ -6,7 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
@@ -34,9 +35,7 @@ public class MainViewController implements Initializable, Observer {
     public MainViewController() {}
 
     @FXML // MainView components
-    public Pane root;
-    public Label status;
-    public Label email;
+    public TabPane root;
     public Button update;
     public Button write;
     public Button reply;
@@ -65,7 +64,6 @@ public class MainViewController implements Initializable, Observer {
             @Override
             public void handle(ActionEvent e) {
                 String mess = "You clicked: " + e.getSource() + "!";
-                status.setText(mess);
                 System.out.println(mess);
             }
         });
@@ -95,7 +93,6 @@ public class MainViewController implements Initializable, Observer {
             @Override
             public void handle(ActionEvent e) {
                 String mess = "You clicked: " + e.getSource() + "!";
-                status.setText(mess);
                 System.out.println(mess);
             }
         });
@@ -110,7 +107,6 @@ public class MainViewController implements Initializable, Observer {
             @Override
             public void handle(ActionEvent e) {
                 String mess = "You clicked: " + e.getSource() + "!";
-                status.setText(mess);
                 System.out.println(mess);
             }
         });
@@ -125,7 +121,6 @@ public class MainViewController implements Initializable, Observer {
             @Override
             public void handle(ActionEvent e) {
                 String mess = "You clicked: " + e.getSource() + "!";
-                status.setText(mess);
                 System.out.println(mess);
             }
         });
@@ -140,7 +135,6 @@ public class MainViewController implements Initializable, Observer {
             @Override
             public void handle(ActionEvent e) {
                 String mess = "You clicked: " + e.getSource() + "!";
-                status.setText(mess);
                 System.out.println(mess);
             }
         });
@@ -169,8 +163,9 @@ public class MainViewController implements Initializable, Observer {
      */
     private void onWriteClick(){
         try{
-            Pane writeWindow = FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"));
-            root.getChildren().setAll(writeWindow);
+            //Pane writeWindow = FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"));
+            //root.getChildrenUnmodifiable().setAll(writeWindow);
+            root.getTabs().addAll((Tab)FXMLLoader.load(this.getClass().getResource("/view/WriteView.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
