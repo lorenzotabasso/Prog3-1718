@@ -1,10 +1,8 @@
-import controller.MainViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.MainView;
 
 import java.io.IOException;
 
