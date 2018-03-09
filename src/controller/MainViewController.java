@@ -11,9 +11,22 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class MainViewController implements Initializable{
+/*
+La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzionalità ridotte a quanto serve per:
+ - vedere il nome dell'account di posta elettronica (che qui assumiamo fisso per l'applicazione, che non prevede
+    autenticazione da parte dell'utente)
+ - vedere la lista dei messaggi memorizzati nella casella di posta. La lista sia
+    ordinata per data dai messaggi più recenti ai meno recenti
+ - visualizzare un messaggio della casella di posta selezionandolo dalla lista dei messaggi
+ - scrivere un messaggio e inviarlo a uno o più destinatari
+ - rimuovere un messaggio dalla casella di posta elettronica e vedere la lista dei messaggi aggiornata.
+ */
+
+public class MainViewController implements Initializable, Observer {
 
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
     // SEGUIREMO L'APPROCCIO 1
@@ -43,6 +56,9 @@ public class MainViewController implements Initializable{
         deleteButton();
     }
 
+    /**
+     * On click on Update button do something
+     */
     @FXML
     public void updateButton() {
         update.setOnAction(new EventHandler<ActionEvent>() {
@@ -55,6 +71,9 @@ public class MainViewController implements Initializable{
         });
     }
 
+    /**
+     * On click on Write button do something
+     */
     @FXML
     public void writeButton() {
         write.setOnAction(new EventHandler<ActionEvent>() {
@@ -67,6 +86,9 @@ public class MainViewController implements Initializable{
         });
     }
 
+    /**
+     * On click on Reply button do something
+     */
     @FXML
     public void replyButton() {
         reply.setOnAction(new EventHandler<ActionEvent>() {
@@ -79,6 +101,9 @@ public class MainViewController implements Initializable{
         });
     }
 
+    /**
+     * On click on Reply To All button do something
+     */
     @FXML
     public void replyToAllButton() {
         replyToAll.setOnAction(new EventHandler<ActionEvent>() {
@@ -91,6 +116,9 @@ public class MainViewController implements Initializable{
         });
     }
 
+    /**
+     * On click on Forward button do something
+     */
     @FXML
     public void forwardButton() {
         forward.setOnAction(new EventHandler<ActionEvent>() {
@@ -103,6 +131,9 @@ public class MainViewController implements Initializable{
         });
     }
 
+    /**
+     * On click on Delete button do something
+     */
     @FXML
     public void deleteButton() {
         delete.setOnAction(new EventHandler<ActionEvent>() {
@@ -115,12 +146,21 @@ public class MainViewController implements Initializable{
         });
     }
 
+    /**
+     * It initialize all the buttons link
+     * @param location: The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources: The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeButtons();
         System.out.println("GUI Loaded"); // DEBUG
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
 
     // LOADING NEW WINDOWS ---------------------------------------------------------------------------------------------
 
