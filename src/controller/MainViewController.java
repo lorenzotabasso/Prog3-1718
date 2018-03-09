@@ -4,15 +4,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainViewController {
+public class MainViewController implements Initializable{
+
+    // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
+    // SEGUIREMO L'APPROCCIO 1
 
     public MainViewController() {}
 
@@ -27,15 +32,19 @@ public class MainViewController {
     public Button delete;
 
     /**
-     * It initialize the image of each button
+     * It initialize all the event of the buttons
      */
-    public void setGraphics() {
-        // TO TEST
-        Image test = new Image(getClass().getResourceAsStream("img/update.png"));
+    public void initializeButtons(){
+        updateButton();
+        writeButton();
+        replyButton();
+        replyToAllButton();
+        forwardButton();
+        deleteButton();
     }
 
     @FXML
-    public void updateButton(ActionEvent event) {
+    public void updateButton() {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -47,7 +56,7 @@ public class MainViewController {
     }
 
     @FXML
-    public void writeButton(ActionEvent event) {
+    public void writeButton() {
         write.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -59,7 +68,7 @@ public class MainViewController {
     }
 
     @FXML
-    public void replyButton(ActionEvent event) {
+    public void replyButton() {
         reply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -71,7 +80,7 @@ public class MainViewController {
     }
 
     @FXML
-    public void replyToAllButton(ActionEvent event) {
+    public void replyToAllButton() {
         replyToAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -83,7 +92,7 @@ public class MainViewController {
     }
 
     @FXML
-    public void forwardButton(ActionEvent event) {
+    public void forwardButton() {
         forward.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -95,7 +104,7 @@ public class MainViewController {
     }
 
     @FXML
-    public void deleteButton(ActionEvent event) {
+    public void deleteButton() {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -106,7 +115,9 @@ public class MainViewController {
         });
     }
 
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initializeButtons();
         System.out.println("GUI Loaded"); // DEBUG
     }
 
