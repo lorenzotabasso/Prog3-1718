@@ -11,8 +11,6 @@ public class WriteViewController implements Initializable{
 
     public WriteViewController() {}
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

@@ -1,14 +1,14 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,18 +42,10 @@ public class MainViewController implements Initializable, Observer {
     public Button replyToAll;
     public Button forward;
     public Button delete;
+    public Label status;
+    public VBox leftVBox;
 
-    /**
-     * It initialize all the event of the buttons
-     */
-    public void initializeButtons(){
-        updateButton();
-        writeButton();
-        replyButton();
-        replyToAllButton();
-        forwardButton();
-        deleteButton();
-    }
+    // BUTTONS ---------------------------------------------------------------------------------------------------------
 
     /**
      * On click on Update button do something
@@ -65,6 +57,7 @@ public class MainViewController implements Initializable, Observer {
             public void handle(ActionEvent e) {
                 String mess = "You clicked: " + e.getSource() + "!";
                 System.out.println(mess);
+                status.setText(mess);
             }
         });
     }
@@ -140,32 +133,73 @@ public class MainViewController implements Initializable, Observer {
         });
     }
 
+    // INITIALIZING ----------------------------------------------------------------------------------------------------
+
     /**
-     * It initialize all the buttons link
+     * It initialize all the event of the buttons
+     */
+    public void initializeButtons(){
+        updateButton();
+        writeButton();
+        replyButton();
+        replyToAllButton();
+        forwardButton();
+        deleteButton();
+    }
+
+    /**
+     * It initialize the left VBox
+     */
+    private void initializeLeftVBox(){
+        leftVBox = new VBox(2.00);
+        Label draft = new Label("Draft");
+        Label bin = new Label("Bin");
+        leftVBox.getChildren().add(draft);
+        leftVBox.getChildren().add(bin);
+    }
+
+    /**
+     * It call all the methods that initialize a category of components
+     */
+    private void initializeAll() {
+        initializeButtons();
+        initializeLeftVBox();
+    }
+
+    // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
+
+    /**
+     * It initialize all the necessary for the GUI
      * @param location: The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources: The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeButtons();
+        initializeAll();
         System.out.println("GUI Loaded"); // DEBUG
     }
 
+    /**
+     * Implementation of update method in Observer interface
+     * @param o:  the observable object.
+     * @param arg: (optional) an argument passed to the notifyObservers method.
+     */
     @Override
     public void update(Observable o, Object arg) {
 
     }
 
-    // LOADING NEW WINDOWS ---------------------------------------------------------------------------------------------
+    // ON CLICK --------------------------------------------------------------------------------------------------------
 
     /**
-     * It opens a new WriteView inside the MainView
+     * It opens a new Tab with WriteView loaded. It is used to write a new email.
      */
     private void onWriteClick(){
         try{
-            //Pane writeWindow = FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"));
-            //root.getChildrenUnmodifiable().setAll(writeWindow);
-            root.getTabs().addAll((Tab)FXMLLoader.load(this.getClass().getResource("/view/WriteView.fxml")));
+            Tab tab = new Tab("Write");
+            tab.setContent(FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"))); // load the GUI for the Write tab
+            root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
+            root.getSelectionModel().select(tab); // Switch to Write tab
         } catch (IOException e) {
             e.printStackTrace();
         }

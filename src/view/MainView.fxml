@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -23,14 +22,22 @@
                   </ToolBar>
                </top>
                <left>
-                  <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+                  <VBox fx:id="leftVBox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
                </left>
                <center>
-                  <VBox prefHeight="327.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+                  <VBox prefHeight="308.0" prefWidth="256.0" BorderPane.alignment="CENTER" />
                </center>
                <right>
                   <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </right>
+               <bottom>
+                  <HBox prefHeight="19.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Client Status:" />
+                        <Label fx:id="status" text="" />
+                     </children>
+                  </HBox>
+               </bottom>
             </BorderPane>
          </content>
     </Tab>
