@@ -202,6 +202,9 @@ public class Email extends Observable{
     private void readXML(String pathOfXML){ // TODO: Redesign the conversion between Objext and XML and viceversa
         try {
 
+            // To add this: https://www.google.it/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwiqw4uJguXZAhWB2BQKHUtzBOoQFggnMAA&url=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F26959343%2Fconvert-java-object-to-xml-string&usg=AOvVaw3NTk-yJBAKUEXSZE9L4N4p
+            // and this: https://www.journaldev.com/1234/jaxb-example-tutorial
+
             File fXmlFile = new File(pathOfXML);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
