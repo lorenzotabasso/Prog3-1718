@@ -1,15 +1,11 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
@@ -43,7 +39,10 @@ public class MainViewController implements Initializable, Observer {
     public Button forward;
     public Button delete;
     public Label status;
-    public VBox leftVBox;
+    public Button inbox;
+    public Button drafts;
+    public Button bin;
+
 
     // BUTTONS ---------------------------------------------------------------------------------------------------------
 
@@ -133,6 +132,48 @@ public class MainViewController implements Initializable, Observer {
         });
     }
 
+    /**
+     * On click on Delete button do something
+     */
+    @FXML
+    public void inboxButton() {
+        inbox.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+            }
+        });
+    }
+
+    /**
+     * On click on Delete button do something
+     */
+    @FXML
+    public void draftsButton() {
+        drafts.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+            }
+        });
+    }
+
+    /**
+     * On click on Delete button do something
+     */
+    @FXML
+    public void binButton() {
+        bin.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+            }
+        });
+    }
+
     // INITIALIZING ----------------------------------------------------------------------------------------------------
 
     /**
@@ -151,11 +192,7 @@ public class MainViewController implements Initializable, Observer {
      * It initialize the left VBox
      */
     private void initializeLeftVBox(){
-        leftVBox = new VBox(2.00);
-        Label draft = new Label("Draft");
-        Label bin = new Label("Bin");
-        leftVBox.getChildren().add(draft);
-        leftVBox.getChildren().add(bin);
+
     }
 
     /**

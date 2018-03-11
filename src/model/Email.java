@@ -181,7 +181,7 @@ public class Email extends Observable{
         Email message = new Email (this.sender, reciver, argument, text);
         setChanged();
         notifyObservers();
-        writeXML(message);
+        writeXML(message); // TODO: Redesign the conversion between Objext and XML and viceversa
     }
 
     /**
@@ -199,7 +199,7 @@ public class Email extends Observable{
      * Method for parsing an XML file
      * @param pathOfXML: the path of the XML file to be read
      */
-    private void readXML(String pathOfXML){
+    private void readXML(String pathOfXML){ // TODO: Redesign the conversion between Objext and XML and viceversa
         try {
 
             File fXmlFile = new File(pathOfXML);
@@ -239,7 +239,7 @@ public class Email extends Observable{
      * It converts an Email object into a XML file.
      * @param toConvert: the Email object to convert
      */
-    private void writeXML(Email toConvert) {
+    private void writeXML(Email toConvert) { // TODO: Redesign the conversion between Objext and XML and viceversa
 
         // src: https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
 

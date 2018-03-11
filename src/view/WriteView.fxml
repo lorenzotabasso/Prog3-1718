@@ -21,21 +21,21 @@
             <Label text="To:" />
             <Label text="From:" GridPane.rowIndex="1" />
             <Label text="Subject:" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="to" GridPane.columnIndex="1" />
+            <TextField fx:id="from" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="subject" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Pane fx:id="textContainer" prefHeight="272.0" prefWidth="600.0">
+      <Pane prefHeight="272.0" prefWidth="600.0">
          <children>
-            <TextArea prefHeight="277.0" prefWidth="600.0" />
+            <TextArea fx:id="text" prefHeight="277.0" prefWidth="600.0" />
          </children>
       </Pane>
       <ToolBar fx:id="toolbar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Delete" />
-            <Button mnemonicParsing="false" text="Save as draft" />
-            <Button mnemonicParsing="false" text="Send" />
+            <Button fx:id="send" mnemonicParsing="false" onAction="#sendButton" text="Send" />
+            <Button fx:id="saveAsDraft" mnemonicParsing="false" onAction="#saveButton" text="Save as draft" />
+          <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
         </items>
       </ToolBar>
    </children>
