@@ -39,9 +39,9 @@ public class MainViewController implements Initializable, Observer {
     public Button forward;
     public Button delete;
     public Label status;
-    public Button inbox;
-    public Button drafts;
-    public Button bin;
+    public Label inbox;
+    public Label drafts;
+    public Label bin;
 
 
     // BUTTONS ---------------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ public class MainViewController implements Initializable, Observer {
     }
 
     /**
-     * On click on Delete button do something
+     * On click on Delete label do something
      */
     @FXML
     public void deleteButton() {
@@ -133,45 +133,27 @@ public class MainViewController implements Initializable, Observer {
     }
 
     /**
-     * On click on Delete button do something
+     * On click on Inbox label do something
      */
     @FXML
     public void inboxButton() {
-        inbox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
+
     }
 
     /**
-     * On click on Delete button do something
+     * On click on Drafts label do something
      */
     @FXML
     public void draftsButton() {
-        drafts.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
+
     }
 
     /**
-     * On click on Delete button do something
+     * On click on Bin label do something
      */
     @FXML
     public void binButton() {
-        bin.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
+
     }
 
     // INITIALIZING ----------------------------------------------------------------------------------------------------
