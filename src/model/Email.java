@@ -70,7 +70,7 @@ public class Email extends Observable implements Serializable{
      * getter for idEmail parameter
      * @return the ID of the Email
      */
-    public String getIdEmail() {
+    private String getIdEmail() {
         return idEmail.toString();
     }
 
@@ -86,7 +86,7 @@ public class Email extends Observable implements Serializable{
      * getter for sender parameter
      * @return the sender of the Email
      */
-    public String getSender() {
+    private String getSender() {
         return sender.getEmail();
     }
 
@@ -94,7 +94,7 @@ public class Email extends Observable implements Serializable{
      * getter for receiver parameter
      * @return the receiver of the Email
      */
-    public String getReceiver() {
+    private String getReceiver() {
         return receiver.getEmail();
     }
 
@@ -102,7 +102,7 @@ public class Email extends Observable implements Serializable{
      * getter for subject parameter
      * @return the subject of the Email
      */
-    public String getSubject() {
+    private String getSubject() {
         return subject;
     }
 
@@ -110,7 +110,7 @@ public class Email extends Observable implements Serializable{
      * getter for text parameter
      * @return the text (body) of the Email
      */
-    public String getText() {
+    private String getText() {
         return text;
     }
 
@@ -118,7 +118,7 @@ public class Email extends Observable implements Serializable{
      * getter for date parameter
      * @return the date in which the Email is send
      */
-    public Timestamp getDate() {
+    private Timestamp getDate() {
         return date;
     }
 
@@ -128,7 +128,7 @@ public class Email extends Observable implements Serializable{
      * Setter for the state parameter
      * @param newState: the new state of the email (-1 = deleted, 0 = neutral, 1 = read, 2 = new)
      */
-    private void setState(int newState) {
+    public void setState(int newState) {
         this.state = newState;
     }
 
