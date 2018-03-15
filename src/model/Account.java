@@ -1,11 +1,11 @@
 package model;
 
 // needed for Account
+import java.io.*;
 import java.util.Observable;
 import java.util.UUID;
 
 // needed for write XML
-import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,7 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 // needed for building XML
 import org.w3c.dom.*;
 
-public class Account extends Observable{
+public class Account extends Observable implements Serializable{
     private UUID IDAccount;
     private String name;
     private String surname;
@@ -112,103 +112,25 @@ public class Account extends Observable{
 
     @Override
     public String toString() {
-        return "IDAccount: " + this.getIDAccount() + ", Name: " + this.getName() + ", Surname: " + this.getSurname()+ ", Email: " + this.getEmail();
+        return "Account{" +
+                "IDAccount=" + IDAccount +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 
-    /**
-     * Method for parsing an XML file
-     * @param pathOfXML: the path of the XML file to be read
-     */
-    private void readXML(String pathOfXML){
+    public void writeFile(Account acc) {
         try {
+            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/accounts/account" + /* acc.getIDAccount() + */ ".ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(acc);
+            out.close();
+            fileOut.close();
+            System.out.println("Serialized data is saved in data/accounts/...");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
 
-            File fXmlFile = new File(pathOfXML);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fXmlFile);
-
-            //optional, but recommended
-            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-            doc.getDocumentElement().normalize();
-
-            NodeList nList = doc.getElementsByTagName("account");
-
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-
-                Node nNode = nList.item(temp);
-
-                // System.out.println("\nCurrent Element :" + nNode.getNodeName());
-
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                    Element eElement = (Element) nNode;
-
-                    System.out.println("Account ID : " + eElement.getElementsByTagName("IDAccount").item(0).getTextContent());
-                    System.out.println("Name : " + eElement.getElementsByTagName("name").item(0).getTextContent());
-                    System.out.println("Surname : " + eElement.getElementsByTagName("surname").item(0).getTextContent());
-                    System.out.println("Email : " + eElement.getElementsByTagName("email").item(0).getTextContent());
-
-                }
-            }
-        } catch (Exception e) { e.printStackTrace(); }
-    } // end readXML
-
-    /**
-     * It converts an Email object into a XML file.
-     * @param toConvert: the Email object to convert
-     */
-    private void writeXML(Account toConvert) {
-
-        // src: https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/
-
-        try {
-
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder account = docFactory.newDocumentBuilder();
-
-            // root element, Account
-            Document doc = account.newDocument();
-            Element rootElement = doc.createElement("account");
-            doc.appendChild(rootElement);
-
-            // IDAccount element
-            Element IDAccount = doc.createElement("IDAccount");
-            IDAccount.appendChild(doc.createTextNode(toConvert.getIDAccount()));
-            rootElement.appendChild(IDAccount);
-
-            // Name element
-            Element name = doc.createElement("name");
-            name.appendChild(doc.createTextNode(toConvert.getName()));
-            rootElement.appendChild(name);
-
-            // Surname element
-            Element surname = doc.createElement("surname");
-            surname.appendChild(doc.createTextNode(toConvert.getSurname()));
-            rootElement.appendChild(surname);
-
-            // Email element
-            Element email = doc.createElement("email");
-            email.appendChild(doc.createTextNode(toConvert.getEmail()));
-            rootElement.appendChild(email);
-
-            // write the content into xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("data/accounts/account" + toConvert.getIDAccount() + ".xml"));
-
-            // Output to console for testing
-            // StreamResult result = new StreamResult(System.out);
-
-            transformer.transform(source, result);
-
-            System.out.println("File saved!");
-
-        } catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
-        } catch (TransformerException tfe) {
-            tfe.printStackTrace();
-        } // end CATCH block
-
-    } // end writeXML
 } // end Account Class
