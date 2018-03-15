@@ -32,30 +32,15 @@ della posta elettronica.
 Per l'implementazione dell'applicazione si può utilizzare, a scelta, SWING oppure JavaFX.
  */
 
-// needed for Email
 import java.io.*;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
 import java.util.UUID;
 
-// needed for write XML
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-// needed for building XML
-import org.w3c.dom.*;
-
-
 public class Email extends Observable implements Serializable{
-    private UUID IDEmail;
+    private UUID idEmail;
+    private int state;
     private Account sender;
     private Account receiver;
     private String subject;
@@ -70,7 +55,8 @@ public class Email extends Observable implements Serializable{
      * @param text: the text of the message
      */
     public Email(Account sender, Account receiver, String subject, String text){
-        this.IDEmail = UUID.randomUUID();
+        this.idEmail = UUID.randomUUID();
+        this.state = 0; //
         this.sender = sender;
         this.receiver = receiver;
         this.subject = subject;
@@ -81,11 +67,19 @@ public class Email extends Observable implements Serializable{
     // GETTERS ---------------------------------------------------------------------------------------------------------
 
     /**
-     * getter for IDEmail parameter
+     * getter for idEmail parameter
      * @return the ID of the Email
      */
-    public String getIDEmail() {
-        return IDEmail.toString();
+    public String getIdEmail() {
+        return idEmail.toString();
+    }
+
+    /**
+     * getter for state parameter
+     * @return the state of the email (deleted, neutral, read, new)
+     */
+    private int getState() {
+        return this.state;
     }
 
     /**
@@ -108,7 +102,7 @@ public class Email extends Observable implements Serializable{
      * getter for subject parameter
      * @return the subject of the Email
      */
-    public String getsubject() {
+    public String getSubject() {
         return subject;
     }
 
@@ -124,11 +118,19 @@ public class Email extends Observable implements Serializable{
      * getter for date parameter
      * @return the date in which the Email is send
      */
-    public Timestamp getdate() {
+    public Timestamp getDate() {
         return date;
     }
 
     // SETTERS ---------------------------------------------------------------------------------------------------------
+
+    /**
+     * Setter for the state parameter
+     * @param newState: the new state of the email (-1 = deleted, 0 = neutral, 1 = read, 2 = new)
+     */
+    private void setState(int newState) {
+        this.state = newState;
+    }
 
     /**
      * Setter for the sender parameter
@@ -150,7 +152,7 @@ public class Email extends Observable implements Serializable{
      * Setter for the subject parameter
      * @param newsubject: the new subject for the email
      */
-    public void setsubject(String newsubject) {
+    public void setSubject(String newsubject) {
         this.subject = newsubject;
     }
 
@@ -202,11 +204,10 @@ public class Email extends Observable implements Serializable{
 
     // UTILITY ---------------------------------------------------------------------------------------------------------
 
-
     @Override
     public String toString() {
         return "Email{" +
-                "IDEmail=" + IDEmail +
+                "idEmail=" + idEmail +
                 ", sender=" + sender +
                 ", receiver=" + receiver +
                 ", subject='" + subject + '\'' +
@@ -215,9 +216,9 @@ public class Email extends Observable implements Serializable{
                 '}';
     }
 
-    public void writeFile(Email mess){
+    private void writeFile(Email mess){
         try {
-            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + /* mess.getIDEmail() + */ ".ser");
+            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + /* mess.getidEmail() + */ ".ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(mess);
             out.close();
@@ -228,8 +229,8 @@ public class Email extends Observable implements Serializable{
         }
     }
 
-    public void readFile(Email mess) {
-        Email e = null;
+    private void readFile(Email mess) {
+        Email e; // Needed for printing values
         try {
             FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -246,12 +247,12 @@ public class Email extends Observable implements Serializable{
         }
 
         System.out.println("Deserialized Email...");
-        System.out.println("ID: " + e.getIDEmail());
-        System.out.println("Subject: " + e.getsubject());
+        System.out.println("ID: " + e.getIdEmail());
+        System.out.println("Subject: " + e.getSubject());
         System.out.println("Receiver: " + e.getReceiver());
         System.out.println("Sender: " + e.getSender());
         System.out.println("Text: " + e.getText());
-        System.out.println("Date: " + e.getdate());
+        System.out.println("Date: " + e.getDate());
     }
 
 

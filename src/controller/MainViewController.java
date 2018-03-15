@@ -1,13 +1,20 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import model.Account;
+import model.Email;
+
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -43,6 +50,10 @@ public class MainViewController implements Initializable, Observer {
     public Label inbox;
     public Label drafts;
     public Label bin;
+    public TableView<Email> table;
+    public TableColumn<Email, String> subject;
+    public TableColumn<Email, Account> from;
+    public TableColumn<Email, Timestamp> date;
 
 
     // BUTTONS ---------------------------------------------------------------------------------------------------------
@@ -194,6 +205,7 @@ public class MainViewController implements Initializable, Observer {
     private void initializeAll() {
         initializeButtons();
         initializeLeftVBox();
+        loadEmails();
     }
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
@@ -240,8 +252,17 @@ public class MainViewController implements Initializable, Observer {
     /**
      * It populates the main view with all the email with a specific status
      */
-    private void populate() {
+    private void loadEmails() {
 
+        // TODO: to finish this method
+
+        // UTILE PER COLONNE https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
+
+        Account sender = new Account("test@test.it");
+        Account receiver = new Account("a@test.it");
+
+        ObservableList<Email> data = table.getItems();
+        data.add(new Email(sender, receiver, "Another Test", "Test N"));
     }
 
 } // end class

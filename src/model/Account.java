@@ -1,22 +1,8 @@
 package model;
 
-// needed for Account
 import java.io.*;
 import java.util.Observable;
 import java.util.UUID;
-
-// needed for write XML
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-// needed for building XML
-import org.w3c.dom.*;
 
 public class Account extends Observable implements Serializable{
     private UUID IDAccount;

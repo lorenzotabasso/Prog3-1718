@@ -4,6 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import model.Email?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
+
 <TabPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainViewController">
   <tabs>
     <Tab text="Mailbox">
@@ -21,9 +25,6 @@
                     </items>
                   </ToolBar>
                </top>
-               <center>
-                  <VBox prefHeight="308.0" prefWidth="256.0" BorderPane.alignment="CENTER" />
-               </center>
                <bottom>
                   <HBox prefHeight="19.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
@@ -49,6 +50,28 @@
                     </panes>
                   </Accordion>
                </left>
+               <center>
+                  <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
+                    <columns>
+                        <TableColumn prefWidth="247.0" text="Subject">
+                            <cellValueFactory><PropertyValueFactory property="subject" /></cellValueFactory>
+                        </TableColumn>
+
+                        <TableColumn prefWidth="131.0" text="From">
+                            <cellValueFactory><PropertyValueFactory property="receiver" /></cellValueFactory>
+                        </TableColumn>
+
+                        <TableColumn minWidth="3.0" prefWidth="118.0" text="Date">
+                            <cellValueFactory><PropertyValueFactory property="date" /></cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                      <items>
+                          <FXCollections fx:factory="observableArrayList">
+                          </FXCollections>
+                      </items>
+                  </TableView>
+               </center>
             </BorderPane>
          </content>
     </Tab>
