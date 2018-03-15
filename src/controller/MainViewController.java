@@ -39,6 +39,7 @@ public class MainViewController implements Initializable, Observer {
     public Button forward;
     public Button delete;
     public Label status;
+    public TitledPane mailboxName;
     public Label inbox;
     public Label drafts;
     public Label bin;
@@ -133,10 +134,20 @@ public class MainViewController implements Initializable, Observer {
     }
 
     /**
+     * Sets the name of the account in the MainView
+     */
+    @FXML
+    public void setMailboxName() {
+
+    }
+
+    // TODO: implementare lo stato nelle email, perche così possiamo discriminare se sono inbox, bin, drafts
+
+    /**
      * On click on Inbox label do something
      */
     @FXML
-    public void inboxButton() {
+    public void inboxLabel() {
 
     }
 
@@ -144,7 +155,7 @@ public class MainViewController implements Initializable, Observer {
      * On click on Drafts label do something
      */
     @FXML
-    public void draftsButton() {
+    public void draftsLabel() {
 
     }
 
@@ -152,7 +163,7 @@ public class MainViewController implements Initializable, Observer {
      * On click on Bin label do something
      */
     @FXML
-    public void binButton() {
+    public void binLabel() {
 
     }
 
@@ -224,4 +235,13 @@ public class MainViewController implements Initializable, Observer {
         }
     }
 
-}
+    // POPULATING MAIN VIEW --------------------------------------------------------------------------------------------
+
+    /**
+     * It populates the main view with all the email with a specific status
+     */
+    private void populate() {
+
+    }
+
+} // end class
