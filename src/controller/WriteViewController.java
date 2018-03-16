@@ -54,6 +54,8 @@ public class WriteViewController implements Initializable, Observer {
 
                 // Is not necessary to set the state, because, when a new Email is created, it has already the
                 // state of new (2). For further information, see Email constructor.
+
+                closeTab();
             }
         });
 
@@ -65,8 +67,8 @@ public class WriteViewController implements Initializable, Observer {
                 Account sender = new Account(from.getText());
 
                 Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-
                 toSend.setState(0); // the email is a draft
+                closeTab();
             }
         });
 
@@ -78,11 +80,9 @@ public class WriteViewController implements Initializable, Observer {
                 Account sender = new Account(from.getText());
 
                 Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
+                toSend.setState(-1);
 
-                // go back to tab and close it
-                TabPane tabPane = findEnclosingTabPane(root);
-                tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
-
+                closeTab();
             }
         });
     }
@@ -122,7 +122,8 @@ public class WriteViewController implements Initializable, Observer {
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
     /**
-     * It iterate until it founds the Tab element to be closed
+     * It iterate until it founds the Tab element to be closed.
+     * Used by closeTab().
      *
      * @param n the node in which we will start the search
      * @return the final Tab to be closed
@@ -132,6 +133,14 @@ public class WriteViewController implements Initializable, Observer {
             n = n.getParent();
         }
         return (TabPane) n;
+    }
+
+    /**
+     * It find the tab to be closed and it close it.
+     */
+    private void closeTab() {
+        TabPane tabPane = findEnclosingTabPane(root);
+        tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
     }
 
 } // end class
