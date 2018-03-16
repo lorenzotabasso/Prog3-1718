@@ -33,9 +33,9 @@
       </Pane>
       <ToolBar fx:id="toolbar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
         <items>
-            <Button fx:id="send" mnemonicParsing="false" onAction="#sendButton" text="Send" />
-            <Button fx:id="saveAsDraft" mnemonicParsing="false" onAction="#saveButton" text="Save as draft" />
-          <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
+            <Button fx:id="send" mnemonicParsing="false" text="Send" />
+            <Button fx:id="saveAsDraft" mnemonicParsing="false" text="Save as draft" />
+          <Button fx:id="delete" mnemonicParsing="false" text="Delete" />
         </items>
       </ToolBar>
    </children>

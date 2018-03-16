@@ -1,16 +1,13 @@
 package controller;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import model.Account;
 import model.Email;
 
@@ -19,7 +16,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class WriteViewController implements Initializable, Observer{
+public class WriteViewController implements Initializable, Observer {
 
     public WriteViewController() {
 
@@ -37,13 +34,14 @@ public class WriteViewController implements Initializable, Observer{
     public Button saveAsDraft;
     public Button delete;
 
-    // BUTTONS ---------------------------------------------------------------------------------------------------------
+    // INITIALIZING ----------------------------------------------------------------------------------------------------
 
     /**
-     * On click on Update button do something
+     * It initialize all the event of the buttons
      */
-    @FXML
-    public void sendButton() {
+    private void initializeButtons() {
+
+        // SEND
         send.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -58,10 +56,8 @@ public class WriteViewController implements Initializable, Observer{
                 // state of new (2). For further information, see Email constructor.
             }
         });
-    }
 
-    @FXML
-    public void saveButton() {
+        // SAVE
         saveAsDraft.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -73,10 +69,8 @@ public class WriteViewController implements Initializable, Observer{
                 toSend.setState(0); // the email is a draft
             }
         });
-    }
 
-    @FXML
-    public void deleteButton() {
+        // DELETE
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -84,19 +78,13 @@ public class WriteViewController implements Initializable, Observer{
                 Account sender = new Account(from.getText());
 
                 Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
+
+                // go back to tab and close it
+                TabPane tabPane = findEnclosingTabPane(root);
+                tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
+
             }
         });
-    }
-
-    // INITIALIZING ----------------------------------------------------------------------------------------------------
-
-    /**
-     * It initialize all the event of the buttons
-     */
-    private void initializeButtons(){
-        sendButton();
-        saveButton();
-        deleteButton();
     }
 
     /**
@@ -111,7 +99,8 @@ public class WriteViewController implements Initializable, Observer{
 
     /**
      * It initialize all the necessary for the GUI
-     * @param location: The location used to resolve relative paths for the root object, or null if the location is not known.
+     *
+     * @param location:  The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources: The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
@@ -121,11 +110,28 @@ public class WriteViewController implements Initializable, Observer{
 
     /**
      * Implementation of update method in Observer interface
-     * @param o:  the observable object.
+     *
+     * @param o:   the observable object.
      * @param arg: (optional) an argument passed to the notifyObservers method.
      */
     @Override
     public void update(Observable o, Object arg) {
 
     }
-}
+
+    // SUPPORT ---------------------------------------------------------------------------------------------------------
+
+    /**
+     * It iterate until it founds the Tab element to be closed
+     *
+     * @param n the node in which we will start the search
+     * @return the final Tab to be closed
+     */
+    private static TabPane findEnclosingTabPane(Node n) {
+        while (n != null && !(n instanceof TabPane)) {
+            n = n.getParent();
+        }
+        return (TabPane) n;
+    }
+
+} // end class

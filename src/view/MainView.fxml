@@ -13,12 +13,12 @@
                <top>
                   <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                     <items>
-                      <Button fx:id="update" mnemonicParsing="false" onAction="#updateButton" text="Update" />
-                        <Button fx:id="write" mnemonicParsing="false" onAction="#writeButton" text="Write" />
-                        <Button fx:id="reply" mnemonicParsing="false" onAction="#replyButton" text="Reply" />
-                        <Button fx:id="replyToAll" mnemonicParsing="false" onAction="#replyToAllButton" text="Reply to All" />
-                        <Button fx:id="forward" mnemonicParsing="false" onAction="#forwardButton" text="Forward" />
-                        <Button fx:id="delete" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
+                      <Button fx:id="update" mnemonicParsing="false" text="Update" />
+                        <Button fx:id="write" mnemonicParsing="false" text="Write" />
+                        <Button fx:id="reply" mnemonicParsing="false" text="Reply" />
+                        <Button fx:id="replyToAll" mnemonicParsing="false" text="Reply to All" />
+                        <Button fx:id="forward" mnemonicParsing="false" text="Forward" />
+                        <Button fx:id="delete" mnemonicParsing="false" text="Delete" />
                     </items>
                   </ToolBar>
                </top>

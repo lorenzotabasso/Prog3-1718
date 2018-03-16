@@ -50,93 +50,7 @@ public class MainViewController implements Initializable, Observer {
     public TableView<Email> table;
 
 
-    // BUTTONS ---------------------------------------------------------------------------------------------------------
-
-    /**
-     * On click on Update button do something
-     */
-    @FXML
-    public void updateButton() {
-        update.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-                status.setText(mess);
-            }
-        });
-    }
-
-    /**
-     * On click on Write button do something
-     */
-    @FXML
-    public void writeButton() {
-        write.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-                onWriteClick();
-            }
-        });
-    }
-
-    /**
-     * On click on Reply button do something
-     */
-    @FXML
-    public void replyButton() {
-        reply.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
-    }
-
-    /**
-     * On click on Reply To All button do something
-     */
-    @FXML
-    public void replyToAllButton() {
-        replyToAll.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
-    }
-
-    /**
-     * On click on Forward button do something
-     */
-    @FXML
-    public void forwardButton() {
-        forward.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
-    }
-
-    /**
-     * On click on Delete label do something
-     */
-    @FXML
-    public void deleteButton() {
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
-    }
+    // INITIALIZING ----------------------------------------------------------------------------------------------------
 
     /**
      * Sets the name of the account in the MainView
@@ -149,45 +63,96 @@ public class MainViewController implements Initializable, Observer {
     // TODO: implementare lo stato nelle email, perche così possiamo discriminare se sono inbox, bin, drafts
 
     /**
-     * On click on Inbox label do something
-     */
-    @FXML
-    public void inboxLabel() {
-
-    }
-
-    /**
-     * On click on Drafts label do something
-     */
-    @FXML
-    public void draftsLabel() {
-
-    }
-
-    /**
-     * On click on Bin label do something
-     */
-    @FXML
-    public void binLabel() {
-
-    }
-
-    // INITIALIZING ----------------------------------------------------------------------------------------------------
-
-    /**
-     * It initialize all the event of the buttons
+     * It initialize all the handler of the buttons
      */
     private void initializeButtons(){
-        updateButton();
-        writeButton();
-        replyButton();
-        replyToAllButton();
-        forwardButton();
-        deleteButton();
+
+        // UPDATE
+        update.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+                status.setText(mess);
+            }
+        });
+
+        // WRITE
+        write.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                try{
+                    Tab tab = new Tab("Write");
+                    tab.setContent(FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"))); // load the GUI for the Write tab
+                    root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
+                    root.getSelectionModel().select(tab); // Switch to Write tab
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        // REPLY
+        reply.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+            }
+        });
+
+        // REPLY TO ALL
+        replyToAll.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+            }
+        });
+
+        // FORWARD
+        forward.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+            }
+        });
+
+        // DELETE
+        delete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String mess = "You clicked: " + e.getSource() + "!";
+                System.out.println(mess);
+            }
+        });
+
+        // INBOX (Label)
+
+        // DRAFTS (Label)
+
+        // BIN (Label)
     }
 
     /**
-     * It call all the methods that initialize a category of components
+     * It populates the main view with all the email with a specific status
+     */
+    private void loadEmails() {
+
+        // TODO: to finish this method, we need to divide email by status
+
+        // UTILE PER COLONNE https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
+
+        Account sender = new Account("test@test.it");
+        Account receiver = new Account("a@test.it");
+
+        ObservableList<Email> data = table.getItems();
+        data.add(new Email(sender, receiver, "Another Test", "Test N"));
+    }
+
+    /**
+     * It calls all the methods that initialize a category of components
      */
     private void initializeAll() {
         initializeButtons();
@@ -215,41 +180,6 @@ public class MainViewController implements Initializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-    }
-
-    // ON CLICK --------------------------------------------------------------------------------------------------------
-
-    /**
-     * It opens a new Tab with WriteView loaded. It is used to write a new email.
-     */
-    private void onWriteClick(){
-        try{
-            // original
-            Tab tab = new Tab("Write");
-            tab.setContent(FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"))); // load the GUI for the Write tab
-            root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
-            root.getSelectionModel().select(tab); // Switch to Write tab
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // POPULATING MAIN VIEW --------------------------------------------------------------------------------------------
-
-    /**
-     * It populates the main view with all the email with a specific status
-     */
-    private void loadEmails() {
-
-        // TODO: to finish this method, we need to divide email by status
-
-        // UTILE PER COLONNE https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
-
-        Account sender = new Account("test@test.it");
-        Account receiver = new Account("a@test.it");
-
-        ObservableList<Email> data = table.getItems();
-        data.add(new Email(sender, receiver, "Another Test", "Test N"));
     }
 
 } // end class
