@@ -56,7 +56,7 @@ public class Email extends Observable implements Serializable{
      */
     public Email(Account sender, Account receiver, String subject, String text){
         this.idEmail = UUID.randomUUID();
-        this.state = 0; //
+        this.state = setState(2); // new
         this.sender = sender;
         this.receiver = receiver;
         this.subject = subject;
@@ -70,15 +70,15 @@ public class Email extends Observable implements Serializable{
      * getter for idEmail parameter
      * @return the ID of the Email
      */
-    private String getIdEmail() {
+    public String getIdEmail() {
         return idEmail.toString();
     }
 
     /**
      * getter for state parameter
-     * @return the state of the email (deleted, neutral, read, new)
+     * @return the state of the email (-1 = deleted, 0 = draft, 1 = read, 2 = new)
      */
-    private int getState() {
+    public int getState() {
         return this.state;
     }
 
@@ -86,7 +86,7 @@ public class Email extends Observable implements Serializable{
      * getter for sender parameter
      * @return the sender of the Email
      */
-    private String getSender() {
+    public String getSender() {
         return sender.getEmail();
     }
 
@@ -94,7 +94,7 @@ public class Email extends Observable implements Serializable{
      * getter for receiver parameter
      * @return the receiver of the Email
      */
-    private String getReceiver() {
+    public String getReceiver() {
         return receiver.getEmail();
     }
 
@@ -102,7 +102,7 @@ public class Email extends Observable implements Serializable{
      * getter for subject parameter
      * @return the subject of the Email
      */
-    private String getSubject() {
+    public String getSubject() {
         return subject;
     }
 
@@ -110,7 +110,7 @@ public class Email extends Observable implements Serializable{
      * getter for text parameter
      * @return the text (body) of the Email
      */
-    private String getText() {
+    public String getText() {
         return text;
     }
 
@@ -118,7 +118,7 @@ public class Email extends Observable implements Serializable{
      * getter for date parameter
      * @return the date in which the Email is send
      */
-    private Timestamp getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
@@ -126,10 +126,10 @@ public class Email extends Observable implements Serializable{
 
     /**
      * Setter for the state parameter
-     * @param newState: the new state of the email (-1 = deleted, 0 = neutral, 1 = read, 2 = new)
+     * @param newState: the new state of the email (-1 = deleted, 0 = draft, 1 = read, 2 = new)
      */
-    public void setState(int newState) {
-        this.state = newState;
+    public int setState(int newState) {
+        return this.state = newState;
     }
 
     /**
@@ -218,7 +218,7 @@ public class Email extends Observable implements Serializable{
 
     private void writeFile(Email mess){
         try {
-            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + /* mess.getidEmail() + */ ".ser");
+            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + /* mess.getidEmail() + */ ".txt");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(mess);
             out.close();
@@ -232,7 +232,7 @@ public class Email extends Observable implements Serializable{
     private void readFile(Email mess) {
         Email e; // Needed for printing values
         try {
-            FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.ser");
+            FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.txt");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             e = (Email) in.readObject();
             in.close();

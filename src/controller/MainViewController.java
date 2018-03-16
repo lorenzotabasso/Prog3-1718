@@ -2,6 +2,7 @@ package controller;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -186,18 +187,10 @@ public class MainViewController implements Initializable, Observer {
     }
 
     /**
-     * It initialize the left VBox
-     */
-    private void initializeLeftVBox(){
-
-    }
-
-    /**
      * It call all the methods that initialize a category of components
      */
     private void initializeAll() {
         initializeButtons();
-        initializeLeftVBox();
         loadEmails();
     }
 
@@ -231,6 +224,7 @@ public class MainViewController implements Initializable, Observer {
      */
     private void onWriteClick(){
         try{
+            // original
             Tab tab = new Tab("Write");
             tab.setContent(FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"))); // load the GUI for the Write tab
             root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
@@ -247,7 +241,7 @@ public class MainViewController implements Initializable, Observer {
      */
     private void loadEmails() {
 
-        // TODO: to finish this method
+        // TODO: to finish this method, we need to divide email by status
 
         // UTILE PER COLONNE https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
 
