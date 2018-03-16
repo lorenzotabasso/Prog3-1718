@@ -190,7 +190,6 @@ public class Email extends Observable implements Serializable{
         notifyObservers();
         //writeXML(message); // TODO: Redesign the conversion between Objext and XML and viceversa
         writeFile(message);
-        readFile(message);
     }
 
     /**
@@ -216,9 +215,29 @@ public class Email extends Observable implements Serializable{
                 '}';
     }
 
-    private void writeFile(Email mess){
+    /**
+     * It writes a txt file containing all the data of this email
+     */
+    public void writeFile(){
         try {
-            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + /* mess.getidEmail() + */ ".txt");
+            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + this.getIdEmail() + ".txt");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+            System.out.println("Serialized data is saved in data/emails/...");
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    /**
+     * Overloading of writeFile(). It writes a txt file containing all the data of the email passed through the field "mess"
+     * @param mess the Email object to write on file
+     */
+    public void writeFile(Email mess){
+        try {
+            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + mess.getIdEmail() +".txt");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(mess);
             out.close();
@@ -229,7 +248,8 @@ public class Email extends Observable implements Serializable{
         }
     }
 
-    private void readFile(Email mess) {
+    // TODO: re-design this method
+    public void readFile(Email mess) {
         Email e; // Needed for printing values
         try {
             FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.txt");

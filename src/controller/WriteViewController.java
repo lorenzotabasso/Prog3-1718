@@ -81,6 +81,7 @@ public class WriteViewController implements Initializable, Observer {
 
                 Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
                 toSend.setState(-1);
+                toSend.writeFile(); // TODO: better implementation of writeFile method
 
                 closeTab();
             }
