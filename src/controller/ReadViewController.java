@@ -5,30 +5,29 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import model.Account;
-import model.Email;
 
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
-public class WriteViewController implements Initializable, Observer {
+public class ReadViewController implements Initializable, Observer {
 
-    public WriteViewController() {
-
-    }
+    public ReadViewController() {}
 
     @FXML
     public VBox root;
-    public TextField to;
-    public TextField from;
-    public TextField subject;
-    public TextArea text;
-    public Button send;
-    public Button saveAsDraft;
+    public Label to;
+    public Label from;
+    public Label subject;
+    public Label text;
+    public Button reply;
+    public Button replyToAll;
+    public Button forward;
     public Button delete;
 
     // INITIALIZING ----------------------------------------------------------------------------------------------------
@@ -38,34 +37,27 @@ public class WriteViewController implements Initializable, Observer {
      */
     private void initializeButtons() {
 
-        // SEND
-        send.setOnAction(new EventHandler<ActionEvent>() {
+        // REPLY
+        reply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Account reciver = new Account(to.getText());
-                Account sender = new Account(from.getText());
 
-                Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-
-                toSend.writeEmail(reciver, subject.getText(), text.getText());
-
-                // Is not necessary to set the state, because, when a new Email is created, it has already the
-                // state of new (2). For further information, see Email constructor.
-
-                closeTab();
             }
         });
 
-        // SAVE
-        saveAsDraft.setOnAction(new EventHandler<ActionEvent>() {
+        // REPLY TO ALL
+        replyToAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Account reciver = new Account(to.getText());
-                Account sender = new Account(from.getText());
 
-                Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-                toSend.setState(0); // the email is a draft
-                closeTab();
+            }
+        });
+
+        // FORWARD
+        forward.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
             }
         });
 
@@ -73,12 +65,8 @@ public class WriteViewController implements Initializable, Observer {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Account reciver = new Account(to.getText());
-                Account sender = new Account(from.getText());
 
-                Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-                toSend.setState(-1);
-                toSend.writeFile(); // TODO: better implementation of writeFile method
+                // something ...
 
                 closeTab();
             }
@@ -103,7 +91,7 @@ public class WriteViewController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeAll();
+
     }
 
     /**

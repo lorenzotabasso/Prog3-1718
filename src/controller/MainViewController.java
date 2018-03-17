@@ -63,7 +63,7 @@ public class MainViewController implements Initializable, Observer {
     // TODO: implementare lo stato nelle email, perche così possiamo discriminare se sono inbox, bin, drafts
 
     /**
-     * It initialize all the handler of the buttons
+     * It initialize all the event handlers of the buttons
      */
     private void initializeButtons(){
 
