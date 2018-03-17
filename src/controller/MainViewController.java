@@ -10,7 +10,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import model.Account;
 import model.Email;
+
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -142,13 +145,28 @@ public class MainViewController implements Initializable, Observer {
 
         // TODO: to finish this method, we need to divide email by status
 
-        // UTILE PER COLONNE https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
+        // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
+
+        readFile();
 
         Account sender = new Account("test@test.it");
         Account receiver = new Account("a@test.it");
 
         ObservableList<Email> data = table.getItems();
         data.add(new Email(sender, receiver, "Another Test", "Test N"));
+
+        table.setRowFactory( tv -> {
+            TableRow<Email> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Email rowData = row.getItem();
+                    System.out.println(rowData.toString());
+                }
+            });
+            return row ;
+        });
+
+
     }
 
     /**
@@ -180,6 +198,34 @@ public class MainViewController implements Initializable, Observer {
     @Override
     public void update(Observable o, Object arg) {
 
+    }
+
+    // SUPPORT ---------------------------------------------------------------------------------------------------------
+
+    public void readFile() {
+        Email e; // Needed for printing values
+        try {
+            FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            e = (Email) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+            return;
+        } catch (ClassNotFoundException c) {
+            System.out.println("Email class not found");
+            c.printStackTrace();
+            return;
+        }
+
+        System.out.println("Deserialized Email...");
+        System.out.println("ID: " + e.getIdEmail());
+        System.out.println("Subject: " + e.getSubject());
+        System.out.println("Receiver: " + e.getReceiver());
+        System.out.println("Sender: " + e.getSender());
+        System.out.println("Text: " + e.getText());
+        System.out.println("Date: " + e.getDate());
     }
 
 } // end class

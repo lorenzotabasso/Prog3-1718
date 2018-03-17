@@ -205,13 +205,13 @@ public class Email extends Observable implements Serializable{
 
     @Override
     public String toString() {
-        return "Email{" +
+        return "Email{\n" +
                 "idEmail=" + idEmail +
-                ", sender=" + sender +
-                ", receiver=" + receiver +
-                ", subject='" + subject + '\'' +
-                ", text='" + text + '\'' +
-                ", date=" + date +
+                ",\n sender=" + sender +
+                ",\n receiver=" + receiver +
+                ",\n subject='" + subject + '\'' +
+                ",\n text='" + text + '\'' +
+                ",\n date=" + date + '\n' +
                 '}';
     }
 
