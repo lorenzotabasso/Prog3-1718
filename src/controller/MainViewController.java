@@ -84,14 +84,7 @@ public class MainViewController implements Initializable, Observer {
         write.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                try{
-                    Tab tab = new Tab("Write");
-                    tab.setContent(FXMLLoader.load(getClass().getResource("/view/WriteView.fxml"))); // load the GUI for the Write tab
-                    root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
-                    root.getSelectionModel().select(tab); // Switch to Write tab
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                openTab("Write", "/view/WriteView.fxml");
             }
         });
 
@@ -155,12 +148,15 @@ public class MainViewController implements Initializable, Observer {
         ObservableList<Email> data = table.getItems();
         data.add(new Email(sender, receiver, "Another Test", "Test N"));
 
+        // Double click on row - https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx
+
         table.setRowFactory( tv -> {
             TableRow<Email> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Email rowData = row.getItem();
                     System.out.println(rowData.toString());
+                    openTab("Read", "/view/ReadView.fxml");
                 }
             });
             return row ;
@@ -226,6 +222,17 @@ public class MainViewController implements Initializable, Observer {
         System.out.println("Sender: " + e.getSender());
         System.out.println("Text: " + e.getText());
         System.out.println("Date: " + e.getDate());
+    }
+
+    public void openTab(String title, String pathToFXML) {
+        try{
+            Tab tab = new Tab(title);
+            tab.setContent(FXMLLoader.load(getClass().getResource(pathToFXML))); // load the GUI for the Write tab
+            root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
+            root.getSelectionModel().select(tab); // Switch to Write tab
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 } // end class

@@ -21,15 +21,15 @@
             <Label text="To:" />
             <Label text="From:" GridPane.rowIndex="1" />
             <Label text="Subject:" GridPane.rowIndex="2" />
-            <Label fx:id="to" text="Label" GridPane.columnIndex="1" />
-            <Label fx:id="from" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="subject" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="to" GridPane.columnIndex="1" />
+            <Label fx:id="from" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="subject" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Separator prefWidth="200.0" />
       <Pane prefHeight="272.0" prefWidth="600.0">
          <children>
-            <Label fx:id="text" text=""/>
+            <Label fx:id="text" text="" />
          </children>
       </Pane>
       <Separator prefWidth="200.0" />

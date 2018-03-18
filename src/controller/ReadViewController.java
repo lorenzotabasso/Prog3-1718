@@ -74,6 +74,13 @@ public class ReadViewController implements Initializable, Observer {
     }
 
     /**
+     * It initialize all the text content of the ReadView
+     */
+    private void initializeContent() {
+
+    }
+
+    /**
      * It call all the methods that initialize a category of components
      */
     private void initializeAll() {
