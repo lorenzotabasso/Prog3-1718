@@ -124,6 +124,9 @@ public class MainViewController implements Initializable, Observer {
             }
         });
 
+        // STATUS (Label)
+        status.setText();
+
         // INBOX (Label)
 
         // DRAFTS (Label)
@@ -170,7 +173,7 @@ public class MainViewController implements Initializable, Observer {
      */
     private void initializeAll() {
         initializeButtons();
-        loadEmails();
+        //loadEmails();
     }
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------

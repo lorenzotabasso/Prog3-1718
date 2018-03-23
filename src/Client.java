@@ -4,6 +4,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.Socket;
 import java.io.IOException;
 
 /**
@@ -19,6 +22,7 @@ public class Client extends Application{
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+        initializeSocket();
     }
 
     /**
@@ -26,6 +30,17 @@ public class Client extends Application{
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void initializeSocket(){
+        try {
+            Socket socket = new Socket("127.0.0.1", 9000);
+            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String answer = input.readLine();
+            System.out.println(answer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
