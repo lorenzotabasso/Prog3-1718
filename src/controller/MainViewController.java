@@ -125,7 +125,6 @@ public class MainViewController implements Initializable, Observer {
         });
 
         // STATUS (Label)
-        status.setText();
 
         // INBOX (Label)
 
