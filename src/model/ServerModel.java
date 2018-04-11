@@ -1,5 +1,10 @@
 package model;
 
 public class ServerModel {
-    // CIAO EMILINAMI
+
+    public String status;
+
+    public ServerModel(){
+        this.status = "online";
+    }
 }
