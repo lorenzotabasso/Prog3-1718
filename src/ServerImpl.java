@@ -13,7 +13,7 @@ public class ServerImpl {
 
             while (true) {
                 Socket incoming = s.accept(); // si mette in attesa di richiesta di connessione e la apre
-                System.out.println("Client #" + i);
+                System.out.println("Client connected:" + i);
                 Runnable r = new ThreadedServer(incoming, i);
                 new Thread(r).start();
                 i++;
