@@ -17,4 +17,10 @@ public class Client {
     private String serverAddress;
     private int serverPort;
 
+
+    public Client(Account user, String serverAddress, int serverPort){
+        this.user = user;
+        this.serverAddress = serverAddress;
+        this.serverPort = serverPort;
+    }
 }

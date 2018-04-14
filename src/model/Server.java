@@ -4,7 +4,7 @@ public class Server {
 
     private String status;
 
-    public ServerModel(){
+    public Server(){
         this.status = "online";
     }
 
