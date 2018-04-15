@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import model.Account;
+import model.Client;
 import model.Email;
 
 import java.net.URL;
@@ -30,6 +31,18 @@ public class WriteViewController implements Initializable, Observer {
     public Button send;
     public Button saveAsDraft;
     public Button delete;
+
+    //private client
+    // private threadpool
+
+    // TODO: add init method here, to initialize both client reference and the threadpool, as the following template
+
+    /*
+    public void init(ExecutorService exec, ClientModel model) {
+        this.exec = exec;
+        this.model = model;
+    }
+    */
 
     // INITIALIZING ----------------------------------------------------------------------------------------------------
 

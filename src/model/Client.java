@@ -14,6 +14,12 @@ public class Client {
     private ObservableList<Email> inbox = FXCollections.observableArrayList();
     private ObservableList<Email> outbox = FXCollections.observableArrayList();
     private ObservableList<Email> draft = FXCollections.observableArrayList();
+    private ObservableList<Email> bin = FXCollections.observableArrayList();
+
+    private final String inboxPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/inbox/";
+    private final String outboxPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/outbox/";
+    private final String draftsPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/drafts/";
+    private final String binPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/bin/";
 
     private Account user;
 
@@ -25,14 +31,12 @@ public class Client {
     /**
      * Costructor of client object, It initialize all the client data
      *
-     * @param userName first name of the user, used to initialize a new Account Object
-     * @param userSurname surname of the user, used to initialize a new Account Object
      * @param userEmail email of the user, used to initialize a new Account Object
      * @param serverAddress the address of the server
      * @param serverPort the server's port which is listening to client calls
      */
-    public Client(String userName, String userSurname, String userEmail, String serverAddress, int serverPort){
-        this.user = new Account(userName, userSurname, userEmail);
+    public Client(String userEmail, String serverAddress, int serverPort){
+        this.user = new Account(userEmail);
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
     }
@@ -64,6 +68,15 @@ public class Client {
      */
     public ObservableList<Email> getDraft() {
         return draft;
+    }
+
+    /**
+     * Returns the ObservableList of all the e-mail in the recycle bin
+     *
+     * @return the ObservableList bin
+     */
+    public ObservableList<Email> getBin() {
+        return bin;
     }
 
     /**
@@ -141,6 +154,15 @@ public class Client {
     }
 
     /**
+     * Setter for the bin parameter
+     *
+     * @param bin: the new bin parameter
+     */
+    public void setBin(ObservableList<Email> bin) {
+        this.bin = bin;
+    }
+
+    /**
      * Setter for the user parameter
      *
      * @param user: the new user of the client
@@ -193,6 +215,7 @@ public class Client {
                 "inbox=" + inbox +
                 ", outbox=" + outbox +
                 ", draft=" + draft +
+                ", bin=" + bin +
                 ", user=" + user +
                 ", status=" + status +
                 ", serverAddress='" + serverAddress + '\'' +
@@ -202,8 +225,6 @@ public class Client {
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
 
-    // It writes a txt file containing all the data of the email passed through the field "mess" ;
-
     /**
      * It writes a txt file containing all the data of the email passed through the "mess" parameter, and it updates
      * the GUI, showing the new message in the right box (in/out-box or drafts)
@@ -212,33 +233,41 @@ public class Client {
      * @param flag: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft)
      *            the flag of each email defines in which folder the email just created must be saved in.
      */
-    public synchronized void writeFile(Email mess, String flag){
-
-        if(flag.equals()){
-
-        }
-
+    public synchronized void insert(Email mess, String flag){
         try {
             FileOutputStream fileOut = null;
 
-            if (flag.equals('i')){
-                fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/inbox/email" + mess.getIdEmail() +".txt");
+            if (flag.equals("i")){
+                getInbox().add(mess); // update GUI
+                fileOut = new FileOutputStream( inboxPath + mess.getIdEmail() +".txt"); // save message to file
             }
-            else if (flag.equals('o')){
-                fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/outbox/email" + mess.getIdEmail() +".txt");
+            else if (flag.equals("o")){
+                getOutbox().add(mess); // update GUI
+                fileOut = new FileOutputStream(outboxPath + mess.getIdEmail() +".txt"); // save message to file
             }
-            else if (flag.equals('d')){
-                fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/drafts/email" + mess.getIdEmail() +".txt");
+            else if (flag.equals("d")){
+                getDraft().add(mess); // update GUI
+                fileOut = new FileOutputStream(draftsPath + mess.getIdEmail() +".txt"); // save message to file
             }
 
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(mess);
             out.close();
             fileOut.close();
+
             System.out.println("Serialized data is saved in " + fileOut.toString());
+
         } catch (IOException i) {
             i.printStackTrace();
         }
+    }
+
+    /**
+     * It removes the email from the ObservableList in which is located and it updates the GUI.
+     * @param mess: the Email to be removed
+     */
+    public synchronized void remove(Email mess){
+
     }
 
 
