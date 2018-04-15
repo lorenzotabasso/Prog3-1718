@@ -230,24 +230,28 @@ public class Client {
      * the GUI, showing the new message in the right box (in/out-box or drafts)
      *
      * @param mess: the Email object to write on file
-     * @param flag: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft)
+     * @param location: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft).
      *            the flag of each email defines in which folder the email just created must be saved in.
      */
-    public synchronized void insert(Email mess, String flag){
+    public synchronized void insert(Email mess, String location){
         try {
             FileOutputStream fileOut = null;
 
-            if (flag.equals("i")){
+            if (location.equals("i")){
                 getInbox().add(mess); // update GUI
                 fileOut = new FileOutputStream( inboxPath + mess.getIdEmail() +".txt"); // save message to file
             }
-            else if (flag.equals("o")){
+            else if (location.equals("o")){
                 getOutbox().add(mess); // update GUI
                 fileOut = new FileOutputStream(outboxPath + mess.getIdEmail() +".txt"); // save message to file
             }
-            else if (flag.equals("d")){
+            else if (location.equals("d")){
                 getDraft().add(mess); // update GUI
                 fileOut = new FileOutputStream(draftsPath + mess.getIdEmail() +".txt"); // save message to file
+            }
+            else { // location.equals("b")
+                getBin().add(mess); // update GUI
+                fileOut = new FileOutputStream(binPath + mess.getIdEmail() +".txt"); // save message to file
             }
 
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -266,8 +270,37 @@ public class Client {
      * It removes the email from the ObservableList in which is located and it updates the GUI.
      * @param mess: the Email to be removed
      */
-    public synchronized void remove(Email mess){
+    public synchronized void remove(Email mess, String location){
+        try {
+            FileOutputStream fileOut = null;
 
+            if (location.equals("i")){
+                getInbox().remove(mess); // update GUI
+                getBin().add(mess); // put email just removed in Bin
+
+                // TODO: how to move file ??
+
+                fileOut = new FileOutputStream( inboxPath + mess.getIdEmail() +".txt"); // save message to file
+            }
+            else if (location.equals("o")){
+                getOutbox().add(mess); // update GUI
+                fileOut = new FileOutputStream(outboxPath + mess.getIdEmail() +".txt"); // save message to file
+            }
+            else if (location.equals("d")){
+                getDraft().add(mess); // update GUI
+                fileOut = new FileOutputStream(draftsPath + mess.getIdEmail() +".txt"); // save message to file
+            }
+
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(mess);
+            out.close();
+            fileOut.close();
+
+            System.out.println("Serialized data is saved in " + fileOut.toString());
+
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
     }
 
 
