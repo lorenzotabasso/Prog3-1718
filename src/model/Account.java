@@ -14,8 +14,10 @@ public class Account extends Observable implements Serializable{
      * Costructor of Account Object
      * @param email: the email of the account to create
      */
-    public Account(String email){
+    public Account(String name, String surname, String email){
         setIDAccount();
+        setName(name);
+        setSurname(surname);
         setEmail(email);
     }
 
