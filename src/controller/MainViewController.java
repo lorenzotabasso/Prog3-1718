@@ -7,8 +7,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import jdk.nashorn.api.tree.Tree;
 import model.Account;
+import model.Client;
 import model.Email;
 
 import java.io.FileInputStream;
@@ -18,6 +21,7 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
 
 /*
 La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzionalità ridotte a quanto serve per:
@@ -35,6 +39,9 @@ public class MainViewController implements Initializable, Observer {
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
     // SEGUIREMO L'APPROCCIO 1
 
+    public Client model;
+    public ExecutorService exec;
+
     public MainViewController() {}
 
     @FXML // MainView components
@@ -47,9 +54,7 @@ public class MainViewController implements Initializable, Observer {
     public Button delete;
     public Label status;
     public TitledPane mailboxName;
-    public Label inbox;
-    public Label drafts;
-    public Label bin;
+    public TreeView<String> folders;
     public TableView<Email> table;
 
 
@@ -68,7 +73,7 @@ public class MainViewController implements Initializable, Observer {
     /**
      * It initialize all the event handlers of the buttons
      */
-    private void initializeButtons(){
+    private void initializeButtonsListeners(){
 
         // UPDATE
         update.setOnAction(new EventHandler<ActionEvent>() {
@@ -127,15 +132,53 @@ public class MainViewController implements Initializable, Observer {
         // STATUS (Label)
         //status.setText();
 
+
+
         // INBOX (Label)
+
 
         // DRAFTS (Label)
 
         // BIN (Label)
     }
 
+    private void initTreeListeners() {
+
+        /* Detect selection (ChangeListener) */
+        folders.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                switch (newValue.getValue()) {
+                    case "Inbox":
+                        table.setItems(model.getInbox());
+                        break;
+                    case "Sent":
+                        table.setItems(model.getOutbox());
+                        break;
+                    case "Draft":
+                        table.setItems(model.getDraft());
+                        break;
+                    case "bin":
+                        table.setItems(model.getBin());
+                        break;
+                    default:
+                        throw new RuntimeException("Wrong type");
+                }
+            }
+        });
+    }
+
     /**
-     * It populates the main view with all the email with a specific status
+     * It calls all the methods that initialize a category of components
+     */
+    private void initializeListeners() {
+        initializeButtonsListeners();
+        initTreeListeners();
+    }
+
+    // POPULATING ------------------------------------------------------------------------------------------------------
+
+    /**
+     * It populates the MainView with all the email with a specific status
      */
     private void loadEmails() {
 
@@ -169,24 +212,46 @@ public class MainViewController implements Initializable, Observer {
     }
 
     /**
-     * It calls all the methods that initialize a category of components
+     * It populates the tree of the MainView.
      */
-    private void initializeAll() {
-        initializeButtons();
-        //loadEmails();
+    private void loadTree() {
+        TreeItem<String> root = new TreeItem<>("Account: " + model.getUser().getEmail());
+        root.setExpanded(true);
+        root.getChildren().addAll(new TreeItem<>("Inbox"), new TreeItem<>("Sent"), new TreeItem<>("Drafts"), new TreeItem<>("Bin"));
+        folders.setRoot(root);
+        folders.getSelectionModel().select(1);
     }
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
-     * It initialize all the necessary for the GUI
+     * It initialize the GUI of the MainView
      * @param location: The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources: The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeAll();
+        initializeListeners();
         System.out.println("GUI Loaded"); // DEBUG
+    }
+
+    /**
+     * It initialize the MainView populating all its section
+     * @param exec: the thread pool in which the Task will be executed
+     * @param model: the Client model
+     */
+    public void init(ExecutorService exec, Client model){
+        this.exec = exec;
+        this.model = model;
+
+        status.textProperty().bind(model.getStatus());
+        model.setStatusProperty("loading...");
+
+        loadEmails();
+        loadTree();
+
+        // TODO: // exec.execute(new SyncTask(model)); // Check new emails on startup
+        // Esegue il thread che sincronizza le email tra client e server.
     }
 
     /**

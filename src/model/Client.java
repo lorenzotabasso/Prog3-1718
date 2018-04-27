@@ -5,9 +5,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client {
 
@@ -93,8 +96,8 @@ public class Client {
      *
      * @return the status
      */
-    public String getStatus() {
-        return status.get();
+    public SimpleStringProperty getStatus() {
+        return status;
     }
 
     /**
@@ -226,7 +229,7 @@ public class Client {
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
 
     /**
-     * It writes a txt file containing all the data of the email passed through the "mess" parameter, and it updates
+     * It writes a serialized txt file containing all the data of the email passed through the "mess" parameter, and it updates
      * the GUI, showing the new message in the right box (in/out-box or drafts)
      *
      * @param mess: the Email object to write on file
@@ -237,21 +240,17 @@ public class Client {
         try {
             FileOutputStream fileOut = null;
 
-            if (location.equals("i")){
+            if (location.equals("i")){ // inbox
                 getInbox().add(mess); // update GUI
                 fileOut = new FileOutputStream( inboxPath + mess.getIdEmail() +".txt"); // save message to file
             }
-            else if (location.equals("o")){
+            else if (location.equals("o")){ // outbox
                 getOutbox().add(mess); // update GUI
                 fileOut = new FileOutputStream(outboxPath + mess.getIdEmail() +".txt"); // save message to file
             }
-            else if (location.equals("d")){
+            else { // location.equals("d") Default case: save to drafts
                 getDraft().add(mess); // update GUI
                 fileOut = new FileOutputStream(draftsPath + mess.getIdEmail() +".txt"); // save message to file
-            }
-            else { // location.equals("b")
-                getBin().add(mess); // update GUI
-                fileOut = new FileOutputStream(binPath + mess.getIdEmail() +".txt"); // save message to file
             }
 
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -267,39 +266,49 @@ public class Client {
     }
 
     /**
-     * It removes the email from the ObservableList in which is located and it updates the GUI.
+     * It removes the email from the ObservableList in which is located, it moves the email to the bin and it updates the GUI.
      * @param mess: the Email to be removed
+     * @param location: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft).
+     *            the flag of each email defines in which folder the email just created must be saved in.
      */
     public synchronized void remove(Email mess, String location){
-        try {
-            FileOutputStream fileOut = null;
+        if (location.equals("i")){
+            getInbox().remove(mess); // update GUI
+            getBin().add(mess); // put email just removed in Bin
 
-            if (location.equals("i")){
-                getInbox().remove(mess); // update GUI
-                getBin().add(mess); // put email just removed in Bin
+            // moving the email file from inbox to bin
+            File transotiry = new File(inboxPath + "email" + mess.getIdEmail() + ".txt");
+            transotiry.renameTo(new File(binPath + mess.getIdEmail() +".txt"));
+        }
+        else if (location.equals("o")){
+            getOutbox().remove(mess); // update GUI
+            getBin().add(mess); // put email just removed in Bin
 
-                // TODO: how to move file ??
+            // moving the email file from inbox to bin
+            File transotiry = new File(outboxPath + "email" + mess.getIdEmail() + ".txt");
+            transotiry.renameTo(new File(binPath + mess.getIdEmail() +".txt"));
+        }
+        else if (location.equals("d")){
+            getDraft().remove(mess); // update GUI
+            getBin().add(mess); // put email just removed in Bin
 
-                fileOut = new FileOutputStream( inboxPath + mess.getIdEmail() +".txt"); // save message to file
-            }
-            else if (location.equals("o")){
-                getOutbox().add(mess); // update GUI
-                fileOut = new FileOutputStream(outboxPath + mess.getIdEmail() +".txt"); // save message to file
-            }
-            else if (location.equals("d")){
-                getDraft().add(mess); // update GUI
-                fileOut = new FileOutputStream(draftsPath + mess.getIdEmail() +".txt"); // save message to file
-            }
+            // moving the email file from inbox to bin
+            File transotiry = new File(draftsPath + "email" + mess.getIdEmail() + ".txt");
+            transotiry.renameTo(new File(binPath + mess.getIdEmail() +".txt"));
+        }
 
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(mess);
-            out.close();
-            fileOut.close();
+    }
 
-            System.out.println("Serialized data is saved in " + fileOut.toString());
-
-        } catch (IOException i) {
-            i.printStackTrace();
+    public synchronized List<Email> getAll(String location){
+        switch (location) {
+            case "i":
+                return getInbox();
+            case "o":
+                return getOutbox();
+            case "d":
+                return getDraft();
+            default:  // location.equals("b")
+                return getBin();
         }
     }
 
