@@ -186,13 +186,16 @@ public class MainViewController implements Initializable, Observer {
 
         // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
 
-        readFile();
+        model.read("i");
+        model.read("o");
+        model.read("d");
+        model.read("b");
 
-        Account sender = new Account("test@test.it");
-        Account receiver = new Account("a@test.it");
-
-        ObservableList<Email> data = table.getItems();
-        data.add(new Email(sender, receiver, "Another Test", "Test N"));
+//        Account sender = new Account("test@test.it");
+//        Account receiver = new Account("a@test.it");
+//
+//        ObservableList<Email> data = table.getItems();
+//        data.add(new Email(sender, receiver, "Another Test", "Test N"));
 
         // Double click on row - https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx
 
@@ -214,10 +217,13 @@ public class MainViewController implements Initializable, Observer {
     /**
      * It populates the tree of the MainView.
      */
-    private void loadTree() {
+    private void loadTree() { // TODO: Da problemi, è da sistemare
         TreeItem<String> root = new TreeItem<>("Account: " + model.getUser().getEmail());
         root.setExpanded(true);
-        root.getChildren().addAll(new TreeItem<>("Inbox"), new TreeItem<>("Sent"), new TreeItem<>("Drafts"), new TreeItem<>("Bin"));
+        root.getChildren().add(new TreeItem<>("Inbox"));
+        root.getChildren().add(new TreeItem<>("Sent"));
+        root.getChildren().add(new TreeItem<>("Drafts"));
+        root.getChildren().add(new TreeItem<>("Bin"));
         folders.setRoot(root);
         folders.getSelectionModel().select(1);
     }
@@ -231,7 +237,9 @@ public class MainViewController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        loadTree();
         initializeListeners();
+
         loadEmails();
         System.out.println("GUI Loaded"); // DEBUG
     }
