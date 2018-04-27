@@ -201,7 +201,7 @@ public class MainViewController implements Initializable, Observer {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Email rowData = row.getItem();
-                    System.out.println(rowData.toString());
+                    System.out.println(rowData.toString() + "CIAOOO");
                     openTab("Read", "/view/ReadView.fxml");
                 }
             });
@@ -232,6 +232,7 @@ public class MainViewController implements Initializable, Observer {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeListeners();
+        loadEmails();
         System.out.println("GUI Loaded"); // DEBUG
     }
 
