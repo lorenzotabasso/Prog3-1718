@@ -296,6 +296,13 @@ public class Client {
 
     }
 
+    /**
+     * It reads all the serialized txt files of the emails and it fill the ObservableList related to the Folder
+     * in which the files are located.
+     *
+     * @param location the folder in which the emails are located: i (for inbox), o (for outbox), d (for draft),
+     *                 and b (for bin).
+     */
     public synchronized void read(String location){
         // needed to fill the observable lists
         File folder;
@@ -402,7 +409,8 @@ public class Client {
                     } // end if
                 }// end for
         } // end switch
-    }
+
+    } // end read method
 
 
 } // end client class
