@@ -16,10 +16,10 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private final String inboxPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/inbox/";
-    private final String outboxPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/outbox/";
-    private final String draftsPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/drafts/";
-    private final String binPath = "/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/bin/";
+    private final String inboxPath = "./data/emails/inbox/";
+    private final String outboxPath = ".data/emails/outbox/";
+    private final String draftsPath = ".emails/drafts/";
+    private final String binPath = ".data/emails/bin/";
 
     private Account user;
 
