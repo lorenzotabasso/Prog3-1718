@@ -342,13 +342,13 @@ public class Client {
                 File[] listOfFiles1 = folder1.listFiles();
 
                 for (int i = 0; i < listOfFiles1.length; i++) {
-//                    if (listOfFiles1[i].isFile()) {
-//                        System.out.println("File " + listOfFiles1[i].getName());
-//                    } else if (listOfFiles1[i].isDirectory()) {
-//                        System.out.println("Directory " + listOfFiles1[i].getName());
-//                    }
+                    if (listOfFiles1[i].isFile()) {
+                        System.out.println("File " + listOfFiles1[i].getName());
+                    } else if (listOfFiles1[i].isDirectory()) {
+                        System.out.println("Directory " + listOfFiles1[i].getName());
+                    }
 
-                    //deserialize the email*.ser file
+                    // deserialize the email*.ser file
                     try (
                             InputStream file = new FileInputStream(inboxPath + listOfFiles1[i].getName());
                             InputStream buffer = new BufferedInputStream(file);
@@ -362,8 +362,7 @@ public class Client {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-
-                }
+                } // end for
 
 
 //            case "i":
