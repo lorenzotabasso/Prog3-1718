@@ -32,10 +32,10 @@ public class WriteViewController implements Initializable, Observer {
     public Button saveAsDraft;
     public Button delete;
 
-    //private client
+    // private client
     // private threadpool
 
-    // TODO: add init method here, to initialize both client reference and the threadpool, as the following template
+    // TODO: Aggiungere medoto init qui sotto, per inizializzare una riferimento al client e un Threadpool, come il template qui in basso
 
     /*
     public void init(ExecutorService exec, ClientModel model) {
@@ -48,6 +48,8 @@ public class WriteViewController implements Initializable, Observer {
 
     /**
      * It initialize all the event handlers of the buttons
+     *
+     * @see #initializeAll()
      */
     private void initializeButtons() {
 
@@ -58,12 +60,12 @@ public class WriteViewController implements Initializable, Observer {
                 Account reciver = new Account(to.getText());
                 Account sender = new Account(from.getText());
 
-                Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
+                // TODO: Aggiungere scrittura su file dell'email, usare il metodo write alla riga 236 del Client (model.Client)
 
-                toSend.writeEmail(reciver, subject.getText(), text.getText());
-
-                // Is not necessary to set the state, because, when a new Email is created, it has already the
-                // state of new (2). For further information, see Email constructor.
+                // Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
+                //toSend.setState(2); // Non necessario, perchè quando un'email viene creata, viene già settata a 2 (nuovo)
+                                      // Per maggiori informazioni vedi il costruttore di Email
+                // toSend.writeFile(); // Usare write()
 
                 closeTab();
             }
@@ -76,8 +78,12 @@ public class WriteViewController implements Initializable, Observer {
                 Account reciver = new Account(to.getText());
                 Account sender = new Account(from.getText());
 
-                Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-                toSend.setState(0); // the email is a draft
+                // TODO: Aggiungere scrittura su file dell'email, usare il metodo write alla riga 236 del Client (model.Client)
+
+                // Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
+                //toSend.setState(0); // settare lo stato dell'email! (0 = bozza)
+                // toSend.writeFile(); // Usare write()
+
                 closeTab();
             }
         });
@@ -89,9 +95,11 @@ public class WriteViewController implements Initializable, Observer {
                 Account reciver = new Account(to.getText());
                 Account sender = new Account(from.getText());
 
-                Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-                toSend.setState(-1);
-                toSend.writeFile(); // TODO: better implementation of writeFile method
+                // TODO: Aggiungere scrittura su file dell'email, usare il metodo write alla riga 236 del Client (model.Client)
+
+                // Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
+                //toSend.setState(-1); // settare lo stato dell'email! (-1 = eliminata)
+                // toSend.writeFile(); // Usare write()
 
                 closeTab();
             }
@@ -133,11 +141,11 @@ public class WriteViewController implements Initializable, Observer {
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
     /**
-     * It iterate until it founds the Tab element to be closed.
-     * Used by closeTab().
+     * It iterate until it founds the Tab element to be closed. Used by closeTab().
      *
      * @param n the node in which we will start the search
      * @return the final Tab to be closed
+     * @see #closeTab()
      */
     private static TabPane findEnclosingTabPane(Node n) {
         while (n != null && !(n instanceof TabPane)) {
