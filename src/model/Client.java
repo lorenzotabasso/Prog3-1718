@@ -228,6 +228,8 @@ public class Client {
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
 
+    // TODO: Implementare IO Streams come si deve! Per ora danno solo errori!!
+
     /**
      * It writes a serialized txt file containing all the data of the email passed through the "mess" parameter, and it updates
      * the GUI, showing the new message in the right box (in/out-box or drafts)
@@ -331,7 +333,6 @@ public class Client {
         File folder;
         File[] numberOfFiles;
 
-        // TODO: Necessario creare oggetto Email quando una Email viene aperta?
         // per serializzre e deserializzare: http://www.javapractices.com/topic/TopicAction.do?Id=57
 
 
