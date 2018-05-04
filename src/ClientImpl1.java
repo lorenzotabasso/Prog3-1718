@@ -1,12 +1,18 @@
+import controller.MainViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Client;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -15,10 +21,28 @@ import java.io.IOException;
 
 public class ClientImpl1 extends Application{
 
+    private Client model;
+    private ExecutorService exec;
+
     // DEFAULT METHODS OF JAVAFX ---------------------------------------------------------------------------------------
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("view/MainView.fxml"));
+
+        // Initialize controller
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/MainView.fxml"));
+        Parent root = fxmlLoader.load();
+        MainViewController mainViewController = fxmlLoader.getController();
+
+        // Create data model
+        model = new Client("client1@unito.it","127.0.0.1", 9000);
+
+        // Create Thread Pool
+        exec = Executors.newSingleThreadExecutor();
+
+        // Start controller computation
+        mainViewController.init(exec, model);
+
+        // Initialize the Scene (Window)
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -28,6 +52,8 @@ public class ClientImpl1 extends Application{
     }
 
     /**
+     * Access point of ClientImpl
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {

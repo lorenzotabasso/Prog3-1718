@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import model.Account;
 import model.Client;
 import model.Email;
 
@@ -138,33 +139,25 @@ public class MainViewController implements Initializable, Observer {
     }
 
     /**
-     * It attach 4 listeners to the corrensponding category in the Treewiew.
+     * It attach 4 listeners to the corresponding category in the Treewiew.
      *
      * @see #initialize(URL, ResourceBundle)
      */
     private void initTreeListeners() {
 
         /* Detect selection (ChangeListener) */
-        folders.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                switch (newValue.getValue()) {
-                    case "Inbox":
-                        table.setItems(model.getInbox());
-                        break;
-                    case "Sent":
-                        table.setItems(model.getOutbox());
-                        break;
-                    case "Draft":
-                        table.setItems(model.getDraft());
-                        break;
-                    case "bin":
-                        table.setItems(model.getBin());
-                        break;
-                    default:
-                        throw new RuntimeException("Wrong type");
-                }
-            }
-        });
+        folders = new TreeView<String>();
+        TreeView<String> root = new TreeView<String>(new TreeItem<String>("root"));
+        //TreeView<String> inbox = new TreeView<String>(new TreeItem<String>("inbox"));
+
+        TreeItem<String> newRoot = new TreeItem<String>("Root");
+        TreeItem<String> inbox = new TreeItem<String>("inbox");
+
+        newRoot.getChildren().add(inbox);
+
+        folders.setRoot(newRoot);
+
+
     }
 
     // POPULATING ------------------------------------------------------------------------------------------------------
@@ -180,10 +173,14 @@ public class MainViewController implements Initializable, Observer {
 
         // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
 
-        model.read("i");
-        model.read("o");
-        model.read("d");
-        model.read("b");
+        Email em = new Email(new Account("Sender"), new Account("Receiver"), "SERIALIZZAMI", "PROVA DI TESTO SERIALIZZATO");
+
+        model.write(em, "i");
+        model.read("DEBUG"); // FOR DEBUG ONLY
+//        model.read("i");
+//        model.read("o");
+//        model.read("d");
+//        model.read("b");
 
 //        Account sender = new Account("test@test.it");
 //        Account receiver = new Account("a@test.it");
@@ -214,6 +211,8 @@ public class MainViewController implements Initializable, Observer {
      * @see #initialize(URL, ResourceBundle)
      */
     private void loadTree() { // TODO: Da problemi, è da sistemare
+        folders = new TreeView<String>();
+
         TreeItem<String> root = new TreeItem<>("Account: " + model.getUser().getEmail());
         root.setExpanded(true);
         root.getChildren().add(new TreeItem<>("Inbox"));
@@ -234,10 +233,10 @@ public class MainViewController implements Initializable, Observer {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeButtonsListeners();
-        initTreeListeners();
+        //loadTree();
+        //initTreeListeners();
 
-        loadTree();
-        loadEmails();
+        //loadEmails();
         System.out.println("GUI Loaded"); // DEBUG
     }
 
@@ -254,7 +253,7 @@ public class MainViewController implements Initializable, Observer {
         model.setStatusProperty("loading...");
 
         loadEmails();
-        loadTree();
+        //loadTree();
 
         // TODO: implementare threads. esempio: controllare nuve email allo startup, sincronizzare le email tra client e server.
     }
@@ -271,31 +270,32 @@ public class MainViewController implements Initializable, Observer {
 
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
-    public void readFile() {
-        Email e; // Needed for printing values
-        try {
-            FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.txt");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            e = (Email) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Email class not found");
-            c.printStackTrace();
-            return;
-        }
-
-        System.out.println("Deserialized Email...");
-        System.out.println("ID: " + e.getIdEmail());
-        System.out.println("Subject: " + e.getSubject());
-        System.out.println("Receiver: " + e.getReceiver());
-        System.out.println("Sender: " + e.getSender());
-        System.out.println("Text: " + e.getText());
-        System.out.println("Date: " + e.getDate());
-    }
+    // TODO: Probailmente da eliminare il metodo seguente
+//    public void readFile() {
+//        Email e; // Needed for printing values
+//        try {
+//            FileInputStream fileIn = new FileInputStream("data/emails/email.txt");
+//            ObjectInputStream in = new ObjectInputStream(fileIn);
+//            e = (Email) in.readObject();
+//            in.close();
+//            fileIn.close();
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//            return;
+//        } catch (ClassNotFoundException c) {
+//            System.out.println("Email class not found");
+//            c.printStackTrace();
+//            return;
+//        }
+//
+//        System.out.println("Deserialized Email...");
+//        System.out.println("ID: " + e.getIdEmail());
+//        System.out.println("Subject: " + e.getSubject());
+//        System.out.println("Receiver: " + e.getReceiver());
+//        System.out.println("Sender: " + e.getSender());
+//        System.out.println("Text: " + e.getText());
+//        System.out.println("Date: " + e.getDate());
+//    }
 
     /**
      * It opens a new Tab

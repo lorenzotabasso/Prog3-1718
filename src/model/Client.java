@@ -6,6 +6,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Client {
 
@@ -14,10 +19,10 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private final String inboxPath = "./data/emails/inbox/"; // TODO: controllare se il relative path è giusto.
-    private final String outboxPath = ".data/emails/outbox/";
-    private final String draftsPath = ".emails/drafts/";
-    private final String binPath = ".data/emails/bin/";
+    private final String inboxPath = "src/data/emails/inbox/"; // TODO: controllare se il relative path è giusto.
+    private final String outboxPath = "src/data/emails/outbox/";
+    private final String draftsPath = "src/data/emails/drafts/";
+    private final String binPath = "src/data/emails/bin/";
 
     private Account user;
 
@@ -233,32 +238,52 @@ public class Client {
      */
     public synchronized void write(Email mess, String location){
         try {
-            FileOutputStream fileOut = null;
 
             if (location.equals("i")){ // inbox
                 getInbox().add(mess); // update GUI
-                fileOut = new FileOutputStream( inboxPath + mess.getIdEmail() +".txt"); // save message to file
-            }
+
+                try (
+                        OutputStream file = new FileOutputStream(inboxPath + mess.getIdEmail() + ".ser");
+                        OutputStream buffer = new BufferedOutputStream(file);
+                        ObjectOutput output = new ObjectOutputStream(buffer);
+                ) {
+                    output.writeObject(mess);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
+            } // end if
+
             else if (location.equals("o")){ // outbox
                 getOutbox().add(mess); // update GUI
-                fileOut = new FileOutputStream(outboxPath + mess.getIdEmail() +".txt"); // save message to file
-            }
+                try (
+                        OutputStream file = new FileOutputStream(outboxPath + mess.getIdEmail() + ".ser");
+                        OutputStream buffer = new BufferedOutputStream(file);
+                        ObjectOutput output = new ObjectOutputStream(buffer);
+                ) {
+                    output.writeObject(mess);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            } // end else if
+
             else { // location.equals("d") Default case: save to drafts
-                getDraft().add(mess); // update GUI
-                fileOut = new FileOutputStream(draftsPath + mess.getIdEmail() +".txt"); // save message to file
-            }
+                try (
+                        OutputStream file = new FileOutputStream(draftsPath + mess.getIdEmail() + ".ser");
+                        OutputStream buffer = new BufferedOutputStream(file);
+                        ObjectOutput output = new ObjectOutputStream(buffer);
+                ) {
+                    output.writeObject(mess);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            } // end else
 
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(mess);
-            out.close();
-            fileOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } // end main try-catch block
 
-            System.out.println("Serialized data is saved in " + fileOut.toString());
-
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
+    } // end method
 
     /**
      * It removes the email from the ObservableList in which is located, it moves the email to the bin and it updates the GUI.
@@ -307,107 +332,148 @@ public class Client {
         File[] numberOfFiles;
 
         // TODO: Necessario creare oggetto Email quando una Email viene aperta?
+        // per serializzre e deserializzare: http://www.javapractices.com/topic/TopicAction.do?Id=57
+
 
         switch (location) {
-            case "i":
-                folder = new File(inboxPath);
-                numberOfFiles = folder.listFiles();
+            case "DEBUG":
 
-                for (int i = 0; i < numberOfFiles.length; i++){
-                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
-                        Email em;
-                        try {
-                            FileInputStream fileIn = new FileInputStream(inboxPath + numberOfFiles[i].getName());
-                            ObjectInputStream in = new ObjectInputStream(fileIn);
-                            em = (Email) in.readObject();
-                            getInbox().add(em);
-                            in.close();
-                            fileIn.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return;
-                        } catch (ClassNotFoundException c) {
-                            System.out.println("Email class not found");
-                            c.printStackTrace();
-                            return;
-                        }
-                    } // end if
-                }// end for
+                File folder1 = new File(inboxPath);
+                File[] listOfFiles1 = folder1.listFiles();
 
-            case "o":
-                folder = new File(outboxPath);
-                numberOfFiles = folder.listFiles();
+                for (int i = 0; i < listOfFiles1.length; i++) {
+//                    if (listOfFiles1[i].isFile()) {
+//                        System.out.println("File " + listOfFiles1[i].getName());
+//                    } else if (listOfFiles1[i].isDirectory()) {
+//                        System.out.println("Directory " + listOfFiles1[i].getName());
+//                    }
 
-                for (int i = 0; i < numberOfFiles.length; i++){
-                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
-                        Email em;
-                        try {
-                            FileInputStream fileIn = new FileInputStream(outboxPath + numberOfFiles[i].getName());
-                            ObjectInputStream in = new ObjectInputStream(fileIn);
-                            em = (Email) in.readObject();
-                            getOutbox().add(em);
-                            in.close();
-                            fileIn.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return;
-                        } catch (ClassNotFoundException c) {
-                            System.out.println("Email class not found");
-                            c.printStackTrace();
-                            return;
-                        }
-                    } // end if
-                }// end for
+                    //deserialize the email*.ser file
+                    try (
+                            InputStream file = new FileInputStream(inboxPath + listOfFiles1[i].getName());
+                            InputStream buffer = new BufferedInputStream(file);
+                            ObjectInput input = new ObjectInputStream(buffer);
+                    ) {
+                        Email recoveredEmail = (Email) input.readObject(); //deserialize the email
+                        System.out.println(recoveredEmail.toString()); //display its data
 
-            case "d":
-                folder = new File(draftsPath);
-                numberOfFiles = folder.listFiles();
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
 
-                for (int i = 0; i < numberOfFiles.length; i++){
-                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
-                        Email em;
-                        try {
-                            FileInputStream fileIn = new FileInputStream(draftsPath + numberOfFiles[i].getName());
-                            ObjectInputStream in = new ObjectInputStream(fileIn);
-                            em = (Email) in.readObject();
-                            getDraft().add(em);
-                            in.close();
-                            fileIn.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return;
-                        } catch (ClassNotFoundException c) {
-                            System.out.println("Email class not found");
-                            c.printStackTrace();
-                            return;
-                        }
-                    } // end if
-                }// end for
+                }
 
-            default:  // location.equals("b")
-                folder = new File(binPath);
-                numberOfFiles = folder.listFiles();
 
-                for (int i = 0; i < numberOfFiles.length; i++){
-                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
-                        Email em;
-                        try {
-                            FileInputStream fileIn = new FileInputStream(binPath + numberOfFiles[i].getName());
-                            ObjectInputStream in = new ObjectInputStream(fileIn);
-                            em = (Email) in.readObject();
-                            getBin().add(em);
-                            in.close();
-                            fileIn.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return;
-                        } catch (ClassNotFoundException c) {
-                            System.out.println("Email class not found");
-                            c.printStackTrace();
-                            return;
-                        }
-                    } // end if
-                }// end for
+//            case "i":
+//                folder = new File(inboxPath);
+//                numberOfFiles = folder.listFiles();
+//
+//                for (int i = 0; i < numberOfFiles.length; i++){
+//                    System.out.println(i);
+//                    if (numberOfFiles[i].isFile()) {
+//                        System.out.println("File " + numberOfFiles[i].getName());
+//                    }
+//                    else if (numberOfFiles[i].isDirectory()){
+//                        System.out.println("Directory " + numberOfFiles[i].getName());
+//                    }
+//                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
+//                        Email em;
+//                        try {
+//                            FileInputStream fileIn = new FileInputStream(inboxPath + '/' + numberOfFiles[i].getName());
+//                            ObjectInputStream in = new ObjectInputStream(fileIn);
+//
+//                            em = (Email) in.readObject();
+//
+//                            getInbox().add(em);
+//                            in.close();
+//                            fileIn.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                            return;
+//                        } catch (ClassNotFoundException c) {
+//                            System.out.println("Email class not found");
+//                            c.printStackTrace();
+//                            return;
+//                        }
+//                    } // end if
+//                }// end for
+//
+//            case "o":
+//                folder = new File(outboxPath);
+//                numberOfFiles = folder.listFiles();
+//
+//                for (int i = 0; numberOfFiles != null && i < numberOfFiles.length; i++){
+//                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
+//                        Email em;
+//                        try {
+//                            FileInputStream fileIn = new FileInputStream(outboxPath + numberOfFiles[i].getName());
+//                            ObjectInputStream in = new ObjectInputStream(fileIn);
+//                            em = (Email) in.readObject();
+//                            getOutbox().add(em);
+//                            in.close();
+//                            fileIn.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                            return;
+//                        } catch (ClassNotFoundException c) {
+//                            System.out.println("Email class not found");
+//                            c.printStackTrace();
+//                            return;
+//                        }
+//                    } // end if
+//                }// end for
+//
+//            case "d":
+//                folder = new File(draftsPath);
+//                numberOfFiles = folder.listFiles();
+//
+//                for (int i = 0; numberOfFiles != null && i < numberOfFiles.length; i++){
+//                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
+//                        Email em;
+//                        try {
+//                            FileInputStream fileIn = new FileInputStream(draftsPath + numberOfFiles[i].getName());
+//                            ObjectInputStream in = new ObjectInputStream(fileIn);
+//                            em = (Email) in.readObject();
+//                            getDraft().add(em);
+//                            in.close();
+//                            fileIn.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                            return;
+//                        } catch (ClassNotFoundException c) {
+//                            System.out.println("Email class not found");
+//                            c.printStackTrace();
+//                            return;
+//                        }
+//                    } // end if
+//                }// end for
+//
+//            default:  // location.equals("b")
+//                folder = new File(binPath);
+//                numberOfFiles = folder.listFiles();
+//
+//                for (int i = 0; numberOfFiles != null && i < numberOfFiles.length; i++){
+//                    if (numberOfFiles[i].isFile()) { // one more check for secutiry
+//                        Email em;
+//                        try {
+//                            FileInputStream fileIn = new FileInputStream(binPath + numberOfFiles[i].getName());
+//                            ObjectInputStream in = new ObjectInputStream(fileIn);
+//                            em = (Email) in.readObject();
+//                            getBin().add(em);
+//                            in.close();
+//                            fileIn.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                            return;
+//                        } catch (ClassNotFoundException c) {
+//                            System.out.println("Email class not found");
+//                            c.printStackTrace();
+//                            return;
+//                        }
+//                    } // end if
+//                }// end for
         } // end switch
 
     } // end read method
