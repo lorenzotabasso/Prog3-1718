@@ -1,16 +1,11 @@
 package controller;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import jdk.nashorn.api.tree.Tree;
-import model.Account;
 import model.Client;
 import model.Email;
 
@@ -68,10 +63,10 @@ public class MainViewController implements Initializable, Observer {
 
     }
 
-    // TODO: implementare lo stato nelle email, perche così possiamo discriminare se sono inbox, bin, drafts
-
     /**
      * It initialize all the event handlers of the buttons
+     *
+     * @see #initialize(URL, ResourceBundle)
      */
     private void initializeButtonsListeners(){
 
@@ -142,6 +137,11 @@ public class MainViewController implements Initializable, Observer {
         // BIN (Label)
     }
 
+    /**
+     * It attach 4 listeners to the corrensponding category in the Treewiew.
+     *
+     * @see #initialize(URL, ResourceBundle)
+     */
     private void initTreeListeners() {
 
         /* Detect selection (ChangeListener) */
@@ -167,22 +167,16 @@ public class MainViewController implements Initializable, Observer {
         });
     }
 
-    /**
-     * It calls all the methods that initialize a category of components
-     */
-    private void initializeListeners() {
-        initializeButtonsListeners();
-        initTreeListeners();
-    }
-
     // POPULATING ------------------------------------------------------------------------------------------------------
 
     /**
      * It populates the MainView with all the email with a specific status
+     *
+     * @see #initialize(URL, ResourceBundle)
      */
     private void loadEmails() {
 
-        // TODO: to finish this method, we need to divide email by status
+        // TODO: implementare lo stato nelle email, dobbiamo discriminare se sono inbox, bin, drafts
 
         // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
 
@@ -216,6 +210,8 @@ public class MainViewController implements Initializable, Observer {
 
     /**
      * It populates the tree of the MainView.
+     *
+     * @see #initialize(URL, ResourceBundle)
      */
     private void loadTree() { // TODO: Da problemi, è da sistemare
         TreeItem<String> root = new TreeItem<>("Account: " + model.getUser().getEmail());
@@ -237,9 +233,10 @@ public class MainViewController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loadTree();
-        initializeListeners();
+        initializeButtonsListeners();
+        initTreeListeners();
 
+        loadTree();
         loadEmails();
         System.out.println("GUI Loaded"); // DEBUG
     }
@@ -259,8 +256,7 @@ public class MainViewController implements Initializable, Observer {
         loadEmails();
         loadTree();
 
-        // TODO: // exec.execute(new SyncTask(model)); // Check new emails on startup
-        // Esegue il thread che sincronizza le email tra client e server.
+        // TODO: implementare threads. esempio: controllare nuve email allo startup, sincronizzare le email tra client e server.
     }
 
     /**
@@ -301,6 +297,11 @@ public class MainViewController implements Initializable, Observer {
         System.out.println("Date: " + e.getDate());
     }
 
+    /**
+     * It opens a new Tab
+     * @param title the Tab title
+     * @param pathToFXML path to the xml file of the view of the Tab
+     */
     public void openTab(String title, String pathToFXML) {
         try{
             Tab tab = new Tab(title);

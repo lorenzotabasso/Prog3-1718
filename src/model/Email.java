@@ -178,28 +178,27 @@ public class Email extends Observable implements Serializable{
 
     // OTHER -----------------------------------------------------------------------------------------------------------
 
-    /**
-     * Writes an Email and prints all its contents into an XML file
-     * @param reciver: the account of the reciver
-     * @param subject: the thread of the conversation
-     * @param text: the text of the message
-     */
-    public void writeEmail(Account reciver, String subject, String text) {
-        Email message = new Email (this.sender, reciver, subject, text);
-        setChanged();
-        notifyObservers();
-        //writeXML(message); // TODO: Redesign the conversion between Objext and XML and viceversa
-        writeFile(message);
-    }
+    // TODO: da rivedere il codice che segue, ma non credo che sarà da implementare, per lo meno non in questa classe.
 
-    /**
-     * Deletes a specific Email
-     * @param toDelete: the ID of the Email to delete
-     */
-    public void deleteEmail(Email toDelete) {
-        setChanged();
-        notifyObservers();
-    }
+//    /**
+//     * Writes an Email and prints all its contents into an XML file
+//     * @param reciver: the account of the reciver
+//     * @param subject: the thread of the conversation
+//     * @param text: the text of the message
+//     */
+//    public void writeEmail(Account reciver, String subject, String text) {
+//        setChanged();
+//        notifyObservers();
+//    }
+//
+//    /**
+//     * Deletes a specific Email
+//     * @param toDelete: the ID of the Email to delete
+//     */
+//    public void deleteEmail(Email toDelete) {
+//        setChanged();
+//        notifyObservers();
+//    }
 
     // UTILITY ---------------------------------------------------------------------------------------------------------
 
@@ -215,65 +214,65 @@ public class Email extends Observable implements Serializable{
                 '}';
     }
 
-    /**
-     * It writes a txt file containing all the data of this email
-     */
-    public void writeFile(){
-        try {
-            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + this.getIdEmail() + ".txt");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(this);
-            out.close();
-            fileOut.close();
-            System.out.println("Serialized data is saved in data/emails/...");
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
-
-    /**
-     * Overloading of writeFile(). It writes a txt file containing all the data of the email passed through the field "mess"
-     * @param mess the Email object to write on file
-     */
-    public void writeFile(Email mess){
-        try {
-            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + mess.getIdEmail() +".txt");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(mess);
-            out.close();
-            fileOut.close();
-            System.out.println("Serialized data is saved in data/emails/...");
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
-
-    // TODO: re-design this method
-    public void readFile(Email mess) {
-        Email e; // Needed for printing values
-        try {
-            FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.txt");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            e = (Email) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (IOException i) {
-            i.printStackTrace();
-            return;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Email class not found");
-            c.printStackTrace();
-            return;
-        }
-
-        System.out.println("Deserialized Email...");
-        System.out.println("ID: " + e.getIdEmail());
-        System.out.println("Subject: " + e.getSubject());
-        System.out.println("Receiver: " + e.getReceiver());
-        System.out.println("Sender: " + e.getSender());
-        System.out.println("Text: " + e.getText());
-        System.out.println("Date: " + e.getDate());
-    }
+//    /**
+//     * It writes a txt file containing all the data of this email
+//     */
+//    public void writeFile(){
+//        try {
+//            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + this.getIdEmail() + ".txt");
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(this);
+//            out.close();
+//            fileOut.close();
+//            System.out.println("Serialized data is saved in data/emails/...");
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//        }
+//    }
+//
+//    /**
+//     * Overloading of writeFile(). It writes a txt file containing all the data of the email passed through the field "mess"
+//     * @param mess the Email object to write on file
+//     */
+//    public void writeFile(Email mess){
+//        try {
+//            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email" + mess.getIdEmail() +".txt");
+//            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+//            out.writeObject(mess);
+//            out.close();
+//            fileOut.close();
+//            System.out.println("Serialized data is saved in data/emails/...");
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//        }
+//    }
+//
+//    // re-design this method
+//    public void readFile(Email mess) {
+//        Email e; // Needed for printing values
+//        try {
+//            FileInputStream fileIn = new FileInputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/emails/email.txt");
+//            ObjectInputStream in = new ObjectInputStream(fileIn);
+//            e = (Email) in.readObject();
+//            in.close();
+//            fileIn.close();
+//        } catch (IOException i) {
+//            i.printStackTrace();
+//            return;
+//        } catch (ClassNotFoundException c) {
+//            System.out.println("Email class not found");
+//            c.printStackTrace();
+//            return;
+//        }
+//
+//        System.out.println("Deserialized Email...");
+//        System.out.println("ID: " + e.getIdEmail());
+//        System.out.println("Subject: " + e.getSubject());
+//        System.out.println("Receiver: " + e.getReceiver());
+//        System.out.println("Sender: " + e.getSender());
+//        System.out.println("Text: " + e.getText());
+//        System.out.println("Date: " + e.getDate());
+//    }
 
 
 } // end Email Class

@@ -106,17 +106,4 @@ public class Account extends Observable implements Serializable{
                 '}';
     }
 
-    public void writeFile(Account acc) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream("/Volumes/HDD/Lorenzo/Unito/3 Anno/Prog3/Progetto/prog3-project-1718/src/data/accounts/account" + /* acc.getIDAccount() + */ ".ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(acc);
-            out.close();
-            fileOut.close();
-            System.out.println("Serialized data is saved in data/accounts/...");
-        } catch (IOException i) {
-            i.printStackTrace();
-        }
-    }
-
 } // end Account Class

@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Client {
 
@@ -16,7 +14,7 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private final String inboxPath = "./data/emails/inbox/";
+    private final String inboxPath = "./data/emails/inbox/"; // TODO: controllare se il relative path è giusto.
     private final String outboxPath = ".data/emails/outbox/";
     private final String draftsPath = ".emails/drafts/";
     private final String binPath = ".data/emails/bin/";
@@ -307,6 +305,8 @@ public class Client {
         // needed to fill the observable lists
         File folder;
         File[] numberOfFiles;
+
+        // TODO: Necessario creare oggetto Email quando una Email viene aperta?
 
         switch (location) {
             case "i":

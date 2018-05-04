@@ -34,8 +34,10 @@ public class ReadViewController implements Initializable, Observer {
 
     /**
      * It initialize all the event handlers of the buttons
+     *
+     * @see #initialize(URL, ResourceBundle)
      */
-    private void initializeButtons() {
+    private void initializeButtonsListeners() {
 
         // REPLY
         reply.setOnAction(new EventHandler<ActionEvent>() {
@@ -80,14 +82,6 @@ public class ReadViewController implements Initializable, Observer {
 
     }
 
-    /**
-     * It call all the methods that initialize a category of components
-     */
-    private void initializeAll() {
-        initializeButtons();
-
-    }
-
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
@@ -98,7 +92,8 @@ public class ReadViewController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        initializeButtonsListeners();
+        //initializeContent();
     }
 
     /**
@@ -115,11 +110,11 @@ public class ReadViewController implements Initializable, Observer {
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
     /**
-     * It iterate until it founds the Tab element to be closed.
-     * Used by closeTab().
+     * It iterate until it founds the Tab element to be closed. Used by closeTab().
      *
      * @param n the node in which we will start the search
      * @return the final Tab to be closed
+     * @see #closeTab()
      */
     private static TabPane findEnclosingTabPane(Node n) {
         while (n != null && !(n instanceof TabPane)) {

@@ -8,8 +8,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import model.Account;
-import model.Client;
-import model.Email;
 
 import java.net.URL;
 import java.util.Observable;
@@ -49,9 +47,9 @@ public class WriteViewController implements Initializable, Observer {
     /**
      * It initialize all the event handlers of the buttons
      *
-     * @see #initializeAll()
+     * @see #initialize(URL, ResourceBundle)
      */
-    private void initializeButtons() {
+    private void initializeButtonsListeners() {
 
         // SEND
         send.setOnAction(new EventHandler<ActionEvent>() {
@@ -106,14 +104,6 @@ public class WriteViewController implements Initializable, Observer {
         });
     }
 
-    /**
-     * It call all the methods that initialize a category of components
-     */
-    private void initializeAll() {
-        initializeButtons();
-
-    }
-
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
@@ -124,7 +114,7 @@ public class WriteViewController implements Initializable, Observer {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeAll();
+        initializeButtonsListeners();
     }
 
     /**
