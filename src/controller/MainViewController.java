@@ -252,7 +252,7 @@ public class MainViewController implements Initializable, Observer {
         status.textProperty().bind(model.getStatus());
         model.setStatusProperty("loading...");
 
-        // loadEmails(); // TODO: da problemi, vedi metodi "write" e "read" di Client.java
+        loadEmails();
         // loadTree();
 
         // TODO: implementare threads. esempio: controllare nuve email allo startup, sincronizzare le email tra client e server.
