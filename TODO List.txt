@@ -1,0 +1,4 @@
+[da fare] - Implemenatare Thread
+[da fare] - Implemenatare Observer-Observable
+[da fare] - Implementare Server
+[da fare] - Finire i controller
