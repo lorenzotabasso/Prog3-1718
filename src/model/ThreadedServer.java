@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+ // TODO: discutere dell'utilità di questa classe, va ripensata totalmente a mio avviso
+
 public class ThreadedServer implements Runnable{
 
     private Socket incoming;
