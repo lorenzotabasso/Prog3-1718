@@ -322,6 +322,10 @@ public class Client {
      */
     public synchronized void read(String location){
 
+        // con java.io.InvalidClassException: model.Email; local class incompatible leggere il seguente articolo
+        // 1) https://stackoverflow.com/questions/7173352/java-io-invalidclassexception
+        // 2) https://stackoverflow.com/questions/285793/what-is-a-serialversionuid-and-why-should-i-use-it
+
         // needed for deserialize
         String[] filesInFolder;
         Email toRestore;
@@ -339,7 +343,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println(inboxPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("model.client.read():" + inboxPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 
@@ -373,7 +377,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println(outboxPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("model.client.read():" + outboxPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 
@@ -407,7 +411,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println(draftsPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("model.client.read():" + draftsPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 
@@ -441,7 +445,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println(binPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("model.client.read():" + binPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 

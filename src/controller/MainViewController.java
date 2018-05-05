@@ -42,15 +42,35 @@ public class MainViewController implements Initializable, Observer {
 
     @FXML // MainView components
     public TabPane root;
+
+    @FXML
     public Button update;
+
+    @FXML
     public Button write;
+
+    @FXML
     public Button reply;
+
+    @FXML
     public Button replyToAll;
+
+    @FXML
     public Button forward;
+
+    @FXML
     public Button delete;
+
+    @FXML
     public Label status;
+
+    @FXML
     public TitledPane mailboxName;
+
+    @FXML
     public TreeView<String> folders;
+
+    @FXML
     public TableView<Email> table;
 
 
@@ -69,6 +89,8 @@ public class MainViewController implements Initializable, Observer {
      *
      * @see #initialize(URL, ResourceBundle)
      */
+
+    @FXML
     private void initializeButtonsListeners(){
 
         // UPDATE
@@ -143,6 +165,7 @@ public class MainViewController implements Initializable, Observer {
      *
      * @see #initialize(URL, ResourceBundle)
      */
+    @FXML
     private void initTreeListeners() {
 
         /* Detect selection (ChangeListener) */
@@ -169,33 +192,27 @@ public class MainViewController implements Initializable, Observer {
      */
     private void loadEmails() {
 
-        // TODO: implementare lo stato nelle email, dobbiamo discriminare se sono inbox, bin, drafts
+        // TODO: da finire
 
         // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
 
+        // TEST
         Email em = new Email(new Account("Sender"), new Account("Receiver"), "SERIALIZZAMI", "PROVA DI TESTO SERIALIZZATO");
-
         model.write(em, "i");
-        model.read("DEBUG"); // FOR DEBUG ONLY
-//        model.read("i");
-//        model.read("o");
-//        model.read("d");
-//        model.read("b");
 
-//        Account sender = new Account("test@test.it");
-//        Account receiver = new Account("a@test.it");
-//
-//        ObservableList<Email> data = table.getItems();
-//        data.add(new Email(sender, receiver, "Another Test", "Test N"));
+        // reading serialized files and updating MainViewTable
+        model.read("i");
+        table.setItems(model.getInbox());
 
-        // Double click on row - https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx
+        // Double click on row opens email in other tab
+        // (https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx)
 
         table.setRowFactory( tv -> {
             TableRow<Email> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Email rowData = row.getItem();
-                    System.out.println(rowData.toString() + "CIAOOO");
+                    System.out.println(rowData.toString()); // DEBUG
                     openTab("Read", "/view/ReadView.fxml");
                 }
             });
@@ -226,18 +243,18 @@ public class MainViewController implements Initializable, Observer {
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
-     * It initialize the GUI of the MainView
+     * It initialize all FXML annotated components of the MainView
      * @param location: The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources: The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeButtonsListeners();
+
         //loadTree();
         //initTreeListeners();
 
-        //loadEmails();
-        System.out.println("GUI Loaded"); // DEBUG
+        System.out.println("FXNL annotated components Loaded"); // DEBUG
     }
 
     /**
@@ -253,7 +270,6 @@ public class MainViewController implements Initializable, Observer {
         model.setStatusProperty("loading...");
 
         loadEmails();
-        // loadTree();
 
         // TODO: implementare threads. esempio: controllare nuve email allo startup, sincronizzare le email tra client e server.
     }

@@ -39,8 +39,9 @@ import java.util.Observable;
 import java.util.UUID;
 
 public class Email extends Observable implements Serializable{
+    private static final long serialVersionUID = 42L; // needed for serialization, it avoids InvalidClassException
     private UUID idEmail;
-    private int state;
+    private boolean seen;
     private Account sender;
     private Account receiver;
     private String subject;
@@ -56,7 +57,7 @@ public class Email extends Observable implements Serializable{
      */
     public Email(Account sender, Account receiver, String subject, String text){
         this.idEmail = UUID.randomUUID();
-        this.state = setState(2); // new
+        this.seen = setSeen(false); // not yet read
         this.sender = sender;
         this.receiver = receiver;
         this.subject = subject;
@@ -76,10 +77,10 @@ public class Email extends Observable implements Serializable{
 
     /**
      * getter for state parameter
-     * @return the state of the email (-1 = deleted, 0 = draft, 1 = read, 2 = new)
+     * @return the seen status of the email (true if receiver has seen the email, false otherwise)
      */
-    public int getState() {
-        return this.state;
+    public boolean getSeen() {
+        return this.seen;
     }
 
     /**
@@ -125,11 +126,11 @@ public class Email extends Observable implements Serializable{
     // SETTERS ---------------------------------------------------------------------------------------------------------
 
     /**
-     * Setter for the state parameter
-     * @param newState: the new state of the email (-1 = deleted, 0 = draft, 1 = read, 2 = new)
+     * Setter for the seen parameter
+     * @param value the boolean value for the email (true if receiver has seen the email, false otherwise)
      */
-    public int setState(int newState) {
-        return this.state = newState;
+    public boolean setSeen(boolean value) {
+        return this.seen = value;
     }
 
     /**
