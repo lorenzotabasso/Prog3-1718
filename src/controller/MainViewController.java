@@ -286,33 +286,6 @@ public class MainViewController implements Initializable, Observer {
 
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
-    // TODO: Probailmente da eliminare il metodo seguente
-//    public void readFile() {
-//        Email e; // Needed for printing values
-//        try {
-//            FileInputStream fileIn = new FileInputStream("data/emails/email.txt");
-//            ObjectInputStream in = new ObjectInputStream(fileIn);
-//            e = (Email) in.readObject();
-//            in.close();
-//            fileIn.close();
-//        } catch (IOException i) {
-//            i.printStackTrace();
-//            return;
-//        } catch (ClassNotFoundException c) {
-//            System.out.println("Email class not found");
-//            c.printStackTrace();
-//            return;
-//        }
-//
-//        System.out.println("Deserialized Email...");
-//        System.out.println("ID: " + e.getIdEmail());
-//        System.out.println("Subject: " + e.getSubject());
-//        System.out.println("Receiver: " + e.getReceiver());
-//        System.out.println("Sender: " + e.getSender());
-//        System.out.println("Text: " + e.getText());
-//        System.out.println("Date: " + e.getDate());
-//    }
-
     /**
      * It opens a new Tab
      * @param title the Tab title

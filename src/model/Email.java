@@ -176,31 +176,6 @@ public class Email extends Observable implements Serializable{
 
     }
 
-
-    // OTHER -----------------------------------------------------------------------------------------------------------
-
-    // TODO: da rivedere il codice che segue, ma non credo che sarà da implementare, per lo meno non in questa classe.
-
-//    /**
-//     * Writes an Email and prints all its contents into an XML file
-//     * @param reciver: the account of the reciver
-//     * @param subject: the thread of the conversation
-//     * @param text: the text of the message
-//     */
-//    public void writeEmail(Account reciver, String subject, String text) {
-//        setChanged();
-//        notifyObservers();
-//    }
-//
-//    /**
-//     * Deletes a specific Email
-//     * @param toDelete: the ID of the Email to delete
-//     */
-//    public void deleteEmail(Email toDelete) {
-//        setChanged();
-//        notifyObservers();
-//    }
-
     // UTILITY ---------------------------------------------------------------------------------------------------------
 
     @Override

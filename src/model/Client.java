@@ -19,7 +19,7 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private final String inboxPath = "src/data/emails/inbox/"; // TODO: controllare se il relative path è giusto.
+    private final String inboxPath = "src/data/emails/inbox/";
     private final String outboxPath = "src/data/emails/outbox/";
     private final String draftsPath = "src/data/emails/drafts/";
     private final String binPath = "src/data/emails/bin/";

@@ -107,7 +107,7 @@ public class WriteViewController implements Initializable, Observer {
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
-     * It initialize all the necessary for the GUI
+     * It initialize all FXML annotated components of the WriteView
      *
      * @param location:  The location used to resolve relative paths for the root object, or null if the location is not known.
      * @param resources: The resources used to localize the root object, or null if the root object was not localized.
