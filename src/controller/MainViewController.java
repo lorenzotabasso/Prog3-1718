@@ -228,8 +228,6 @@ public class MainViewController implements Initializable, Observer {
      * @see #initialize(URL, ResourceBundle)
      */
     private void loadTree() { // TODO: Da problemi, è da sistemare
-        folders = new TreeView<String>();
-
         TreeItem<String> root = new TreeItem<>("Account: " + model.getUser().getEmail());
         root.setExpanded(true);
         root.getChildren().add(new TreeItem<>("Inbox"));

@@ -1,0 +1,14 @@
+# General
+.DS_Store
+
+# Project files
+out
+.idea
+prog3-project-1718.iml
+
+# Serialized Emails
+data/emails/bin/*.txt
+data/emails/drafts/*.txt
+data/emails/inbox/*.txt
+data/emails/outbox/*.txt
+
