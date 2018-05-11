@@ -38,6 +38,11 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.UUID;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ */
+
 public class Email extends Observable implements Serializable{
     private static final long serialVersionUID = 42L; // needed for serialization, it avoids InvalidClassException
 

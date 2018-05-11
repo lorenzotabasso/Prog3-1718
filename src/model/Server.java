@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ */
+
 public class Server {
 
     private String status;

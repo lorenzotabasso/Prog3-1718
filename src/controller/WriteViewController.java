@@ -15,6 +15,11 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ */
+
 public class WriteViewController implements Initializable, Observer {
 
     public WriteViewController() {

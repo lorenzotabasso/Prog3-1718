@@ -1,4 +1,8 @@
-[da fare] - Implemenatare Thread -> Yoss
+[da fare] - Implemenatare Thread -> Youssef
+    - Thread per:
+        1. Mandare Email
+        2. Sincronizzazione client-server
+
 [da fare] - Implemenatare Observer-Observable / JavaFX Proprieties Bind -> Lorenzo
-[da fare] - Implementare Server -> Yoss
+[da fare] - Implementare Server -> Youssef
 [da fare] - Finire i controller -> Lorenzo

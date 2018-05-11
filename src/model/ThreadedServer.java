@@ -8,6 +8,11 @@ import java.net.Socket;
 
  // TODO: discutere dell'utilità di questa classe, va ripensata totalmente a mio avviso
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ */
+
 public class ThreadedServer implements Runnable{
 
     private Socket incoming;

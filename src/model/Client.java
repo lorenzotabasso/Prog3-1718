@@ -12,6 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ */
+
 public class Client {
 
     private ObservableList<Email> inbox = FXCollections.observableArrayList();

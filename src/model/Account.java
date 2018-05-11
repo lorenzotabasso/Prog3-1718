@@ -4,6 +4,11 @@ import java.io.*;
 import java.util.Observable;
 import java.util.UUID;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ */
+
 public class Account extends Observable implements Serializable{
     private UUID IDAccount;
     private String name;

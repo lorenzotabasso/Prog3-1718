@@ -27,6 +27,11 @@ La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzio
  - rimuovere un messaggio dalla casella di posta elettronica e vedere la lista dei messaggi aggiornata.
  */
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ */
+
 public class MainViewController implements Initializable, Observer {
 
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml

@@ -15,8 +15,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *
- * @author lorenzotabasso
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
  */
 
 public class ClientImpl1 extends Application{
