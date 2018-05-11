@@ -47,7 +47,7 @@ public class ClientImpl1 extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Support methods list begin here:
+        // Support methods list begin here: // TODO: spostare socket dentro Client e Server
         initializeSocket(9000);
     }
 

@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import model.Account;
+import model.Client;
 
 import java.net.URL;
 import java.util.Observable;
@@ -30,7 +31,7 @@ public class WriteViewController implements Initializable, Observer {
     public Button saveAsDraft;
     public Button delete;
 
-    // private client
+    // private Client client;
     // private threadpool
 
     // TODO: Aggiungere medoto init qui sotto, per inizializzare una riferimento al client e un Threadpool, come il template qui in basso
@@ -65,6 +66,7 @@ public class WriteViewController implements Initializable, Observer {
                                       // Per maggiori informazioni vedi il costruttore di Email
                 // toSend.writeFile(); // Usare write()
 
+                // client.write(toSend, "o");
                 closeTab();
             }
         });
@@ -82,6 +84,7 @@ public class WriteViewController implements Initializable, Observer {
                 //toSend.setState(0); // settare lo stato dell'email! (0 = bozza)
                 // toSend.writeFile(); // Usare write()
 
+                // client.write(toSend, "d");
                 closeTab();
             }
         });
@@ -99,6 +102,7 @@ public class WriteViewController implements Initializable, Observer {
                 //toSend.setState(-1); // settare lo stato dell'email! (-1 = eliminata)
                 // toSend.writeFile(); // Usare write()
 
+                // client.write(toSend, "b");
                 closeTab();
             }
         });

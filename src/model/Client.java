@@ -265,7 +265,7 @@ public class Client {
                     getInbox().add(mess); // update GUI
 
                     try {
-                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(inboxPath + mess.getIdEmail() + ".txt"));
+                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(draftsPath + mess.getIdEmail() + ".txt"));
                         out.writeObject(mess);
                     } catch (IOException e) {
                         System.out.println(e.getMessage());

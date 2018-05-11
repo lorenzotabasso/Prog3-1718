@@ -9,17 +9,14 @@ import javafx.scene.control.*;
 import model.Account;
 import model.Client;
 import model.Email;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 
-/*
+/* Dal Testo del progetto
 La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzionalità ridotte a quanto serve per:
  - vedere il nome dell'account di posta elettronica (che qui assumiamo fisso per l'applicazione, che non prevede
     autenticazione da parte dell'utente)
@@ -35,8 +32,8 @@ public class MainViewController implements Initializable, Observer {
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
     // SEGUIREMO L'APPROCCIO 1
 
-    public Client model;
-    public ExecutorService exec;
+    private Client model;
+    private ExecutorService exec;
 
     public MainViewController() {}
 
@@ -151,13 +148,6 @@ public class MainViewController implements Initializable, Observer {
         //status.setText();
 
 
-
-        // INBOX (Label)
-
-
-        // DRAFTS (Label)
-
-        // BIN (Label)
     }
 
     /**
@@ -167,6 +157,13 @@ public class MainViewController implements Initializable, Observer {
      */
     @FXML
     private void initTreeListeners() {
+
+        // INBOX (Label)
+
+        // OUTBOX
+
+        // DRAFTS (Label)
+
 
         /* Detect selection (ChangeListener) */
         folders = new TreeView<String>();

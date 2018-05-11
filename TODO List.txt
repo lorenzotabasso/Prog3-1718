@@ -1,4 +1,4 @@
-[da fare] - Implemenatare Thread
-[da fare] - Implemenatare Observer-Observable
-[da fare] - Implementare Server
-[da fare] - Finire i controller
+[da fare] - Implemenatare Thread -> Yoss
+[da fare] - Implemenatare Observer-Observable / JavaFX Proprieties Bind -> Lorenzo
+[da fare] - Implementare Server -> Yoss
+[da fare] - Finire i controller -> Lorenzo

@@ -40,6 +40,7 @@ import java.util.UUID;
 
 public class Email extends Observable implements Serializable{
     private static final long serialVersionUID = 42L; // needed for serialization, it avoids InvalidClassException
+
     private UUID idEmail;
     private boolean seen;
     private Account sender;
