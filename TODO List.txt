@@ -2,6 +2,7 @@
     - Thread per:
         1. Mandare Email
         2. Sincronizzazione client-server
+        3. Avvisi gli Observer di ogni cambiamento dell'oggetto Observable
 
 [da fare] - Implemenatare Observer-Observable / JavaFX Proprieties Bind -> Lorenzo
 [da fare] - Implementare Server -> Youssef

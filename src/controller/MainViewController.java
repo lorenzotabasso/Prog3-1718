@@ -280,7 +280,7 @@ public class MainViewController implements Initializable, Observer {
      * @param arg: (optional) an argument passed to the notifyObservers method.
      */
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg) { // TODO: a cosa serve l'oggetto arg? capirlo.
 
     }
 

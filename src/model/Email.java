@@ -196,4 +196,8 @@ public class Email extends Observable implements Serializable{
                 '}';
     }
 
+    @Override
+    public void notifyObservers() { // TODO: da finire
+        super.notifyObservers();
+    }
 } // end Email Class
