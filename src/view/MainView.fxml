@@ -46,15 +46,15 @@
                   <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 
                     <columns>
-                        <TableColumn prefWidth="247.0" text="Subject">
+                        <TableColumn fx:id="subject" prefWidth="247.0" text="Subject">
                             <cellValueFactory><PropertyValueFactory property="subject" /></cellValueFactory>
                         </TableColumn>
 
-                        <TableColumn prefWidth="131.0" text="From">
+                        <TableColumn fx:id="from" prefWidth="131.0" text="From">
                             <cellValueFactory><PropertyValueFactory property="receiver" /></cellValueFactory>
                         </TableColumn>
 
-                        <TableColumn minWidth="3.0" prefWidth="118.0" text="Date">
+                        <TableColumn fx:id="date" minWidth="3.0" prefWidth="118.0" text="Date">
                             <cellValueFactory><PropertyValueFactory property="date" /></cellValueFactory>
                         </TableColumn>
                     </columns>

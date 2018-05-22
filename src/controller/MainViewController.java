@@ -1,11 +1,13 @@
 package controller;
 
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.util.Callback;
 import model.Account;
 import model.Client;
 import model.Email;
@@ -74,6 +76,15 @@ public class MainViewController implements Initializable, Observer {
 
     @FXML
     public TableView<Email> table;
+
+    @FXML
+    public TableColumn subject;
+
+    @FXML
+    public TableColumn from;
+
+    @FXML
+    public TableColumn date;
 
 
     // INITIALIZING ----------------------------------------------------------------------------------------------------
@@ -199,11 +210,12 @@ public class MainViewController implements Initializable, Observer {
         // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
 
         // TEST
-        Email em = new Email(new Account("Sender"), new Account("Receiver"), "SERIALIZZAMI", "PROVA DI TESTO SERIALIZZATO");
+        Email em = new Email(new Account("Sender"), new Account("Receiver"), "SERIALIZZAMI111", "PROVA DI TESTO SERIALIZZATO");
         model.write(em, "i");
 
         // reading serialized files and updating MainViewTable
         model.read("i");
+
         table.setItems(model.getInbox());
 
         // Double click on row opens email in other tab
