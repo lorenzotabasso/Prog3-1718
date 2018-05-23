@@ -242,6 +242,9 @@ public class Client {
      *            the flag of each email defines in which folder the email just created must be saved in.
      */
     public synchronized void write(Email mess, String location){
+
+        // TODO: JavaFX Proprieties -> trasformare email con Proprieties in email senza
+
         try {
             switch (location) {
                 case "i":  // inbox
@@ -326,6 +329,8 @@ public class Client {
      *                 and b (for bin).
      */
     public synchronized void read(String location){
+
+        // TODO: JavaFX Proprieties -> inizializzazione on the fly
 
         // con java.io.InvalidClassException: model.Email; local class incompatible leggere il seguente articolo
         // 1) https://stackoverflow.com/questions/7173352/java-io-invalidclassexception
