@@ -210,8 +210,8 @@ public class MainViewController implements Initializable, Observer {
         // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
 
         // TEST
-        Email em = new Email(new Account("Sender"), new Account("Receiver"), "SERIALIZZAMI111", "PROVA DI TESTO SERIALIZZATO");
-        model.write(em, "i");
+        //Email em = new Email(new Account("Sender"), new Account("Receiver"), "SERIALIZZAMI333", "PROVA DI TESTO SERIALIZZATO");
+        //model.write(em, "i");
 
         // reading serialized files and updating MainViewTable
         model.read("i");
@@ -226,8 +226,12 @@ public class MainViewController implements Initializable, Observer {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Email rowData = row.getItem();
+
                     System.out.println(rowData.toString()); // DEBUG
+
                     openTab("Read", "/view/ReadView.fxml");
+
+                    // TODO: necessario avare riferimenti ai 2 controller read e write
                 }
             });
             return row ;
