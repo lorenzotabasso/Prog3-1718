@@ -1,24 +1,20 @@
 package controller;
 
-import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.util.Callback;
-import model.Account;
 import model.Client;
 import model.Email;
 import java.io.IOException;
-import java.net.URL;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 
 /* Dal Testo del progetto
@@ -89,8 +85,29 @@ public class MainViewController implements Observer {
     @FXML
     public TableColumn date;
 
+    // INITIALIZATION --------------------------------------------------------------------------------------------------
 
-    // INITIALIZING ----------------------------------------------------------------------------------------------------
+    /**
+     * It initialize the MainView populating all its section
+     * @param exec: the thread pool in which the Task will be executed
+     * @param clientModel: the Client model
+     */
+    public void init(ExecutorService exec, Client clientModel){
+        this.exec = exec;
+        this.clientModel = clientModel;
+
+        initializeButtonsListeners();
+        //initTreeListeners();
+
+        //loadTree();
+
+        status.textProperty().bind(clientModel.getStatus());
+        clientModel.setStatusProperty("loading...");
+
+        loadEmails();
+    }
+
+    // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
 
     /**
      * It initialize all the event handlers of the buttons
@@ -196,21 +213,24 @@ public class MainViewController implements Observer {
         clientModel.read("i");
 
         // populating TableView
+        date.setSortType(TableColumn.SortType.DESCENDING);
         table.setItems(clientModel.getInbox());
+        table.getSortOrder().add(date);
 
         // Double click on row opens email in other tab
         // (https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx)
 
-        table.setRowFactory( tv -> {
+        table.setRowFactory(tv -> {
             TableRow<Email> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     Email rowData = row.getItem();
                     openReadTab(rowData);
                 }
             });
-            return row ;
+            return row;
         });
+
     }
 
     /**
@@ -227,27 +247,7 @@ public class MainViewController implements Observer {
         folders.getSelectionModel().select(1);
     }
 
-    // INITIALIZATION --------------------------------------------------------------------------------------------------
-
-    /**
-     * It initialize the MainView populating all its section
-     * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client model
-     */
-    public void init(ExecutorService exec, Client clientModel){
-        this.exec = exec;
-        this.clientModel = clientModel;
-
-        initializeButtonsListeners();
-        //initTreeListeners();
-
-        //loadTree();
-
-        status.textProperty().bind(clientModel.getStatus());
-        clientModel.setStatusProperty("loading...");
-
-        loadEmails();
-    }
+    // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
      * Implementation of update method in Observer interface

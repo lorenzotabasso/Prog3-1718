@@ -3,13 +3,17 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import model.Client;
 import model.Email;
+
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -52,9 +56,27 @@ public class ReadViewController implements Observer {
 
     private Client clientModel;
     private ExecutorService exec;
-    private Email email;
+    private Email thisEmail;
 
-    // INITIALIZING ----------------------------------------------------------------------------------------------------
+    // INITIALIZATION --------------------------------------------------------------------------------------------------
+
+    /**
+     * It initialize the ReadView populating all its section
+     * @param exec: the thread pool in which the Task will be executed
+     * @param clientModel: the Client model
+     * @param emailToShow email to show in the ReadView
+     */
+    public void init(ExecutorService exec, Client clientModel, Email emailToShow){
+        this.exec = exec;
+        this.clientModel = clientModel;
+        this.thisEmail = emailToShow;
+
+        initializeButtonsListeners();
+        initializeEmailContent();
+
+    }
+
+    // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
 
     /**
      * It initialize all the event handlers of the buttons
@@ -65,7 +87,7 @@ public class ReadViewController implements Observer {
         reply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                openWriteTab();
             }
         });
 
@@ -97,34 +119,16 @@ public class ReadViewController implements Observer {
         });
     }
 
+    // POPULATING ------------------------------------------------------------------------------------------------------
+
     /**
      * It initialize all the text content of the ReadView
      */
-    private void initializeContent() {
-        to.setText(email.getReceiver());
-        from.setText(email.getSender());
-        subject.setText(email.getSubject());
-        text.setText(email.getText());
-    }
-
-    // OTHER -----------------------------------------------------------------------------------------------------------
-
-    /**
-     * It initialize the ReadView populating all its section
-     * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client model
-     * @param emailToShow email to show in the ReadView
-     */
-    public void init(ExecutorService exec, Client clientModel, Email emailToShow){
-        System.out.println("Init done"); // DEBUG
-
-        this.exec = exec;
-        this.clientModel = clientModel;
-        this.email = emailToShow;
-
-        initializeButtonsListeners();
-        initializeContent();
-
+    private void initializeEmailContent() {
+        to.setText(thisEmail.getReceiver());
+        from.setText(thisEmail.getSender());
+        subject.setText(thisEmail.getSubject());
+        text.setText(thisEmail.getText());
     }
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
@@ -162,6 +166,29 @@ public class ReadViewController implements Observer {
     private void closeTab() {
         TabPane tabPane = findEnclosingTabPane(root);
         tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
+    }
+
+    /**
+     * It opens a new WriteView Tab
+     */
+    private void openWriteTab() {
+        try{
+            Tab tab = new Tab("New Email");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/WriteView.fxml"));
+
+            tab.setContent(fxmlLoader.load());
+
+            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
+            WriteViewController readViewController =  fxmlLoader.getController();
+
+            readViewController.init(exec, clientModel, thisEmail.getSender());
+
+            TabPane inboxTab = findEnclosingTabPane(root);
+            inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab
+            inboxTab.getSelectionModel().select(tab); // Switch to Write tab
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 } // end class

@@ -3,18 +3,14 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import model.Account;
 import model.Client;
 import model.Email;
 
-import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -30,23 +26,35 @@ public class WriteViewController implements Observer {
 
     @FXML
     public VBox root;
+
+    @FXML
     public TextField to;
+
+    @FXML
     public TextField from;
+
+    @FXML
     public TextField subject;
+
+    @FXML
     public TextArea text;
+
+    @FXML
     public Button send;
+
+    @FXML
     public Button saveAsDraft;
+
+    @FXML
     public Button delete;
 
     private Client clientModel;
     private ExecutorService exec;
 
-    private Email thisEmail;
-
     // INITIALIZATION --------------------------------------------------------------------------------------------------
 
     /**
-     * It initialize the WriteView populating all its section
+     * It initialize the WriteView populating all its section. Used in the MainView
      * @param exec: the thread pool in which the Task will be executed
      * @param clientModel: the Client model
      */
@@ -55,6 +63,24 @@ public class WriteViewController implements Observer {
         this.clientModel = clientModel;
 
         initializeButtonsListeners();
+
+        from.setText(clientModel.getUser()); // Username already compiled for every new email.
+    }
+
+    /**
+     * Overloaded version.
+     * It initialize the WriteView populating all its section. Used in the ReadView
+     * @param exec: the thread pool in which the Task will be executed
+     * @param clientModel: the Client model
+     */
+    public void init(ExecutorService exec, Client clientModel, String receiver){
+        this.exec = exec;
+        this.clientModel = clientModel;
+
+        initializeButtonsListeners();
+
+        from.setText(clientModel.getUser()); // Username already compiled for every new email.
+        to.setText(receiver);
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
