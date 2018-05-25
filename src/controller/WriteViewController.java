@@ -15,13 +15,14 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
 
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
  */
 
-public class WriteViewController implements Initializable, Observer {
+public class WriteViewController implements Observer {
 
     public WriteViewController() {
 
@@ -37,24 +38,29 @@ public class WriteViewController implements Initializable, Observer {
     public Button saveAsDraft;
     public Button delete;
 
-    // private Client client;
-    // private threadpool
+    private Client clientModel;
+    private ExecutorService exec;
 
-    // TODO: Aggiungere medoto init qui sotto, per inizializzare una riferimento al client e un Threadpool, come il template qui in basso
+    private Email thisEmail;
 
-    /*
-    public void init(ExecutorService exec, ClientModel model) {
+    // INITIALIZATION --------------------------------------------------------------------------------------------------
+
+    /**
+     * It initialize the WriteView populating all its section
+     * @param exec: the thread pool in which the Task will be executed
+     * @param clientModel: the Client model
+     */
+    public void init(ExecutorService exec, Client clientModel){
         this.exec = exec;
-        this.model = model;
-    }
-    */
+        this.clientModel = clientModel;
 
-    // INITIALIZING ----------------------------------------------------------------------------------------------------
+        initializeButtonsListeners();
+    }
+
+    // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
 
     /**
      * It initialize all the event handlers of the buttons
-     *
-     * @see #initialize(URL, ResourceBundle)
      */
     private void initializeButtonsListeners() {
 
@@ -62,18 +68,24 @@ public class WriteViewController implements Initializable, Observer {
         send.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Account reciver = new Account(to.getText());
-                Account sender = new Account(from.getText());
 
-                // TODO: Aggiungere scrittura su file dell'email, usare il metodo write alla riga 236 del Client (model.Client)
+                boolean testTo = (to == null || to.getText().trim().isEmpty());
+                boolean testFrom = (from == null || from.getText().trim().isEmpty());
+                boolean testSubject = (subject == null || subject.getText().trim().isEmpty());
 
-                // Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-                //toSend.setState(2); // Non necessario, perchè quando un'email viene creata, viene già settata a 2 (nuovo)
-                                      // Per maggiori informazioni vedi il costruttore di Email
-                // toSend.writeFile(); // Usare write()
-
-                // client.write(toSend, "o");
-                closeTab();
+                // if Email is empty, alerts the user and close the Tab
+                if (testTo || testFrom || testSubject) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Unable to send this email.");
+                    alert.setContentText("Some essential fields like 'to', 'from' or 'subject' are missing. Check it out and try again!");
+                    alert.showAndWait();
+                }
+                else {
+                    Email thisEmail = new Email(from.getText(), to.getText(), subject.getText(), text.getText());
+                    clientModel.write(thisEmail, "i"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
+                    closeTab();
+                }
             }
         });
 
@@ -81,16 +93,8 @@ public class WriteViewController implements Initializable, Observer {
         saveAsDraft.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Account reciver = new Account(to.getText());
-                Account sender = new Account(from.getText());
-
-                // TODO: Aggiungere scrittura su file dell'email, usare il metodo write alla riga 236 del Client (model.Client)
-
-                // Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-                //toSend.setState(0); // settare lo stato dell'email! (0 = bozza)
-                // toSend.writeFile(); // Usare write()
-
-                // client.write(toSend, "d");
+                Email thisEmail = new Email(from.getText(), to.getText(), subject.getText(), text.getText());
+                clientModel.write(thisEmail, "i"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "d"
                 closeTab();
             }
         });
@@ -99,37 +103,12 @@ public class WriteViewController implements Initializable, Observer {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Account reciver = new Account(to.getText());
-                Account sender = new Account(from.getText());
-
-                // TODO: Aggiungere scrittura su file dell'email, usare il metodo write alla riga 236 del Client (model.Client)
-
-                // Email toSend = new Email(sender, reciver, subject.getText(), text.getText());
-                //toSend.setState(-1); // settare lo stato dell'email! (-1 = eliminata)
-                // toSend.writeFile(); // Usare write()
-
-                // client.write(toSend, "b");
                 closeTab();
             }
         });
     }
 
-    // OTHER -----------------------------------------------------------------------------------------------------------
-
-
-
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
-
-    /**
-     * It initialize all FXML annotated components of the WriteView
-     *
-     * @param location:  The location used to resolve relative paths for the root object, or null if the location is not known.
-     * @param resources: The resources used to localize the root object, or null if the root object was not localized.
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initializeButtonsListeners();
-    }
 
     /**
      * Implementation of update method in Observer interface

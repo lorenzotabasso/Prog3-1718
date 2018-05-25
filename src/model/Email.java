@@ -48,8 +48,8 @@ public class Email extends Observable implements Serializable{
 
     private UUID idEmail;
     private boolean seen;
-    private Account sender;
-    private Account receiver;
+    private String sender;
+    private String receiver;
     private String subject;
     private String text;
     private Timestamp date;
@@ -61,7 +61,7 @@ public class Email extends Observable implements Serializable{
      * @param subject: the thread of the conversation
      * @param text: the text of the message
      */
-    public Email(Account sender, Account receiver, String subject, String text){
+    public Email(String sender, String receiver, String subject, String text){
         this.idEmail = UUID.randomUUID();
         this.seen = setSeen(false); // not yet read
         this.sender = sender;
@@ -94,24 +94,20 @@ public class Email extends Observable implements Serializable{
      * @return the sender of the Email
      */
     public String getSender() {
-        return sender.getEmail();
+        return sender;
     }
 
     /**
      * getter for receiver parameter
      * @return the receiver of the Email
      */
-    public String getReceiver() {
-        return receiver.getEmail();
-    }
+    public String getReceiver() { return receiver; }
 
     /**
      * getter for subject parameter
      * @return the subject of the Email
      */
-    public String getSubject() {
-        return subject;
-    }
+    public String getSubject() { return subject; }
 
     /**
      * getter for text parameter
@@ -143,7 +139,7 @@ public class Email extends Observable implements Serializable{
      * Setter for the sender parameter
      * @param newSender: the new sender address
      */
-    public void setSender(Account newSender) {
+    public void setSender(String newSender) {
         this.sender = newSender;
     }
 
@@ -151,9 +147,7 @@ public class Email extends Observable implements Serializable{
      * Setter for the receiver parameter
      * @param newReceiver: the new receiver address
      */
-    public void setReceiver(Account newReceiver) {
-        this.receiver = newReceiver;
-    }
+    public void setReceiver(String newReceiver) { this.receiver = newReceiver; }
 
     /**
      * Setter for the subject parameter
@@ -200,4 +194,5 @@ public class Email extends Observable implements Serializable{
     public void notifyObservers() { // TODO: da finire
         super.notifyObservers();
     }
+
 } // end Email Class

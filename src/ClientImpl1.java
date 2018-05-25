@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 
 public class ClientImpl1 extends Application{
 
-    private Client model;
+    private Client clientModel;
     private ExecutorService exec;
 
     // DEFAULT METHODS OF JAVAFX ---------------------------------------------------------------------------------------
@@ -34,17 +34,18 @@ public class ClientImpl1 extends Application{
         MainViewController mainViewController = fxmlLoader.getController();
 
         // Create data model
-        model = new Client("client1@unito.it","127.0.0.1", 9000);
+        clientModel = new Client("client1@unito.it","127.0.0.1", 9000);
 
         // Create Thread Pool
         exec = Executors.newSingleThreadExecutor();
 
         // Start controller computation
-        mainViewController.init(exec, model);
+        mainViewController.init(exec, clientModel);
 
         // Initialize the Scene (Window)
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle(clientModel.getUser());
         primaryStage.show();
 
         // Support methods list begin here: // TODO: spostare socket dentro Client e Server

@@ -37,7 +37,7 @@ La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzio
  * @author Youssef Mouaddine
  */
 
-public class MainViewController implements Initializable, Observer {
+public class MainViewController implements Observer {
 
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
     // SEGUIREMO L'APPROCCIO 1
@@ -93,17 +93,7 @@ public class MainViewController implements Initializable, Observer {
     // INITIALIZING ----------------------------------------------------------------------------------------------------
 
     /**
-     * Sets the name of the account in the MainView
-     */
-    @FXML
-    public void setMailboxName() {
-
-    }
-
-    /**
      * It initialize all the event handlers of the buttons
-     *
-     * @see #initialize(URL, ResourceBundle)
      */
 
     @FXML
@@ -122,9 +112,7 @@ public class MainViewController implements Initializable, Observer {
         // WRITE
         write.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent e) {
-                //openTab("Write", "/view/WriteView.fxml");
-            }
+            public void handle(ActionEvent e) { openWriteTab(); }
         });
 
         // REPLY
@@ -171,8 +159,6 @@ public class MainViewController implements Initializable, Observer {
 
     /**
      * It attach 4 listeners to the corresponding category in the Treewiew.
-     *
-     * @see #initialize(URL, ResourceBundle)
      */
     @FXML
     private void initTreeListeners() {
@@ -203,22 +189,13 @@ public class MainViewController implements Initializable, Observer {
 
     /**
      * It populates the MainView with all the email with a specific status
-     *
-     * @see #initialize(URL, ResourceBundle)
      */
     private void loadEmails() {
-
-        // TODO: da finire
-
-        // utility for columns https://docs.oracle.com/javafx/2/fxml_get_started/fxml_tutorial_intermediate.htm
-
-        // TEST
-        //Email em = new Email(new Account("Sender"), new Account("Receiver"), "SERIALIZZAMI333", "PROVA DI TESTO SERIALIZZATO");
-        //model.write(em, "i");
 
         // reading serialized files and updating MainViewTable
         clientModel.read("i");
 
+        // populating TableView
         table.setItems(clientModel.getInbox());
 
         // Double click on row opens email in other tab
@@ -229,27 +206,18 @@ public class MainViewController implements Initializable, Observer {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Email rowData = row.getItem();
-
-                    // System.out.println(rowData.toString()); // DEBUG
-
-                    openReadTab(rowData, "src/view/ReadView.fxml");
-
-                    // TODO: necessario avare riferimenti ai 2 controller read e write
+                    openReadTab(rowData);
                 }
             });
             return row ;
         });
-
-
     }
 
     /**
      * It populates the tree of the MainView.
-     *
-     * @see #initialize(URL, ResourceBundle)
      */
     private void loadTree() { // TODO: Da problemi, è da sistemare
-        TreeItem<String> root = new TreeItem<>("Account: " + clientModel.getUser().getEmail());
+        TreeItem<String> root = new TreeItem<>("Account: " + clientModel.getUser());
         root.setExpanded(true);
         root.getChildren().add(new TreeItem<>("Inbox"));
         root.getChildren().add(new TreeItem<>("Sent"));
@@ -259,22 +227,7 @@ public class MainViewController implements Initializable, Observer {
         folders.getSelectionModel().select(1);
     }
 
-    // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
-
-    /**
-     * It initialize all FXML annotated components of the MainView
-     * @param location: The location used to resolve relative paths for the root object, or null if the location is not known.
-     * @param resources: The resources used to localize the root object, or null if the root object was not localized.
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initializeButtonsListeners();
-
-        //loadTree();
-        //initTreeListeners();
-
-        System.out.println("FXNL annotated components Loaded"); // DEBUG
-    }
+    // INITIALIZATION --------------------------------------------------------------------------------------------------
 
     /**
      * It initialize the MainView populating all its section
@@ -285,12 +238,15 @@ public class MainViewController implements Initializable, Observer {
         this.exec = exec;
         this.clientModel = clientModel;
 
+        initializeButtonsListeners();
+        //initTreeListeners();
+
+        //loadTree();
+
         status.textProperty().bind(clientModel.getStatus());
         clientModel.setStatusProperty("loading...");
 
         loadEmails();
-
-        // TODO: implementare threads. esempio: controllare nuve email allo startup, sincronizzare le email tra client e server.
     }
 
     /**
@@ -309,7 +265,7 @@ public class MainViewController implements Initializable, Observer {
      * It opens a new ReadView Tab
      * @param toShow email to load in the ReadView
      */
-    private void openReadTab(Email toShow, String path) {
+    private void openReadTab(Email toShow) {
         try{
             Tab tab = new Tab(toShow.getSubject());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ReadView.fxml"));
@@ -320,6 +276,28 @@ public class MainViewController implements Initializable, Observer {
             ReadViewController readViewController =  fxmlLoader.getController();
 
             readViewController.init(exec, clientModel, toShow);
+
+            root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
+            root.getSelectionModel().select(tab); // Switch to Write tab
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * It opens a new WriteView Tab
+     */
+    private void openWriteTab() {
+        try{
+            Tab tab = new Tab("New Email");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/WriteView.fxml"));
+
+            tab.setContent(fxmlLoader.load());
+
+            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
+            WriteViewController readViewController =  fxmlLoader.getController();
+
+            readViewController.init(exec, clientModel);
 
             root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
             root.getSelectionModel().select(tab); // Switch to Write tab
