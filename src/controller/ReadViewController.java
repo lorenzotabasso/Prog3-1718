@@ -3,44 +3,61 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-
-import java.net.URL;
+import model.Client;
+import model.Email;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
 
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
  */
 
-public class ReadViewController implements Initializable, Observer {
+public class ReadViewController implements Observer {
 
     public ReadViewController() {}
 
     @FXML
     public VBox root;
+
+    @FXML
     public Label to;
+
+    @FXML
     public Label from;
+
+    @FXML
     public Label subject;
+
+    @FXML
     public Label text;
+
+    @FXML
     public Button reply;
+
+    @FXML
     public Button replyToAll;
+
+    @FXML
     public Button forward;
+
+    @FXML
     public Button delete;
+
+    private Client clientModel;
+    private ExecutorService exec;
+    private Email email;
 
     // INITIALIZING ----------------------------------------------------------------------------------------------------
 
     /**
      * It initialize all the event handlers of the buttons
-     *
-     * @see #initialize(URL, ResourceBundle)
      */
     private void initializeButtonsListeners() {
 
@@ -84,22 +101,33 @@ public class ReadViewController implements Initializable, Observer {
      * It initialize all the text content of the ReadView
      */
     private void initializeContent() {
+        to.setText(email.getReceiver());
+        from.setText(email.getSender());
+        subject.setText(email.getSubject());
+        text.setText(email.getText());
+    }
+
+    // OTHER -----------------------------------------------------------------------------------------------------------
+
+    /**
+     * It initialize the ReadView populating all its section
+     * @param exec: the thread pool in which the Task will be executed
+     * @param clientModel: the Client model
+     * @param emailToShow email to show in the ReadView
+     */
+    public void init(ExecutorService exec, Client clientModel, Email emailToShow){
+        System.out.println("Init done"); // DEBUG
+
+        this.exec = exec;
+        this.clientModel = clientModel;
+        this.email = emailToShow;
+
+        initializeButtonsListeners();
+        initializeContent();
 
     }
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
-
-    /**
-     * It initialize all the necessary for the GUI
-     *
-     * @param location:  The location used to resolve relative paths for the root object, or null if the location is not known.
-     * @param resources: The resources used to localize the root object, or null if the root object was not localized.
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initializeButtonsListeners();
-        //initializeContent();
-    }
 
     /**
      * Implementation of update method in Observer interface

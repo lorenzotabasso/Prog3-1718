@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import model.Account;
 import model.Client;
+import model.Email;
 
 import java.net.URL;
 import java.util.Observable;
@@ -112,6 +113,10 @@ public class WriteViewController implements Initializable, Observer {
             }
         });
     }
+
+    // OTHER -----------------------------------------------------------------------------------------------------------
+
+
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 

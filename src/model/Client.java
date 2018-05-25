@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Lorenzo Tabasso
@@ -481,6 +478,156 @@ public class Client {
         } // end switch
 
     } // end read method
+
+    public synchronized String getLastEmailID(String location){
+
+        // needed for deserialize
+        String[] filesInFolder;
+        Email toRestore = null;
+
+        switch (location) {
+
+            case "i":
+
+                // filtering only the (serialized) .txt files
+                filesInFolder = new File(inboxPath).list(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        return name.toLowerCase().endsWith(".txt");
+                    }
+                });
+
+                if (filesInFolder.length == 0) {
+                    System.out.println("model.client.read():" + inboxPath + " is empty!"); // DEBUG, da impementare meglio!
+                    break;
+                }
+
+                String patoToLastEmail = filesInFolder[filesInFolder.length-1];
+
+                try {
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(inboxPath + patoToLastEmail));
+                    toRestore = (Email) in.readObject();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } // end try-catch block
+
+                break;
+
+            case "o":
+
+                // filtering only the (serialized) .txt files
+                filesInFolder = new File(outboxPath).list(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        return name.toLowerCase().endsWith(".txt");
+                    }
+                });
+
+                if (filesInFolder.length == 0) {
+                    System.out.println("model.client.read():" + outboxPath + " is empty!"); // DEBUG, da impementare meglio!
+                    break;
+                }
+
+                for (String path: filesInFolder) {
+                    try {
+                        ObjectInputStream in = new ObjectInputStream(new FileInputStream(outboxPath + path));
+                        toRestore = (Email) in.readObject();
+
+                        getOutbox().add(toRestore); // update GUI
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } // end try-catch block
+
+                } // end for
+
+                break;
+
+            case "d":
+
+                // filtering only the (serialized) .txt files
+                filesInFolder = new File(draftsPath).list(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        return name.toLowerCase().endsWith(".txt");
+                    }
+                });
+
+                if (filesInFolder.length == 0) {
+                    System.out.println("model.client.read():" + draftsPath + " is empty!"); // DEBUG, da impementare meglio!
+                    break;
+                }
+
+                for (String path: filesInFolder) {
+                    try {
+                        ObjectInputStream in = new ObjectInputStream(new FileInputStream(draftsPath + path));
+                        toRestore = (Email) in.readObject();
+
+                        getDraft().add(toRestore); // update GUI
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } // end try-catch block
+
+                } // end for
+
+                break;
+
+            default:  // location.equals("b")
+
+                // filtering only the (serialized) .txt files
+                filesInFolder = new File(binPath).list(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        return name.toLowerCase().endsWith(".txt");
+                    }
+                });
+
+                if (filesInFolder.length == 0) {
+                    System.out.println("model.client.read():" + binPath + " is empty!"); // DEBUG, da impementare meglio!
+                    break;
+                }
+
+                for (String path: filesInFolder) {
+                    try {
+                        ObjectInputStream in = new ObjectInputStream(new FileInputStream(binPath + path));
+                        toRestore = (Email) in.readObject();
+
+                        getBin().add(toRestore); // update GUI
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } // end try-catch block
+
+                } // end for
+
+                break;
+
+        } // end switch
+
+        if (toRestore == null) {
+            return "1";
+        }
+        else {
+            return toRestore.getIdEmail();
+        }
+    }
 
 
 } // end client class

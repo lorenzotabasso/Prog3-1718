@@ -2,10 +2,12 @@ package controller;
 
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 import model.Account;
@@ -15,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 
@@ -39,7 +42,7 @@ public class MainViewController implements Initializable, Observer {
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
     // SEGUIREMO L'APPROCCIO 1
 
-    private Client model;
+    private Client clientModel;
     private ExecutorService exec;
 
     public MainViewController() {}
@@ -120,7 +123,7 @@ public class MainViewController implements Initializable, Observer {
         write.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                openTab("Write", "/view/WriteView.fxml");
+                //openTab("Write", "/view/WriteView.fxml");
             }
         });
 
@@ -214,9 +217,9 @@ public class MainViewController implements Initializable, Observer {
         //model.write(em, "i");
 
         // reading serialized files and updating MainViewTable
-        model.read("i");
+        clientModel.read("i");
 
-        table.setItems(model.getInbox());
+        table.setItems(clientModel.getInbox());
 
         // Double click on row opens email in other tab
         // (https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx)
@@ -227,9 +230,9 @@ public class MainViewController implements Initializable, Observer {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Email rowData = row.getItem();
 
-                    System.out.println(rowData.toString()); // DEBUG
+                    // System.out.println(rowData.toString()); // DEBUG
 
-                    openTab("Read", "/view/ReadView.fxml");
+                    openReadTab(rowData, "src/view/ReadView.fxml");
 
                     // TODO: necessario avare riferimenti ai 2 controller read e write
                 }
@@ -246,7 +249,7 @@ public class MainViewController implements Initializable, Observer {
      * @see #initialize(URL, ResourceBundle)
      */
     private void loadTree() { // TODO: Da problemi, è da sistemare
-        TreeItem<String> root = new TreeItem<>("Account: " + model.getUser().getEmail());
+        TreeItem<String> root = new TreeItem<>("Account: " + clientModel.getUser().getEmail());
         root.setExpanded(true);
         root.getChildren().add(new TreeItem<>("Inbox"));
         root.getChildren().add(new TreeItem<>("Sent"));
@@ -276,14 +279,14 @@ public class MainViewController implements Initializable, Observer {
     /**
      * It initialize the MainView populating all its section
      * @param exec: the thread pool in which the Task will be executed
-     * @param model: the Client model
+     * @param clientModel: the Client model
      */
-    public void init(ExecutorService exec, Client model){
+    public void init(ExecutorService exec, Client clientModel){
         this.exec = exec;
-        this.model = model;
+        this.clientModel = clientModel;
 
-        status.textProperty().bind(model.getStatus());
-        model.setStatusProperty("loading...");
+        status.textProperty().bind(clientModel.getStatus());
+        clientModel.setStatusProperty("loading...");
 
         loadEmails();
 
@@ -303,19 +306,27 @@ public class MainViewController implements Initializable, Observer {
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
     /**
-     * It opens a new Tab
-     * @param title the Tab title
-     * @param pathToFXML path to the xml file of the view of the Tab
+     * It opens a new ReadView Tab
+     * @param toShow email to load in the ReadView
      */
-    public void openTab(String title, String pathToFXML) {
+    private void openReadTab(Email toShow, String path) {
         try{
-            Tab tab = new Tab(title);
-            tab.setContent(FXMLLoader.load(getClass().getResource(pathToFXML))); // load the GUI for the Write tab
+            Tab tab = new Tab(toShow.getSubject());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ReadView.fxml"));
+
+            tab.setContent(fxmlLoader.load());
+
+            //ReadViewController readViewController =  new ReadViewController(); // in caso d'emergenza, questa riga funge
+            ReadViewController readViewController =  fxmlLoader.getController();
+
+            readViewController.init(exec, clientModel, toShow);
+
             root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
             root.getSelectionModel().select(tab); // Switch to Write tab
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
+
 
 } // end class
