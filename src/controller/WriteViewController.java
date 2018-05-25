@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import model.Client;
 import model.Email;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -108,7 +110,11 @@ public class WriteViewController implements Observer {
                     alert.showAndWait();
                 }
                 else {
-                    Email thisEmail = new Email(from.getText(), to.getText(), subject.getText(), text.getText());
+                    ArrayList<String> receiver = new ArrayList<>();
+                    String[] output = to.getText().split(",");
+                    receiver.addAll(Arrays.asList(output));
+
+                    Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
                     clientModel.write(thisEmail, "i"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
                     closeTab();
                 }
@@ -119,8 +125,12 @@ public class WriteViewController implements Observer {
         saveAsDraft.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Email thisEmail = new Email(from.getText(), to.getText(), subject.getText(), text.getText());
-                clientModel.write(thisEmail, "i"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "d"
+                ArrayList<String> receiver = new ArrayList<>();
+                String[] output = to.getText().split(",");
+                receiver.addAll(Arrays.asList(output));
+
+                Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
+                clientModel.write(thisEmail, "i"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
                 closeTab();
             }
         });

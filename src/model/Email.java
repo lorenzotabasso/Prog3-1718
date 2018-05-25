@@ -34,6 +34,7 @@ Per l'implementazione dell'applicazione si può utilizzare, a scelta, SWING oppu
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
 import java.util.UUID;
@@ -49,7 +50,7 @@ public class Email extends Observable implements Serializable{
     private UUID idEmail;
     private boolean seen;
     private String sender;
-    private String receiver;
+    private ArrayList<String> receiver;
     private String subject;
     private String text;
     private Timestamp date;
@@ -61,11 +62,11 @@ public class Email extends Observable implements Serializable{
      * @param subject: the thread of the conversation
      * @param text: the text of the message
      */
-    public Email(String sender, String receiver, String subject, String text){
+    public Email(String sender, ArrayList<String> receiver, String subject, String text){
         this.idEmail = UUID.randomUUID();
         this.seen = setSeen(false); // not yet read
         this.sender = sender;
-        this.receiver = receiver;
+        this.receiver= receiver;
         this.subject = subject;
         this.text = text;
         this.date = setDate();
@@ -101,7 +102,7 @@ public class Email extends Observable implements Serializable{
      * getter for receiver parameter
      * @return the receiver of the Email
      */
-    public String getReceiver() { return receiver; }
+    public ArrayList<String> getReceiver() { return receiver; }
 
     /**
      * getter for subject parameter
@@ -147,7 +148,7 @@ public class Email extends Observable implements Serializable{
      * Setter for the receiver parameter
      * @param newReceiver: the new receiver address
      */
-    public void setReceiver(String newReceiver) { this.receiver = newReceiver; }
+    public void setReceiver(String newReceiver) { this.receiver.add(newReceiver); }
 
     /**
      * Setter for the subject parameter

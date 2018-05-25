@@ -14,6 +14,8 @@ import model.Client;
 import model.Email;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -125,7 +127,7 @@ public class ReadViewController implements Observer {
      * It initialize all the text content of the ReadView
      */
     private void initializeEmailContent() {
-        to.setText(thisEmail.getReceiver());
+        to.setText(thisEmail.getReceiver().toString()); // toString needed because there can be more than one receiver
         from.setText(thisEmail.getSender());
         subject.setText(thisEmail.getSubject());
         text.setText(thisEmail.getText());
