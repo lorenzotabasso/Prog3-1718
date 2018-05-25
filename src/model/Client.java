@@ -290,33 +290,40 @@ public class Client {
      * @param location: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft).
      *            the flag of each email defines in which folder the email just created must be saved in.
      */
-    public synchronized void delete(Email mess, String location){
-        if (location.equals("i")){
-            getInbox().remove(mess); // update GUI
-            getBin().add(mess); // put email just removed in Bin
+    public synchronized void delete(Email mess, String location){ // TODO: finire di implementare, delete() non è efficace
+        switch (location) {
+            case "i": {
+                getInbox().remove(mess); // update GUI
 
-            // moving the email file from inbox to bin
-            File transotiry = new File(inboxPath + "email" + mess.getIdEmail() + ".txt");
-            transotiry.renameTo(new File(binPath + mess.getIdEmail() +".txt"));
-        }
-        else if (location.equals("o")){
-            getOutbox().remove(mess); // update GUI
-            getBin().add(mess); // put email just removed in Bin
+                // moving the email file from inbox to bin
+                File transotiry = new File(inboxPath + "email" + mess.getIdEmail() + ".txt");
+                if (transotiry.delete())
+                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
+                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
+                break;
+            }
+            case "o": {
+                getOutbox().remove(mess); // update GUI
 
-            // moving the email file from inbox to bin
-            File transotiry = new File(outboxPath + "email" + mess.getIdEmail() + ".txt");
-            transotiry.renameTo(new File(binPath + mess.getIdEmail() +".txt"));
-        }
-        else if (location.equals("d")){
-            getDraft().remove(mess); // update GUI
-            getBin().add(mess); // put email just removed in Bin
+                // moving the email file from inbox to bin
+                File transotiry = new File(outboxPath + "email" + mess.getIdEmail() + ".txt");
+                if (transotiry.delete())
+                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
+                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
+                break;
+            }
+            default: { // location.equals("d")
+                getDraft().remove(mess); // update GUI
 
-            // moving the email file from inbox to bin
-            File transotiry = new File(draftsPath + "email" + mess.getIdEmail() + ".txt");
-            transotiry.renameTo(new File(binPath + mess.getIdEmail() +".txt"));
-        }
-
-    }
+                // moving the email file from inbox to bin
+                File transotiry = new File(draftsPath + "email" + mess.getIdEmail() + ".txt");
+                if (transotiry.delete())
+                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
+                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
+                break;
+            }
+        } // end switch
+    } // end method
 
     /**
      * It reads all the serialized txt files of the emails and it fill the ObservableList related to the Folder
@@ -478,5 +485,9 @@ public class Client {
         } // end switch
 
     } // end read method
+
+    public void getLocation(Email mess) {
+        // TODO: da implementare, serve in ReadViewController
+    }
 
 } // end client class

@@ -113,9 +113,7 @@ public class ReadViewController implements Observer {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                // something ...
-
+                clientModel.delete(thisEmail, "i"); // TODO: provvisorio. Implementare il metodo getLocation() in Client
                 closeTab();
             }
         });

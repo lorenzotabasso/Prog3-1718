@@ -62,9 +62,6 @@ public class MainViewController implements Observer {
     public Button forward;
 
     @FXML
-    public Button delete;
-
-    @FXML
     public Label status;
 
     @FXML
@@ -120,9 +117,7 @@ public class MainViewController implements Observer {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-                status.setText(mess);
+                loadEmails(); // TODO: provvisorio, da implementare thread di aggiornnamento qui
             }
         });
 
@@ -152,15 +147,6 @@ public class MainViewController implements Observer {
 
         // FORWARD
         forward.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
-            }
-        });
-
-        // DELETE
-        delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 String mess = "You clicked: " + e.getSource() + "!";
