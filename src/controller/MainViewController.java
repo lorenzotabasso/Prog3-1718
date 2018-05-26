@@ -1,11 +1,14 @@
 package controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import model.Client;
 import model.Email;
@@ -94,14 +97,12 @@ public class MainViewController implements Observer {
         this.clientModel = clientModel;
 
         initializeButtonsListeners();
-        //initTreeListeners();
-
-        //loadTree();
+        initTree();
 
         status.textProperty().bind(clientModel.getStatus());
         clientModel.setStatusProperty("loading...");
 
-        loadEmails();
+        loadEmails("i");
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
@@ -117,7 +118,7 @@ public class MainViewController implements Observer {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                loadEmails(); // TODO: provvisorio, da implementare thread di aggiornnamento qui
+                loadEmails("i"); // TODO: provvisorio, da implementare thread di aggiornnamento qui
             }
         });
 
@@ -161,42 +162,55 @@ public class MainViewController implements Observer {
     }
 
     /**
-     * It attach 4 listeners to the corresponding category in the Treewiew.
+     * It populates the TreeView with 3 child and it attach to them a ChangeListener
      */
     @FXML
-    private void initTreeListeners() {
+    private void initTree() {
 
-        // INBOX (Label)
+        // Initializing the tree nodes
+        final TreeItem<String> root = new TreeItem<>(clientModel.getUser() + ":");
+        root.setExpanded(true);
+        root.getChildren().add(new TreeItem<>("Inbox"));
+        root.getChildren().add(new TreeItem<>("Sent"));
+        root.getChildren().add(new TreeItem<>("Drafts"));
+        folders.setRoot(root);
+        folders.getSelectionModel().select(1);
 
-        // OUTBOX
+        // adding listener to each tree node
+        folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
+            @Override
+            public void changed(
+                    ObservableValue<? extends TreeItem<String>> observable,
+                    TreeItem<String> old_val, TreeItem<String> new_val) {
+                TreeItem<String> selectedItem = new_val;
 
-        // DRAFTS (Label)
-
-
-        /* Detect selection (ChangeListener) */
-        folders = new TreeView<String>();
-        TreeView<String> root = new TreeView<String>(new TreeItem<String>("root"));
-        //TreeView<String> inbox = new TreeView<String>(new TreeItem<String>("inbox"));
-
-        TreeItem<String> newRoot = new TreeItem<String>("Root");
-        TreeItem<String> inbox = new TreeItem<String>("inbox");
-
-        newRoot.getChildren().add(inbox);
-
-        folders.setRoot(newRoot);
-
-
-    }
+                switch (selectedItem.getValue()) {
+                    case "Inbox":
+                        loadEmails("i");
+                        break;
+                    case "Sent":
+                        loadEmails("o");
+                        break;
+                    case "Drafts":
+                        loadEmails("d");
+                        break;
+                    default:
+                        loadEmails("i");
+                        break;
+                } // end switch
+            }
+        }); // end ChangeListener
+    } // end initTree
 
     // POPULATING ------------------------------------------------------------------------------------------------------
 
     /**
      * It populates the MainView with all the email with a specific status
      */
-    private void loadEmails() {
+    private void loadEmails(String location) {
 
         // reading serialized files and updating MainViewTable
-        clientModel.read("i");
+        clientModel.read(location);
 
         // populating TableView
         date.setSortType(TableColumn.SortType.DESCENDING);
@@ -217,20 +231,6 @@ public class MainViewController implements Observer {
             return row;
         });
 
-    }
-
-    /**
-     * It populates the tree of the MainView.
-     */
-    private void loadTree() { // TODO: Da problemi, è da sistemare
-        TreeItem<String> root = new TreeItem<>("Account: " + clientModel.getUser());
-        root.setExpanded(true);
-        root.getChildren().add(new TreeItem<>("Inbox"));
-        root.getChildren().add(new TreeItem<>("Sent"));
-        root.getChildren().add(new TreeItem<>("Drafts"));
-        root.getChildren().add(new TreeItem<>("Bin"));
-        folders.setRoot(root);
-        folders.getSelectionModel().select(1);
     }
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------

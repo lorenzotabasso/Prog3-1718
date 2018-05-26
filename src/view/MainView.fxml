@@ -33,9 +33,9 @@
                <left>
                   <Accordion BorderPane.alignment="CENTER">
                     <panes>
-                      <TitledPane fx:id="mailboxName" animated="false" text="Inbox">
+                      <TitledPane fx:id="mailboxName" animated="false" maxWidth="Infinity" text="Inbox">
                            <content>
-                              <TreeView fx:id="folders" prefHeight="280.0" prefWidth="0.0" />
+                              <TreeView fx:id="folders" prefHeight="280.0" prefWidth="150.0" />
                            </content>
                         </TitledPane>
                     </panes>
