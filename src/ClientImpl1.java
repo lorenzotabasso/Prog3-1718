@@ -74,6 +74,6 @@ public class ClientImpl1 extends Application{
         } catch (IOException e) { e.printStackTrace(); }
     }
 
-    // TODO: setClientID()
+    // TODO: setClientID() ???
 
 }
