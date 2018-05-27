@@ -34,10 +34,7 @@ Per l'implementazione dell'applicazione si può utilizzare, a scelta, SWING oppu
 
 import java.io.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Observable;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Lorenzo Tabasso
@@ -133,7 +130,15 @@ public class Email extends Observable implements Serializable{
      * @param value the boolean value for the email (true if receiver has seen the email, false otherwise)
      */
     public boolean setSeen(boolean value) {
-        return this.seen = value;
+        if (this.seen == value) {
+            return this.seen;
+        }
+        else {
+            this.seen = value;
+            setChanged();
+            notifyObservers();
+            return this.seen;
+        }
     }
 
     /**
@@ -194,6 +199,21 @@ public class Email extends Observable implements Serializable{
     @Override
     public void notifyObservers() { // TODO: da finire
         super.notifyObservers();
+    }
+
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+    }
+
+    @Override
+    public synchronized void deleteObservers() {
+        super.deleteObservers();
+    }
+
+    @Override
+    protected synchronized void setChanged() {
+        super.setChanged();
     }
 
 } // end Email Class

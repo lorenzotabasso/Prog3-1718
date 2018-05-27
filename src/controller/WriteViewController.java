@@ -115,13 +115,13 @@ public class WriteViewController implements Observer {
                     receiver.addAll(Arrays.asList(output));
 
                     Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
-                    clientModel.write(thisEmail, "i"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
+                    clientModel.write(thisEmail, "o"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
                     closeTab();
                 }
             }
         });
 
-        // SAVE
+        // SAVE AS DRAFT
         saveAsDraft.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -130,7 +130,7 @@ public class WriteViewController implements Observer {
                 receiver.addAll(Arrays.asList(output));
 
                 Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
-                clientModel.write(thisEmail, "i"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
+                clientModel.write(thisEmail, "d"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "d"
                 closeTab();
             }
         });

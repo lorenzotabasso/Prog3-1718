@@ -118,7 +118,8 @@ public class MainViewController implements Observer {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                loadEmails("i"); // TODO: provvisorio, da implementare thread di aggiornnamento qui
+                table.refresh();
+                //loadEmails("i"); // TODO: provvisorio, da implementare thread di aggiornnamento qui
             }
         });
 
@@ -177,17 +178,13 @@ public class MainViewController implements Observer {
         folders.getSelectionModel().select(1);
 
         // adding listener to each tree node
-        folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
+        folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(
                     ObservableValue<? extends TreeItem<String>> observable,
                     TreeItem<String> old_val, TreeItem<String> new_val) {
-                TreeItem<String> selectedItem = new_val;
 
-                switch (selectedItem.getValue()) {
-                    case "Inbox":
-                        loadEmails("i");
-                        break;
+                switch (new_val.getValue()) {
                     case "Sent":
                         loadEmails("o");
                         break;
@@ -210,11 +207,29 @@ public class MainViewController implements Observer {
     private void loadEmails(String location) {
 
         // reading serialized files and updating MainViewTable
-        clientModel.read(location);
+
 
         // populating TableView
         date.setSortType(TableColumn.SortType.DESCENDING);
-        table.setItems(clientModel.getInbox());
+
+        switch (location){
+            case "o":
+                clientModel.read("o");
+                table.refresh();
+                table.setItems(clientModel.getOutbox());
+                break;
+            case "d":
+                clientModel.read("d");
+                table.refresh();
+                table.setItems(clientModel.getDraft());
+                break;
+            default:
+                clientModel.read("i");
+                table.refresh();
+                table.setItems(clientModel.getInbox());
+                break;
+        }
+
         table.getSortOrder().add(date);
 
         // Double click on row opens email in other tab
