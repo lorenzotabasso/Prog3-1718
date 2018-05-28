@@ -237,15 +237,28 @@ public class MainViewController implements Observer {
 
         table.setRowFactory(tv -> {
             TableRow<Email> row = new TableRow<>();
+
+            // Double click on row opens email in other tab
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     Email rowData = row.getItem();
                     openReadTab(rowData);
                 }
             });
+
+            row.itemProperty().addListener((obs, oldValue, newRowValue) -> {
+                if (newRowValue != null) {
+                    if (!newRowValue.getSeen()) {
+                        row.setStyle("-fx-font-weight: bold");
+                    } else {
+                        row.setStyle(" ");
+                    }
+                    table.refresh();
+                }
+            });
+
             return row;
         });
-
     }
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
