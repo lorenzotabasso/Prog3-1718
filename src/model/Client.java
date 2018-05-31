@@ -26,7 +26,7 @@ public class Client {
     private final String draftsPath = "src/data/emails/drafts/";
     private final String binPath = "src/data/emails/bin/";
 
-    private String user;
+    private Account user;
 
     private SimpleStringProperty status = new SimpleStringProperty();
 
@@ -36,12 +36,14 @@ public class Client {
     /**
      * Costructor of client object, It initialize all the client data
      *
-     * @param userEmail email of the user, used to initialize a new Account Object
+     * @param name name of the client user, used to initialize a new Account object
+     * @param surname surname of the client user, used to initialize a new Account object
+     * @param userEmail email of the user, used to initialize a new Account object
      * @param serverAddress the address of the server
      * @param serverPort the server's port which is listening to client calls
      */
-    public Client(String userEmail, String serverAddress, int serverPort){
-        this.user = userEmail;
+    public Client(String name, String surname, String userEmail, String serverAddress, int serverPort){
+        this.user = new Account(name, surname, userEmail);
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
     }
@@ -89,7 +91,7 @@ public class Client {
      *
      * @return the Account of the user
      */
-    public String getUser() {
+    public Account getUser() {
         return user;
     }
 
@@ -172,7 +174,7 @@ public class Client {
      *
      * @param newUser: the new user of the client
      */
-    public void setUser(String newUser) {
+    public void setUser(Account newUser) {
         this.user = newUser;
     }
 
@@ -229,6 +231,8 @@ public class Client {
     }
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
+
+    // TODO: spostare nel server i metodi read, write e delete
 
     /**
      * It writes a serialized txt file containing all the data of the email passed through the "mess" parameter, and it updates
@@ -486,8 +490,9 @@ public class Client {
 
     } // end read method
 
+    //TODO: da implementare (sia nel client che nel server, perchè il metodo del client chiama quello del server), serve in ReadViewController
     public void getLocation(Email mess) {
-        // TODO: da implementare, serve in ReadViewController
+
     }
 
 } // end client class
