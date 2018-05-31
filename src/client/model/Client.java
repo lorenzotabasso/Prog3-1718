@@ -19,10 +19,10 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private final String inboxPath = "src/data/emails/inbox/";
-    private final String outboxPath = "src/data/emails/outbox/";
-    private final String draftsPath = "src/data/emails/drafts/";
-    private final String binPath = "src/data/emails/bin/";
+    private final String inboxPath = "src/server/data/client1/inbox";
+    private final String outboxPath = "src/server/data/client1/outbox";
+    private final String draftsPath = "src/server/data/client1/drafts";
+    private final String binPath = "src/data/emails/bin/"; // TODO: togliere case default del bin in read()
 
     private Account user;
 
