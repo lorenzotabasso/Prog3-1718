@@ -1,4 +1,4 @@
-package model;
+package client.model;
 
 /*
 ESERCIZIO N. 2 dell' 8 novembre 2017
@@ -12,7 +12,7 @@ Si sviluppi un’applicazione java con interfaccia grafica, e basata sui pattern
 alcune funzionalità di un client di posta elettronica (non si consideri la parte server che gestisce le caselle di
 posta elettronica degli utenti).
 
-La casella di posta elettronica contiene una lista eventualmente vuota di messaggi e rappresenta il model
+La casella di posta elettronica contiene una lista eventualmente vuota di messaggi e rappresenta il client.model
 dell'applicazione. I messaggi di posta elettronica sono istanze di una classe email.Email che specifica ID, mittente,
 destinatario, argomento, testo e data di spedizione del messaggio.
 

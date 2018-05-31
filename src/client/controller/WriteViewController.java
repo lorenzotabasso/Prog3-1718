@@ -1,4 +1,4 @@
-package controller;
+package client.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import model.Client;
-import model.Email;
+import client.model.Client;
+import client.model.Email;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +58,7 @@ public class WriteViewController implements Observer {
     /**
      * It initialize the WriteView populating all its section. Used in the MainView
      * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client model
+     * @param clientModel: the Client client.model
      */
     public void init(ExecutorService exec, Client clientModel){
         this.exec = exec;
@@ -73,7 +73,7 @@ public class WriteViewController implements Observer {
      * Overloaded version.
      * It initialize the WriteView populating all its section. Used in the ReadView
      * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client model
+     * @param clientModel: the Client client.model
      */
     public void init(ExecutorService exec, Client clientModel, String receiver){
         this.exec = exec;

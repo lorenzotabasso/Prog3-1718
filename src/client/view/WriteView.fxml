@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReadViewController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controller.WriteViewController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -21,23 +21,20 @@
             <Label text="To:" />
             <Label text="From:" GridPane.rowIndex="1" />
             <Label text="Subject:" GridPane.rowIndex="2" />
-            <Label fx:id="to" GridPane.columnIndex="1" />
-            <Label fx:id="from" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="subject" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="to" GridPane.columnIndex="1" />
+            <TextField fx:id="from" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="subject" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Separator prefWidth="200.0" />
       <Pane prefHeight="272.0" prefWidth="600.0">
          <children>
-            <Label fx:id="text" text="" />
+            <TextArea fx:id="text" prefHeight="277.0" prefWidth="600.0" />
          </children>
       </Pane>
-      <Separator prefWidth="200.0" />
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
         <items>
-            <Button fx:id="reply" mnemonicParsing="false" text="Reply" />
-            <Button fx:id="replyToAll" mnemonicParsing="false" text="Reply to all" />
-            <Button fx:id="forward" mnemonicParsing="false" text="Forward" />
+            <Button fx:id="send" mnemonicParsing="false" text="Send" />
+            <Button fx:id="saveAsDraft" mnemonicParsing="false" text="Save as draft" />
           <Button fx:id="delete" mnemonicParsing="false" text="Delete" />
         </items>
       </ToolBar>

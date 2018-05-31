@@ -6,4 +6,4 @@
 
 [da fare] - Implemenatare Observer-Observable / JavaFX Proprieties Bind -> Lorenzo
 [da fare] - Implementare Server -> Youssef
-[da fare] - Finire i controller -> Lorenzo
+[da fare] - Finire i client.controller -> Lorenzo

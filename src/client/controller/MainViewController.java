@@ -1,21 +1,15 @@
-package controller;
+package client.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
-import model.Client;
-import model.Email;
+import client.model.Client;
+import client.model.Email;
 import java.io.IOException;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -90,7 +84,7 @@ public class MainViewController implements Observer {
     /**
      * It initialize the MainView populating all its section
      * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client model
+     * @param clientModel: the Client client.model
      */
     public void init(ExecutorService exec, Client clientModel){
         this.exec = exec;
@@ -282,7 +276,7 @@ public class MainViewController implements Observer {
     private void openReadTab(Email toShow) {
         try{
             Tab tab = new Tab(toShow.getSubject());
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/ReadView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/ReadView.fxml"));
 
             tab.setContent(fxmlLoader.load());
 
@@ -304,7 +298,7 @@ public class MainViewController implements Observer {
     private void openWriteTab() {
         try{
             Tab tab = new Tab("New Email");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/WriteView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
 
             tab.setContent(fxmlLoader.load());
 

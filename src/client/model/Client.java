@@ -1,4 +1,4 @@
-package model;
+package client.model;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -6,8 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
-import java.nio.file.*;
-import java.util.*;
 
 /**
  * @author Lorenzo Tabasso
@@ -340,7 +338,7 @@ public class Client {
 
         // TODO: JavaFX Proprieties -> inizializzazione on the fly
 
-        // con java.io.InvalidClassException: model.Email; local class incompatible leggere il seguente articolo
+        // con java.io.InvalidClassException: client.model.Email; local class incompatible leggere il seguente articolo
         // 1) https://stackoverflow.com/questions/7173352/java-io-invalidclassexception
         // 2) https://stackoverflow.com/questions/285793/what-is-a-serialversionuid-and-why-should-i-use-it
 
@@ -361,7 +359,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println("model.client.read():" + inboxPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("client.model.client.read():" + inboxPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 
@@ -395,7 +393,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println("model.client.read():" + outboxPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("client.model.client.read():" + outboxPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 
@@ -429,7 +427,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println("model.client.read():" + draftsPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("client.model.client.read():" + draftsPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 
@@ -463,7 +461,7 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println("model.client.read():" + binPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("client.model.client.read():" + binPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 

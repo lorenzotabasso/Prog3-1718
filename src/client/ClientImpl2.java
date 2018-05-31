@@ -1,3 +1,5 @@
+package client;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,12 +15,12 @@ import java.io.IOException;
  * @author lorenzotabasso
  */
 
-public class ClientImpl3 extends Application{
+public class ClientImpl2 extends Application{
 
     // DEFAULT METHODS OF JAVAFX ---------------------------------------------------------------------------------------
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("view/MainView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("client/view/MainView.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();

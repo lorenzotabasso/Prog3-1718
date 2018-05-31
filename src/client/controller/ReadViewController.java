@@ -1,4 +1,4 @@
-package controller;
+package client.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,12 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
-import model.Client;
-import model.Email;
+import client.model.Client;
+import client.model.Email;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -65,7 +63,7 @@ public class ReadViewController implements Observer {
     /**
      * It initialize the ReadView populating all its section
      * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client model
+     * @param clientModel: the Client client.model
      * @param emailToShow email to show in the ReadView
      */
     public void init(ExecutorService exec, Client clientModel, Email emailToShow){
@@ -174,7 +172,7 @@ public class ReadViewController implements Observer {
     private void openWriteTab() {
         try{
             Tab tab = new Tab("New Email");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/WriteView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
 
             tab.setContent(fxmlLoader.load());
 

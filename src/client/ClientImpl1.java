@@ -1,16 +1,17 @@
-import controller.MainViewController;
+package client;
+
+import client.controller.MainViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Client;
+import client.model.Client;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.io.IOException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,18 +29,18 @@ public class ClientImpl1 extends Application{
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        // Initialize controller
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/MainView.fxml"));
+        // Initialize client.controller
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("client/view/MainView.fxml"));
         Parent root = fxmlLoader.load();
         MainViewController mainViewController = fxmlLoader.getController();
 
-        // Create data model
+        // Create data client.model
         clientModel = new Client("client1@unito.it","127.0.0.1", 9000);
 
         // Create Thread Pool
         exec = Executors.newSingleThreadExecutor();
 
-        // Start controller computation
+        // Start client.controller computation
         mainViewController.init(exec, clientModel);
 
         // Initialize the Scene (Window)

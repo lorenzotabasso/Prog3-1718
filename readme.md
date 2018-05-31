@@ -47,8 +47,8 @@ posta. Si assuma di avere 3 utenti di posta elettronica che comunicano tra loro.
 ## Requisiti tecnici:
 1. L’applicazione deve essere sviluppata in Java e basata su **architettura MVC**, con
     Controller + viste e Model, seguendo il pattern Observer Observable. Si noti che
-    non deve esserci comunicazione diretta tra viste e model: ogni tipo di comunicazione 
-    tra questi due livelli deve essere mediato dal controller o supportata dal pattern 
+    non deve esserci comunicazione diretta tra viste e client.model: ogni tipo di comunicazione 
+    tra questi due livelli deve essere mediato dal client.controller o supportata dal pattern 
     Observer Observable.
 2. L’applicazione deve permettere all’utente di correggere eventuali input errati (per
     es., in caso di inserimento di indirizzi di posta elettronica non esistenti, il server

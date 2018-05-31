@@ -7,5 +7,15 @@ out
 prog3-project-1718.iml
 
 # Serialized Emails
-data
 
+/src/server/data/client1/inbox/*.txt
+/src/server/data/client1/outbox/*.txt
+/src/server/data/client1/drafts/*.txt
+
+/src/server/data/client2/inbox/*.txt
+/src/server/data/client2/outbox/*.txt
+/src/server/data/client2/drafts/*.txt
+
+/src/server/data/client3/inbox/*.txt
+/src/server/data/client3/outbox/*.txt
+/src/server/data/client3/drafts/*.txt

@@ -1,4 +1,6 @@
-import model.ThreadedServer;
+package server;
+
+import server.model.ThreadedServer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
