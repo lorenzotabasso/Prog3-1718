@@ -30,19 +30,8 @@
                      </children>
                   </HBox>
                </bottom>
-               <left>
-                  <Accordion BorderPane.alignment="CENTER">
-                    <panes>
-                      <TitledPane fx:id="mailboxName" animated="false" maxWidth="Infinity" text="Inbox">
-                           <content>
-                              <TreeView fx:id="folders" prefHeight="280.0" prefWidth="150.0" />
-                           </content>
-                        </TitledPane>
-                    </panes>
-                  </Accordion>
-               </left>
                <center>
-                  <TableView fx:id="table" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <TableView fx:id="table" prefHeight="308.0" prefWidth="430.0" BorderPane.alignment="CENTER">
 
                     <columns>
                         <TableColumn fx:id="subject" prefWidth="247.0" text="Subject">
@@ -63,6 +52,13 @@
                       </items>
                   </TableView>
                </center>
+               <left>
+                  <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <TreeView fx:id="folders" prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </StackPane>
+               </left>
             </BorderPane>
          </content>
     </Tab>

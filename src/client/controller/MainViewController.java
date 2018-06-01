@@ -62,9 +62,6 @@ public class MainViewController implements Observer {
     public Label status;
 
     @FXML
-    public TitledPane mailboxName;
-
-    @FXML
     public TreeView<String> folders;
 
     @FXML
@@ -95,6 +92,8 @@ public class MainViewController implements Observer {
 
         status.textProperty().bind(clientModel.getStatus());
         clientModel.setStatusProperty("loading...");
+
+        //exec.execute();
 
         loadEmails("i");
     }
@@ -127,8 +126,7 @@ public class MainViewController implements Observer {
         reply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
+
             }
         });
 
@@ -136,8 +134,7 @@ public class MainViewController implements Observer {
         replyToAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
+
             }
         });
 
@@ -145,14 +142,12 @@ public class MainViewController implements Observer {
         forward.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                String mess = "You clicked: " + e.getSource() + "!";
-                System.out.println(mess);
+
             }
         });
 
         // STATUS (Label)
         //status.setText();
-
 
     }
 

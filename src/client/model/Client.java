@@ -26,7 +26,7 @@ public class Client {
 
     private Account user;
 
-    private SimpleStringProperty status = new SimpleStringProperty();
+    private SimpleStringProperty statusPropriety = new SimpleStringProperty();
 
     private String serverAddress;
     private int serverPort;
@@ -114,16 +114,7 @@ public class Client {
      * @return the status
      */
     public SimpleStringProperty getStatus() {
-        return status;
-    }
-
-    /**
-     * Returns the status object displayed in the status bar
-     *
-     * @return the SimpleStringProperty status object
-     */
-    public SimpleStringProperty statusProperty() {
-        return status;
+        return statusPropriety;
     }
 
     /**
@@ -197,7 +188,7 @@ public class Client {
      * @param status: the new status to be displayed
      */
     public void setStatus(String status) {
-        this.status.set(status);
+        this.statusPropriety.set(status);
     }
 
     /**
@@ -206,7 +197,7 @@ public class Client {
      * @param msg: the new message to be displayed
      */
     public void setStatusProperty(String msg) {
-        Platform.runLater(() -> status.setValue(msg)); // it avoid thread exception
+        Platform.runLater(() -> statusPropriety.setValue(msg)); // it avoid thread exception
     }
 
     /**
@@ -237,7 +228,7 @@ public class Client {
                 ", draft=" + draft +
                 ", bin=" + bin +
                 ", user=" + user +
-                ", status=" + status +
+                ", status=" + statusPropriety +
                 ", serverAddress='" + serverAddress + '\'' +
                 ", serverPort=" + serverPort +
                 '}';
