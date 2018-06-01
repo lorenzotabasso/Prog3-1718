@@ -163,7 +163,7 @@ public class MainViewController implements Observer {
     private void initTree() {
 
         // Initializing the tree nodes
-        final TreeItem<String> root = new TreeItem<>(clientModel.getUser() + ":");
+        final TreeItem<String> root = new TreeItem<>(clientModel.getUser().getUserEmail() + ":");
         root.setExpanded(true);
         root.getChildren().add(new TreeItem<>("Inbox"));
         root.getChildren().add(new TreeItem<>("Sent"));
@@ -208,17 +208,17 @@ public class MainViewController implements Observer {
 
         switch (location){
             case "o":
-                clientModel.read("o");
+                //clientModel.read("o");
                 table.refresh();
                 table.setItems(clientModel.getOutbox());
                 break;
             case "d":
-                clientModel.read("d");
+                //clientModel.read("d");
                 table.refresh();
                 table.setItems(clientModel.getDraft());
                 break;
             default:
-                clientModel.read("i");
+                //clientModel.read("i");
                 table.refresh();
                 table.setItems(clientModel.getInbox());
                 break;

@@ -19,9 +19,9 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private final String inboxPath = "src/server/data/client1/inbox";
-    private final String outboxPath = "src/server/data/client1/outbox";
-    private final String draftsPath = "src/server/data/client1/drafts";
+    private final String inboxPath = "src/server/data/client1/inbox/";
+    private final String outboxPath = "src/server/data/client1/outbox/";
+    private final String draftsPath = "src/server/data/client1/drafts/";
     private final String binPath = "src/data/emails/bin/"; // TODO: togliere case default del bin in read()
 
     private Account user;
@@ -30,6 +30,8 @@ public class Client {
 
     private String serverAddress;
     private int serverPort;
+
+    // COSTRUCTORS -----------------------------------------------------------------------------------------------------
 
     /**
      * Costructor of client object, It initialize all the client data
@@ -42,6 +44,19 @@ public class Client {
      */
     public Client(String name, String surname, String userEmail, String serverAddress, int serverPort){
         this.user = new Account(name, surname, userEmail);
+        this.serverAddress = serverAddress;
+        this.serverPort = serverPort;
+    }
+
+    /**
+     * Costructor of client object, It initialize all the client data
+     *
+     * @param userAccount the account object to assign to the user of this client
+     * @param serverAddress the address of the server
+     * @param serverPort the server's port which is listening to client calls
+     */
+    public Client(Account userAccount, String serverAddress, int serverPort){
+        this.user = userAccount;
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
     }

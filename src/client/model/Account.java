@@ -9,8 +9,12 @@ public class Account extends Observable {
     private String surname;
     private String userEmail;
 
+    // COSTRUCTORS -----------------------------------------------------------------------------------------------------
+
     public Account(String email){
         this.IDAccount = UUID.randomUUID();
+        this.name = "";
+        this.surname = "";
         this.userEmail = email;
     }
 
@@ -21,17 +25,21 @@ public class Account extends Observable {
         this.userEmail = email;
     }
 
-    public String getNome(){
+    // GETTERS ---------------------------------------------------------------------------------------------------------
+
+    public String getName(){
         return name;
     }
 
-    public String getCognome(){
+    public String getSurname(){
         return surname;
     }
 
     public String getUserEmail(){
         return userEmail;
     }
+
+    // SETTERS ---------------------------------------------------------------------------------------------------------
 
     public void setName(String name){
         this.name = name;
@@ -44,6 +52,14 @@ public class Account extends Observable {
         setChanged();
         notifyObservers();
     }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+        setChanged();
+        notifyObservers();
+    }
+
+    // UTILITY ---------------------------------------------------------------------------------------------------------
 
     @Override
     public String toString() {

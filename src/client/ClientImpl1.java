@@ -30,12 +30,12 @@ public class ClientImpl1 extends Application{
     public void start(Stage primaryStage) throws IOException {
 
         // Initialize client.controller
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("client/view/MainView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/MainView.fxml"));
         Parent root = fxmlLoader.load();
         MainViewController mainViewController = fxmlLoader.getController();
 
         // Create data client.model
-        clientModel = new Client("client1@unito.it","127.0.0.1", 9000);
+        clientModel = new Client("Lorenzo","Tabasso", "lorenzo.tabasso@unito.it", "127.0.0.1", 9000);
 
         // Create Thread Pool
         exec = Executors.newSingleThreadExecutor();
@@ -46,7 +46,7 @@ public class ClientImpl1 extends Application{
         // Initialize the Scene (Window)
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
-        primaryStage.setTitle(clientModel.getUser());
+        primaryStage.setTitle("Mailbox di " + clientModel.getUser().getName());
         primaryStage.show();
 
         // Support methods list begin here: // TODO: spostare socket dentro Client e Server
@@ -74,7 +74,4 @@ public class ClientImpl1 extends Application{
             System.out.println(input.readLine());
         } catch (IOException e) { e.printStackTrace(); }
     }
-
-    // TODO: setClientID() ???
-
 }

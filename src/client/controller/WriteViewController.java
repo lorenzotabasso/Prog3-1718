@@ -66,7 +66,7 @@ public class WriteViewController implements Observer {
 
         initializeButtonsListeners();
 
-        from.setText(clientModel.getUser()); // Username already compiled for every new email.
+        from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
     }
 
     /**
@@ -81,7 +81,7 @@ public class WriteViewController implements Observer {
 
         initializeButtonsListeners();
 
-        from.setText(clientModel.getUser()); // Username already compiled for every new email.
+        from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
         to.setText(receiver);
     }
 
