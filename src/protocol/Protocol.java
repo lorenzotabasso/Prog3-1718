@@ -1,5 +1,8 @@
 package protocol;
 
+import exception.EmailException;
+
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -35,19 +38,30 @@ public class Protocol {
         // TODO: da fare! richiesto dal server per capire chi è l'utente!
     }
 
-    public void connect(String serverAddress, int serverPort) {
+    public void connect(String serverAddress, int serverPort) throws EmailException{
         try {
             socket = new Socket(serverAddress, serverPort);
-            output = new ObjectOutputStream(socket.getOutputStream());
-            output.flush();
 
-            input = new ObjectInputStream(socket.getInputStream());
+            try {
+                output = new ObjectOutputStream(socket.getOutputStream());
+                output.flush();
+
+                input = new ObjectInputStream(socket.getInputStream());
+            } catch (EOFException e) {
+                throw new EmailException("Connection closed by server", EmailException.CONNECTION_ERROR);
+            } catch (ClassNotFoundException e) { // TODO: capir ela vera implementazione da fare
+                throw new EmailException(e.getMessage(), EmailException.BAD_DATAGRAM_ERROR);
+            }
         } catch (IOException e) {
+            throw new EmailException(e.getMessage(), EmailException.CONNECTION_ERROR);
+        }
+
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void close() {
+    public void close() throws EmailException {
         if (socket != null) {
             try {
                 if (input != null) {

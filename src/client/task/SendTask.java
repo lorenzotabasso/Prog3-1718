@@ -2,6 +2,7 @@ package client.task;
 
 import client.model.Client;
 import client.model.Email;
+import exception.EmailException;
 
 // TODO: da finire
 
@@ -15,10 +16,10 @@ public class SendTask extends AbstractTask{
     }
 
     @Override
-    public void startTask() {
+    public void startTask() throws EmailException {
         clientModel.setStatusProperty("Invio email...");
 
-        // SEQUENZA DA IMPLEMENTARE
+        // SEQUENZA DA IMPLEMENTARE:
 
         // autenticate() ...
 

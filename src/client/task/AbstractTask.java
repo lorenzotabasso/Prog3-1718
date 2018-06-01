@@ -1,6 +1,7 @@
 package client.task;
 
 import client.model.Client;
+import exception.EmailException;
 import protocol.Protocol;
 
 
@@ -17,9 +18,9 @@ public abstract class AbstractTask implements Runnable{
 
     /**
      * It executes an asynchronous task which exchanges data with the server
-     * @throws Exception
+     * @throws EmailException
      */
-    public abstract void startTask();
+    public abstract void startTask() throws EmailException;
 
     @Override
     public void run() {
@@ -30,11 +31,27 @@ public abstract class AbstractTask implements Runnable{
             protocol.connect(clientModel.getServerAddress(), clientModel.getServerPort());
 
             startTask();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (EmailException e) {
+            switch(e.getErrorCode()){
+                case EmailException.CONNECTION_ERROR:
+                    clientModel.setStatusProperty("Errore: impossibile connettersi al server");
+                    break;
+
+                case EmailException.SERVER_ERROR:
+                    clientModel.setStatusProperty("Errore nel Server: " + e.getMessage());
+                    break;
+
+                default:
+                    break;
+            }
         }
         finally {
-            protocol.close();
+            try {
+                protocol.close();
+            } catch (EmailException e) {
+                System.out.println(e.getMessage());
+            }
+
         }
     }
 }
