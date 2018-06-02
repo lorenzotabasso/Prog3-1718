@@ -1,7 +1,7 @@
 package client.task;
 
 import client.model.Client;
-import exception.EmailException;
+import exception.ClientException;
 
 // TODO: da finire
 
@@ -12,7 +12,7 @@ public class SyncTask extends AbstractTask{
     }
 
     @Override
-    public void startTask() throws EmailException {
+    public void startTask() throws ClientException {
         clientModel.setStatusProperty("Sincronizzazione delle email in corso...");
 
         // autenticate() ...

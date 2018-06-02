@@ -1,6 +1,6 @@
 package protocol;
 
-import exception.EmailException;
+import exception.ProtocolException;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class Protocol {
         // TODO: da fare! richiesto dal server per capire chi è l'utente!
     }
 
-    public void connect(String serverAddress, int serverPort) throws EmailException{
+    public void connect(String serverAddress, int serverPort) throws ProtocolException {
         try {
             socket = new Socket(serverAddress, serverPort);
 
@@ -47,21 +47,21 @@ public class Protocol {
                 output.flush();
 
                 input = new ObjectInputStream(socket.getInputStream());
-            } catch (EOFException e) {
-                throw new EmailException("Connection closed by server", EmailException.CONNECTION_ERROR);
-            } catch (ClassNotFoundException e) { // TODO: capir ela vera implementazione da fare
-                throw new EmailException(e.getMessage(), EmailException.BAD_DATAGRAM_ERROR);
-            }
-        } catch (IOException e) {
-            throw new EmailException(e.getMessage(), EmailException.CONNECTION_ERROR);
-        }
 
-        catch (IOException e) {
-            e.printStackTrace();
+                // TODO: Response() ...
+
+            } catch (EOFException e) {
+                throw new ProtocolException("Connection closed by server", ProtocolException.CONNECTION_CLOSED_BY_SERVER);
+            } //catch (ClassNotFoundException e) {
+                //throw new ProtocolException(e.getMessage(), ProtocolException.BAD_DATAGRAM_ERROR);
+                // TODO: capire la vera implementazione da fare
+            //}
+        } catch (IOException e) {
+            throw new ProtocolException(e.getMessage(), ProtocolException.CONNECTION_ERROR);
         }
     }
 
-    public void close() throws EmailException {
+    public void close() throws ProtocolException {
         if (socket != null) {
             try {
                 if (input != null) {
@@ -72,7 +72,7 @@ public class Protocol {
                 }
                 socket.close();
             } catch (IOException e) {
-                System.out.println(e.getMessage());
+                throw new ProtocolException(e.getMessage(), ProtocolException.CONNECTION_ERROR);
             }
         }
     }
