@@ -15,6 +15,11 @@ public class SendTask extends AbstractTask{
         this.toSend = toSend;
     }
 
+    /**
+     * It executes an asynchronous SendTask which exchanges data with the server.
+     *
+     * @throws ClientException
+     */
     @Override
     public void startTask() throws ClientException {
         clientModel.setStatusProperty("Invio email...");

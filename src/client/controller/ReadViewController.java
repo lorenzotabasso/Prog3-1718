@@ -25,8 +25,7 @@ import java.util.concurrent.ExecutorService;
 
 public class ReadViewController implements Observer {
 
-    public ReadViewController() {}
-
+    // ReadView Components
     @FXML
     public VBox root;
 
@@ -58,13 +57,16 @@ public class ReadViewController implements Observer {
     private ExecutorService exec;
     private Email thisEmail;
 
+    public ReadViewController() {}
+
     // INITIALIZATION --------------------------------------------------------------------------------------------------
 
     /**
      * It initialize the ReadView populating all its section
-     * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client client.model
-     * @param emailToShow email to show in the ReadView
+     *
+     * @param exec the thread pool in which the Task will be executed.
+     * @param clientModel the Client client.model.
+     * @param emailToShow email to show in the ReadView.
      */
     public void init(ExecutorService exec, Client clientModel, Email emailToShow){
         this.exec = exec;
@@ -79,7 +81,7 @@ public class ReadViewController implements Observer {
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
 
     /**
-     * It initialize all the event handlers of the buttons
+     * It initialize all the event handlers of the buttons.
      */
     private void initializeButtonsListeners() {
 
@@ -120,7 +122,7 @@ public class ReadViewController implements Observer {
     // POPULATING ------------------------------------------------------------------------------------------------------
 
     /**
-     * It initialize all the text content of the ReadView
+     * It initialize all the text content of the ReadView.
      */
     private void initializeEmailContent() {
         to.setText(thisEmail.getReceiver().toString()); // toString needed because there can be more than one receiver
@@ -132,10 +134,10 @@ public class ReadViewController implements Observer {
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
-     * Implementation of update method in Observer interface
+     * Implementation of update method in Observer interface.
      *
-     * @param o:   the observable object.
-     * @param arg: (optional) an argument passed to the notifyObservers method.
+     * @param o the observable object.
+     * @param arg (optional) an argument passed to the notifyObservers method.
      */
     @Override
     public void update(Observable o, Object arg) {
@@ -167,7 +169,7 @@ public class ReadViewController implements Observer {
     }
 
     /**
-     * It opens a new WriteView Tab
+     * It opens a new WriteView Tab.
      */
     private void openWriteTab() {
         try{

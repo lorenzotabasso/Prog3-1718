@@ -10,19 +10,41 @@ public class ProtocolException extends Exception {
 
     private int errorCode;
 
+    /**
+     * Costructor of the exception ProtocolException.
+     *
+     * @param message the message of the exception.
+     * @param errorCode the error code of the exception.
+     */
     public ProtocolException(String message, int errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
+    /**
+     * Overloaded version.
+     * Costructor of the exception ClientException.
+     *
+     * @param message the message of the exception.
+     */
     public ProtocolException(String message) {
         this(message, UKNOWN_ERROR);
     }
 
+    /**
+     * Getter for errorCode parameter.
+     *
+     * @return the specific error code of the exception
+     */
     public int getErrorCode() {
         return errorCode;
     }
 
+    /**
+     * Pretty-printed getter for errorCode parameter.
+     *
+     * @return the specific error code of the exception.
+     */
     public String getExtendedErrorCode() {
         return "PROTOCOL-{" + errorCode + "}";
     }

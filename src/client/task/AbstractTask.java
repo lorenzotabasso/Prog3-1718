@@ -19,8 +19,10 @@ public abstract class AbstractTask implements Runnable{
     }
 
     /**
-     * It executes an asynchronous task which exchanges data with the server
+     * It executes an asynchronous task which exchanges data with the server.
+     *
      * @throws ClientException
+     * @throws ServerException
      */
     public abstract void startTask() throws ClientException, ServerException;
 

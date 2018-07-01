@@ -1,5 +1,7 @@
 package protocol;
 
+import exception.ProtocolException;
+
 public class Response {
     private String status;
     private String message;
@@ -36,5 +38,16 @@ public class Response {
                 "status='" + status + '\'' +
                 ", message='" + message + '\'' +
                 '}';
+    }
+
+    public static Response parseResponse(String res) throws ProtocolException {
+        if (res != null) {
+            if (Pattern.matches("^(\\+OK|\\-ERR)\\s(\\s|.){1,254}+$", strResponse)) {
+                String[] splitted = strResponse.trim().split(" ", 2);
+                return new Response(splitted[0].trim(), splitted[1].trim());
+            }
+        }
+
+        throw new EmailException("Invalid response " + strResponse, EmailException.BAD_DATAGRAM_ERROR);
     }
 }

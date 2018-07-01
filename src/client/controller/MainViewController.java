@@ -35,12 +35,9 @@ public class MainViewController implements Observer {
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
     // SEGUIREMO L'APPROCCIO 1
 
-    private Client clientModel;
-    private ExecutorService exec;
+    // MainView components
 
-    public MainViewController() {}
-
-    @FXML // MainView components
+    @FXML
     public TabPane root;
 
     @FXML
@@ -76,12 +73,18 @@ public class MainViewController implements Observer {
     @FXML
     public TableColumn date;
 
+    private Client clientModel;
+    private ExecutorService exec;
+
+    public MainViewController() {}
+
     // INITIALIZATION --------------------------------------------------------------------------------------------------
 
     /**
-     * It initialize the MainView populating all its section
-     * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client client.model
+     * It initialize the MainView populating all its section.
+     *
+     * @param exec the thread pool in which the Task will be executed
+     * @param clientModel the Client client.model
      */
     public void init(ExecutorService exec, Client clientModel){
         this.exec = exec;
@@ -101,7 +104,7 @@ public class MainViewController implements Observer {
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
 
     /**
-     * It initialize all the event handlers of the buttons
+     * It initialize all the event handlers of the buttons.
      */
 
     @FXML
@@ -152,7 +155,7 @@ public class MainViewController implements Observer {
     }
 
     /**
-     * It populates the TreeView with 3 child and it attach to them a ChangeListener
+     * It populates the TreeView with 3 child and it attach to them a ChangeListener.
      */
     @FXML
     private void initTree() {
@@ -184,21 +187,20 @@ public class MainViewController implements Observer {
                         loadEmails("i");
                         break;
                 } // end switch
-            }
+            } // end changed() definition
         }); // end ChangeListener
     } // end initTree
 
     // POPULATING ------------------------------------------------------------------------------------------------------
 
     /**
-     * It populates the MainView with all the email with a specific status
+     * It populates the MainView with all the email with a specific status. It reads all the email serialized files
+     * and it updates the MainViewTable.
+     *
+     * @param location a flag which specifies the location for reading the files
      */
     private void loadEmails(String location) {
 
-        // reading serialized files and updating MainViewTable
-
-
-        // populating TableView
         date.setSortType(TableColumn.SortType.DESCENDING);
 
         switch (location){
@@ -207,11 +209,13 @@ public class MainViewController implements Observer {
                 table.refresh();
                 table.setItems(clientModel.getOutbox());
                 break;
+
             case "d":
                 //clientModel.read("d");
                 table.refresh();
                 table.setItems(clientModel.getDraft());
                 break;
+
             default:
                 //clientModel.read("i");
                 table.refresh();
@@ -221,17 +225,16 @@ public class MainViewController implements Observer {
 
         table.getSortOrder().add(date);
 
-        // Double click on row opens email in other tab
-        // (https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx)
-
         table.setRowFactory(tv -> {
             TableRow<Email> row = new TableRow<>();
 
             // Double click on row opens email in other tab
+            // more infos: https://stackoverflow.com/questions/26563390/detect-doubleclick-on-row-of-tableview-javafx
+
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     Email rowData = row.getItem();
-                    openReadTab(rowData);
+                    openReadTab(rowData); // it opens the email object associated to the selected row in another tab.
                 }
             });
 
@@ -253,9 +256,10 @@ public class MainViewController implements Observer {
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
     /**
-     * Implementation of update method in Observer interface
-     * @param o:  the observable object.
-     * @param arg: (optional) an argument passed to the notifyObservers method.
+     * Implementation of update method in Observer interface.
+     *
+     * @param o the observable object.
+     * @param arg (optional) an argument passed to the notifyObservers method.
      */
     @Override
     public void update(Observable o, Object arg) { // TODO: a cosa serve l'oggetto arg? capirlo.
@@ -265,8 +269,9 @@ public class MainViewController implements Observer {
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
     /**
-     * It opens a new ReadView Tab
-     * @param toShow email to load in the ReadView
+     * It opens a new ReadView Tab and loads into it the email object passed as parameter.
+     *
+     * @param toShow email to load in the ReadView.
      */
     private void openReadTab(Email toShow) {
         try{
@@ -278,7 +283,7 @@ public class MainViewController implements Observer {
             //ReadViewController readViewController =  new ReadViewController(); // in caso d'emergenza, questa riga funge
             ReadViewController readViewController =  fxmlLoader.getController();
 
-            readViewController.init(exec, clientModel, toShow);
+            readViewController.init(this.exec, this.clientModel, toShow);
 
             root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
             root.getSelectionModel().select(tab); // Switch to Write tab
@@ -288,7 +293,7 @@ public class MainViewController implements Observer {
     }
 
     /**
-     * It opens a new WriteView Tab
+     * It opens a new WriteView Tab.
      */
     private void openWriteTab() {
         try{
@@ -300,7 +305,7 @@ public class MainViewController implements Observer {
             //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
             WriteViewController readViewController =  fxmlLoader.getController();
 
-            readViewController.init(exec, clientModel);
+            readViewController.init(this.exec, this.clientModel);
 
             root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
             root.getSelectionModel().select(tab); // Switch to Write tab
@@ -308,6 +313,5 @@ public class MainViewController implements Observer {
             ex.printStackTrace();
         }
     }
-
 
 } // end class

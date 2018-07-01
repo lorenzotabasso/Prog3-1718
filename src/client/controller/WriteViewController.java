@@ -22,10 +22,6 @@ import java.util.concurrent.ExecutorService;
 
 public class WriteViewController implements Observer {
 
-    public WriteViewController() {
-
-    }
-
     @FXML
     public VBox root;
 
@@ -53,12 +49,15 @@ public class WriteViewController implements Observer {
     private Client clientModel;
     private ExecutorService exec;
 
+    public WriteViewController() {}
+
     // INITIALIZATION --------------------------------------------------------------------------------------------------
 
     /**
-     * It initialize the WriteView populating all its section. Used in the MainView
-     * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client client.model
+     * It initialize the WriteView populating all its section. Used in Mainview.
+     *
+     * @param exec the thread pool in which the Task will be executed.
+     * @param clientModel the Client client.model .
      */
     public void init(ExecutorService exec, Client clientModel){
         this.exec = exec;
@@ -71,9 +70,10 @@ public class WriteViewController implements Observer {
 
     /**
      * Overloaded version.
-     * It initialize the WriteView populating all its section. Used in the ReadView
-     * @param exec: the thread pool in which the Task will be executed
-     * @param clientModel: the Client client.model
+     * It initialize the WriteView populating all its section. Used in the ReadView.
+     *
+     * @param exec the thread pool in which the Task will be executed.
+     * @param clientModel the Client client.model .
      */
     public void init(ExecutorService exec, Client clientModel, String receiver){
         this.exec = exec;

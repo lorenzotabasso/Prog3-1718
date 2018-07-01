@@ -11,6 +11,11 @@ public class SyncTask extends AbstractTask{
         super(clientModel);
     }
 
+    /**
+     * It executes an asynchronous SyncTask which exchanges data with the server.
+     *
+     * @throws ClientException
+     */
     @Override
     public void startTask() throws ClientException {
         clientModel.setStatusProperty("Sincronizzazione delle email in corso...");
