@@ -72,7 +72,8 @@ public class Email extends Observable implements Serializable{
     // GETTERS ---------------------------------------------------------------------------------------------------------
 
     /**
-     * getter for idEmail parameter
+     * Getter for idEmail parameter.
+     *
      * @return the ID of the Email
      */
     public String getIdEmail() {
@@ -80,7 +81,8 @@ public class Email extends Observable implements Serializable{
     }
 
     /**
-     * getter for state parameter
+     * Getter for state parameter.
+     *
      * @return the seen status of the email (true if receiver has seen the email, false otherwise)
      */
     public boolean getSeen() {
@@ -88,7 +90,8 @@ public class Email extends Observable implements Serializable{
     }
 
     /**
-     * getter for sender parameter
+     * Getter for sender parameter.
+     *
      * @return the sender of the Email
      */
     public String getSender() {
@@ -96,19 +99,22 @@ public class Email extends Observable implements Serializable{
     }
 
     /**
-     * getter for receiver parameter
+     * Getter for receiver parameter.
+     *
      * @return the receiver of the Email
      */
     public ArrayList<String> getReceiver() { return receiver; }
 
     /**
-     * getter for subject parameter
+     * Getter for subject parameter.
+     *
      * @return the subject of the Email
      */
     public String getSubject() { return subject; }
 
     /**
-     * getter for text parameter
+     * Getter for text parameter.
+     *
      * @return the text (body) of the Email
      */
     public String getText() {
@@ -116,7 +122,8 @@ public class Email extends Observable implements Serializable{
     }
 
     /**
-     * getter for date parameter
+     * Getter for date parameter.
+     *
      * @return the date in which the Email is send
      */
     public Timestamp getDate() {
@@ -126,7 +133,8 @@ public class Email extends Observable implements Serializable{
     // SETTERS ---------------------------------------------------------------------------------------------------------
 
     /**
-     * Setter for the seen parameter
+     * Setter for the seen parameter.
+     *
      * @param value the boolean value for the email (true if receiver has seen the email, false otherwise)
      */
     public boolean setSeen(boolean value) {
@@ -142,30 +150,34 @@ public class Email extends Observable implements Serializable{
     }
 
     /**
-     * Setter for the sender parameter
-     * @param newSender: the new sender address
+     * Setter for the sender parameter.
+     *
+     * @param newSender the new sender address
      */
     public void setSender(String newSender) {
         this.sender = newSender;
     }
 
     /**
-     * Setter for the receiver parameter
-     * @param newReceiver: the new receiver address
+     * Setter for the receiver parameter.
+     *
+     * @param newReceiver the new receiver address
      */
     public void setReceiver(String newReceiver) { this.receiver.add(newReceiver); }
 
     /**
-     * Setter for the subject parameter
-     * @param newsubject: the new subject for the email
+     * Setter for the subject parameter.
+     *
+     * @param newsubject the new subject for the email
      */
     public void setSubject(String newsubject) {
         this.subject = newsubject;
     }
 
     /**
-     * Setter for the text parameter
-     * @param newText: the new text (body) for the email
+     * Setter for the text parameter.
+     *
+     * @param newText the new text (body) for the email
      */
     public void setText(String newText) {
         this.text = newText;

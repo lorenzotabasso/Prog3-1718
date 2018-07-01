@@ -1,33 +1,62 @@
 package protocol;
 
-import exception.ProtocolException;
-
 public class Response {
     private String status;
     private String message;
 
+    /**
+     * Costructor of Response.
+     *
+     * @param status a string that indicates the status of the server which sends the response.
+     * @param message the message to be encapsulated in the Response object.
+     *                It's composed by the server for the client
+     */
     public Response(String status, String message) {
         this.status = status;
         this.message = message;
     }
 
+    /**
+     * Ovearloded version. Costructor of Response.
+     *
+     * @param status a string that indicates the status of the server which sends the response.
+     */
     public Response(String status) {
         this.status = status;
         this.message = null;
     }
 
+    /**
+     * Getter of status parameter.
+     *
+     * @return the status carried by the Response object.
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * Setter of status parameter.
+     * @param status the new status to be set.
+     */
     public void setStatus(String status) {
         this.status = status;
     }
 
+    /**
+     * Getter for the message parameter.
+     *
+     * @return the Response's message.
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Setter of message parameter.
+     *
+     * @param message the new message to be set.
+     */
     public void setMessage(String message) {
         this.message = message;
     }
@@ -40,14 +69,4 @@ public class Response {
                 '}';
     }
 
-    public static Response parseResponse(String res) throws ProtocolException {
-        if (res != null) {
-            if (Pattern.matches("^(\\+OK|\\-ERR)\\s(\\s|.){1,254}+$", strResponse)) {
-                String[] splitted = strResponse.trim().split(" ", 2);
-                return new Response(splitted[0].trim(), splitted[1].trim());
-            }
-        }
-
-        throw new EmailException("Invalid response " + strResponse, EmailException.BAD_DATAGRAM_ERROR);
-    }
 }
