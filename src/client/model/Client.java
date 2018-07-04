@@ -43,6 +43,7 @@ public class Client {
      * @param serverPort the server's port which is listening to client calls
      */
     public Client(String name, String surname, String userEmail, String serverAddress, int serverPort){
+
         this.user = new Account(name, surname, userEmail);
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;

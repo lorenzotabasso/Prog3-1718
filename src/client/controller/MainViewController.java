@@ -169,8 +169,8 @@ public class MainViewController implements Observer {
         folders.setRoot(root);
         folders.getSelectionModel().select(1);
 
-        // adding listener to each tree node
-        folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
+        // adding listener to each tree node //todo tipo di listener
+        folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
             @Override
             public void changed(
                     ObservableValue<? extends TreeItem<String>> observable,

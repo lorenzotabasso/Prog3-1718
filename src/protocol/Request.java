@@ -3,8 +3,12 @@ package protocol;
 import java.io.Serializable;
 
 public class Request implements Serializable {
+
+
     private String command;
     private String parameters;
+
+    //todo dovremmo aggiungere l'oggetto Email
 
     /**
      * Costructor of Response.
