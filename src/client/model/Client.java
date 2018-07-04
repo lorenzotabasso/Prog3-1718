@@ -496,8 +496,8 @@ public class Client {
     } // end read method
 
     //TODO: da implementare (sia nel client che nel server, perchè il metodo del client chiama quello del server), serve in ReadViewController
-    public void getLocation(Email mess) {
-
+    public void getLocation(String emailType, String idEmail, String authorEmail) {
+        // return path to email
     }
 
 } // end client class

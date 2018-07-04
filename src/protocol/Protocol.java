@@ -58,6 +58,15 @@ public class Protocol {
 
     6) quitCommand(): il client invia al server la richiesta di chiudere la connessione
     7) close(): il client chiude la connessione con il server.
+
+    CON YOSS:
+
+    0) connect (automatico, si connette al localhost e USA la get() )
+    (1) get) (Prima di ogni richiesta verificare che lo stato sia 200)
+    2) auth ok
+    3) send ok
+    4) delete
+    5) exit ok
      */
 
     /**

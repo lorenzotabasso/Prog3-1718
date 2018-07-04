@@ -1,7 +1,7 @@
 package protocol;
 
 public class Response {
-    private String status;
+    private String requestStatus;
     private String message;
 
     /**
@@ -12,17 +12,17 @@ public class Response {
      *                It's composed by the server for the client
      */
     public Response(String status, String message) {
-        this.status = status;
+        this.requestStatus = status;
         this.message = message;
     }
 
     /**
      * Ovearloded version. Costructor of Response.
      *
-     * @param status a string that indicates the status of the server which sends the response.
+     * @param requestStatus a string that indicates the status of the server which sends the response.
      */
-    public Response(String status) {
-        this.status = status;
+    public Response(String requestStatus) {
+        this.requestStatus = requestStatus;
         this.message = null;
     }
 
@@ -32,7 +32,7 @@ public class Response {
      * @return the status carried by the Response object.
      */
     public String getStatus() {
-        return status;
+        return requestStatus;
     }
 
     /**
@@ -40,7 +40,7 @@ public class Response {
      * @param status the new status to be set.
      */
     public void setStatus(String status) {
-        this.status = status;
+        this.requestStatus = status;
     }
 
     /**
@@ -64,7 +64,7 @@ public class Response {
     @Override
     public String toString() {
         return "Response{" +
-                "status='" + status + '\'' +
+                "status='" + requestStatus + '\'' +
                 ", message='" + message + '\'' +
                 '}';
     }

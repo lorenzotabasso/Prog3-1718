@@ -6,7 +6,8 @@ public class Request implements Serializable {
 
 
     private String command;
-    private String parameters;
+    private Object parameters; // può essere String (status della get) oppure Email (vedi comando SEND)
+    private String author; // ogni richiesta ha il suo autore, serve per il server che lo usa per caprie chi è che si sta conettendo.
 
     //todo dovremmo aggiungere l'oggetto Email
 
@@ -54,8 +55,12 @@ public class Request implements Serializable {
      *
      * @return the parameters carried by the Request object.
      */
-    public String getParameters() {
+    public Object getParameters() {
         return parameters;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 
     /**
@@ -63,8 +68,12 @@ public class Request implements Serializable {
      *
      * @param parameters the new parameters to be set.
      */
-    public void setParameters(String parameters) {
+    public void setParameters(Object parameters) {
         this.parameters = parameters;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @Override
