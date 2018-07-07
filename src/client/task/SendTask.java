@@ -1,7 +1,7 @@
 package client.task;
 
 import client.model.Client;
-import client.model.Email;
+import common.Email;
 import exception.ClientException;
 
 // TODO: da finire

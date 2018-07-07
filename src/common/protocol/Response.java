@@ -1,4 +1,4 @@
-package protocol;
+package common.protocol;
 
 public class Response {
     private String requestStatus;

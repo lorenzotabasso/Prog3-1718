@@ -1,6 +1,6 @@
 package protocol;
 
-import client.model.Email;
+import common.Email;
 import exception.ProtocolException;
 
 import java.io.EOFException;
@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-// TODO: da finire
+// TODO: da finire (spostare il necessario ed eliminare)
 
 public class Protocol {
 
@@ -131,7 +131,7 @@ public class Protocol {
      * @param receivers and Arraylist that contains all the receivers of the email to send.
      * @param toSend the email to send.
      */
-    public void sendCommand(ArrayList<String> receivers, client.model.Email toSend) {
+    public void sendCommand(ArrayList<String> receivers, Email toSend) {
 
     }
 
@@ -219,7 +219,7 @@ public class Protocol {
      *
      * @param toSend the email just received to send to the receiver'account on the server.
      */
-    public void effectiveSendProcess(server.model.Email toSend) {
+    public void effectiveSendProcess(common.Email toSend) {
 
     }
 

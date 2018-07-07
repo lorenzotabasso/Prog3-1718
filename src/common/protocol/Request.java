@@ -1,4 +1,4 @@
-package protocol;
+package common.protocol;
 
 import java.io.Serializable;
 

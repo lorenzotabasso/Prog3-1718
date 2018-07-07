@@ -11,7 +11,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import client.model.Client;
-import client.model.Email;
+import common.Email;
 
 import java.io.IOException;
 import java.util.Observable;

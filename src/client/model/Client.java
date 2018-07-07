@@ -1,5 +1,6 @@
 package client.model;
 
+import common.Email;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -345,7 +346,7 @@ public class Client {
 
         // TODO: JavaFX Proprieties -> inizializzazione on the fly
 
-        // con java.io.InvalidClassException: client.model.Email; local class incompatible leggere il seguente articolo
+        // con java.io.InvalidClassException: common.Email; local class incompatible leggere il seguente articolo
         // 1) https://stackoverflow.com/questions/7173352/java-io-invalidclassexception
         // 2) https://stackoverflow.com/questions/285793/what-is-a-serialversionuid-and-why-should-i-use-it
 

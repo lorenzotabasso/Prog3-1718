@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import client.model.Client;
-import client.model.Email;
+import common.Email;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;

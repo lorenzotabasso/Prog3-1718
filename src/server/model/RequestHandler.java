@@ -1,7 +1,8 @@
 package server.model;
 
 
-import protocol.*;
+import common.protocol.Request;
+import common.protocol.Response;
 
 import java.io.*;
 import java.net.Socket;

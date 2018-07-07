@@ -1,4 +1,4 @@
-package client.model;
+package common;
 
 /*
 ESERCIZIO N. 2 dell' 8 novembre 2017

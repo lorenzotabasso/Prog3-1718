@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import client.model.Client;
-import client.model.Email;
+import common.Email;
 
 import java.util.ArrayList;
 import java.util.Arrays;
