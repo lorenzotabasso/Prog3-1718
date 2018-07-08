@@ -1,8 +1,8 @@
 package server.model;
 
-
 import common.protocol.Request;
 import common.protocol.Response;
+import common.Email;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,24 +15,11 @@ import java.net.Socket;
 public class RequestHandler implements Runnable {
 
     private Socket incoming;
-    private int counter;
     private String status;
-
-    //per i file serializable
-    private InputStream inStream;
-    private OutputStream outStream;
-
-
-    private final String inboxPath = "/data/emails/inbox/";
-    private final String outboxPath = "/data/emails/outbox/";
-    private final String draftsPath = "/data/emails/draft/";
-    private final String binPath = "/data/emails/bin/";
-
-    private ObjectOutputStream out;
-    private ObjectInputStream in;
+    private int counter;
 
     private boolean stopRequest = false;
-
+    private final String emailPath = "src/data/emails/";
 
     /**
      * Constructs a handler.
@@ -42,9 +29,10 @@ public class RequestHandler implements Runnable {
      */
 
     RequestHandler(Socket in, int c) {
-        incoming = in;
-        counter = c;
-        status = "Online";
+
+        this.incoming = in;
+        this.counter = c;
+        this.setStatus("Online");
     }
 
 
@@ -55,7 +43,11 @@ public class RequestHandler implements Runnable {
 
                 log("#gestisco client " + incoming.getInetAddress().getHostName());
 
-                while (!stopRequest) { //togliere la negazione
+
+                ObjectInputStream in = new ObjectInputStream(incoming.getInputStream());
+                ObjectOutputStream out = new ObjectOutputStream(incoming.getOutputStream());
+
+                while (!stopRequest) {
 
                     Request request = (Request) in.readObject();
                     log("(request) " + request.toString());
@@ -65,6 +57,7 @@ public class RequestHandler implements Runnable {
                     log("(response) " + response.toString());
                     out.writeObject(response);
                 }
+
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } finally {
@@ -76,93 +69,294 @@ public class RequestHandler implements Runnable {
     }
 
 
+    /**
+     * Manage all the possibility request from the Client.
+     *
+     * @param request : it is the request object.
+     * @return the object Response.
+     **/
+
     private Response manageRequest(Request request) {
 
-        Response response = new Response();
+        Response response;
 
         if (request == null)
-            return null;
+            return null;//gestire meglio
 
-        //faccimao caso che chieda solo lo stato del server
-        if (request.getCommand().startsWith("GET")) {
-            response = requestGET();
-        } else if (request.getCommand().startsWith("AUTH"))
-            response = authRequest();
+
+        if (request.getCommand().startsWith("GET"))
+            response = getStatusRequest();
+
+        else if (request.getCommand().startsWith("AUTH"))
+            response = authenticationRequest(request.getAuthor());
+
         else if (request.getCommand().startsWith("SEND"))
-            response = sendRequest();
+            response = sendEmailRequest((Email) request.getParameters());
+
+            //facciamo caso che si può salvare solo la email in draft !
+        else if (request.getCommand().startsWith("SAVE"))
+            response = saveEmailRequest((Email) request.getParameters());
+
         else if (request.getCommand().startsWith("DELETE")) {
+            //[0] -> id email || [1] -> type email
+            String[] parts = request.getParameters().toString().split(" ");
+            response = deleteRequest(parts[0], parts[1], request.getAuthor());
 
-            //fare split per capure in che path si trova
-            response = deleteRequest();
-
-        } else if (request.getCommand().startsWith("EXIT")) { //exit
+        } else if (request.getCommand().startsWith("EXIT"))
             response = exitRequest();
-        } else {
-            response.setStatus("-1");
-            response.setMessage("Invalid request");
-        }
+
+        else
+            response = writeResponse(-1, "Invalid request");
 
         return response;
     }
 
+
+    //__________________________________________________________________________________________________________________
+
+
+    /**
+     * It allow to save the email in the draft directory.
+     * The function save a Serializable object (Email)
+     *
+     * @param email : object email to have save in the draft
+     * @return response : if the email it saved successfully return response with status 200 + message
+     * otherwise response with status -1 + message
+     **/
+
+    private Response saveEmailRequest(Email email) {
+
+        boolean writed;
+        String path;
+
+        //il client dovrebbe fare prima tutti i controlli
+        if (email == null)
+            return writeResponse(-1, "Invalid email");
+
+
+        path = getLocation("draft", email.getIdEmail(), email.getSender());
+        writed = writeEmail(email, path);
+
+
+        if (writed)
+            return writeResponse(200, "Email saved successfully in draft directory");
+        else
+            return writeResponse(-1, "Email not saved");
+
+    }
+
+    /**
+     * Allow the client to close the communication with the Server
+     *
+     * @return response with status 200 + message.
+     **/
+
     private Response exitRequest() {
 
         stopRequest = true;
-        return writeResponse("200", "Bye bye");
+        setStatus("Offline");
+        return writeResponse(200, "Bye bye");
     }
 
-    //invio dell'ID dell'email e server elimina
-    private Response deleteRequest(String idEmail, String typeEmail) {
 
-        File file = new File(idEmail + ".txt");
+    /**
+     * The Client it requires to delete an Email.
+     *
+     * @param idEmail   : id of the Email
+     * @param typeEmail : the type of the email (inbox, outbox, draft)
+     * @param user      : the user who do the request
+     * @return response  with status 200 + message if the delete operation is confirmed
+     * otherwise response  with status -1 + message
+     **/
+
+    private Response deleteRequest(String idEmail, String typeEmail, String user) {
+
+        File file = new File(getLocation(typeEmail, idEmail, user));
 
         if (file.delete()) {
 
             log("File deleted successfully");
-            return writeResponse("200", "Email deleted successfully");
+            return writeResponse(200, "Email deleted successfully");
 
         } else {
 
             log("Failed to delete the file");
-            return writeResponse("-1", "Failed to delete the file");
+            return writeResponse(-1, "Failed to delete the file");
         }
 
     }
 
 
+    /**
+     * The Client send the email to another Client.
+     * The function write the email in their respective directory.
+     *
+     * @param email : object Email with all the parameters
+     * @return response  with status 200 + message, if it sent successfully
+     * otherwise response  with status -1 + message
+     **/
+
+    private Response sendEmailRequest(Email email) {
+
+        //boolean writed;
+        String path;
+
+        //il client dovrebbe fare prima tutti i controlli
+        if (email == null)
+            return writeResponse(-1, "Invalid email");
 
 
-    //aggiungere l'oggetto email
-    private Response sendRequest() {
+        //Scrivo nella casella di posta inviata
+        path = getLocation("outbox", email.getIdEmail(), email.getSender());
+        writeEmail(email, path);
 
+        //ora scrivo nella casella di tutti i destinatari dell'email
+        for (String receiver : email.getReceiver()) {
+
+            if (search(receiver)) {
+                path = getLocation("inbox", email.getIdEmail(), receiver);
+                writeEmail(email, path);
+
+            } else {
+                //non esiste il destinatario da gestire meglio !
+                return writeResponse(-1, "Invalid receiver " + receiver);
+            }
+        }
+
+        return writeResponse(200, "Email sent to all receiver");
+    }
+
+
+    /**
+     * Request to authentication who will start the communication with the Server
+     *
+     * @param auth : the name of the user
+     * @return response  with status 200 + message, if the user is already registered in to the system
+     * otherwise response  with status -1 + message
+     */
+
+    private Response authenticationRequest(String auth) {
+
+        boolean exist;
+
+        exist = search(auth);
+
+        return ((exist)
+                ? writeResponse(200, "Welcome " + auth)
+                : writeResponse(-1, "The user " + auth + " don't exist"));
 
     }
 
-    private Response authRequest() {
+    /**
+     * Request to get the status of the Server
+     *
+     * @return with status 200 + message
+     * otherwise response  with status -1 + message
+     **/
 
+    private Response getStatusRequest() {
+
+        String msg = getStatus();
+        int status = (msg.equals("Online") ? 200 : -1);
+
+        return writeResponse(status, msg);
     }
 
 
-    //get delle email
-    private Response requestGET() {
+    //__________________________________________________________________________________________________________________
 
-        return writeResponse("200", getStatus());
+
+    /**
+     * Getter for the status parameter
+     *
+     * @return the status of the server
+     */
+
+    private String getStatus() {
+        return status;
+    }
+
+    /**
+     * Setter of the status parameter
+     *
+     * @param status : the new status
+     */
+
+    private void setStatus(String status) {
+        this.status = status;
     }
 
 
-    private Response writeResponse(String status, String msg) {
+    //__________________________________________________________________________________________________________________
+
+
+    //Tools
+
+    /**
+     * Write the object Email in the specific path.
+     *
+     * @param email : object Email
+     * @param path  : the path where need to save the Email
+     * @return boolean , true if it written successfully otherwise false
+     */
+
+    private synchronized boolean writeEmail(Email email, String path) {
+
+        //gestire l'eccezione
+        try {
+
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(path));
+            out.writeObject(email);
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            return false;
+        }
+    }
+
+    /**
+     * Create a new Response object.
+     *
+     * @param status : the status of the response (200, -1)
+     * @param msg    : description of the response
+     * @return new response with parameter status and msg
+     */
+
+    private Response writeResponse(int status, String msg) {
 
         return new Response(status, msg);
     }
 
 
-    public String getStatus() {
-        return status;
+    /**
+     * Search if there is the path of the user connect with the Server.
+     *
+     * @param user : name of the user
+     * @return boolean, true if exist otherwise false.
+     */
+
+    private boolean search(String user) {
+
+        File file = new File(emailPath);
+        String[] directories = file.list();
+
+        if (directories != null) {
+
+            for (String dirUser : directories) {
+
+                if (dirUser.equals(user))
+                    return true;
+            }
+        }
+        return false;
     }
 
 
-    private void setStatus(String status) {
-        this.status = status;
+    private String getLocation(String typeEmail, String idEmail, String author) {
+
+        return emailPath + "/" + author + "/" + typeEmail + "/" + idEmail + ".txt";
     }
 
 
