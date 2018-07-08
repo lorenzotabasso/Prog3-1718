@@ -1,7 +1,7 @@
 package common.protocol;
 
 public class Response {
-    private String requestStatus;
+    private String requestStatus; //int ??
     private String message;
 
     /**

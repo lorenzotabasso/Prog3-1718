@@ -1,11 +1,8 @@
 package server;
 
-import server.model.RequestHandler;
-import server.model.Server;
 
+import server.model.Server;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 /**
  * @author Lorenzo Tabasso

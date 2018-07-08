@@ -26,7 +26,7 @@
                   <HBox prefHeight="19.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
                         <Label text="Client Status:" />
-                        <Label fx:id="status" text="" />
+                        <Label fx:id="status" text= "" />
                      </children>
                   </HBox>
                </bottom>

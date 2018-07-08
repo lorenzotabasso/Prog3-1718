@@ -7,7 +7,7 @@ public class Request implements Serializable {
 
     private String command;
     private Object parameters; // può essere String (status della get) oppure Email (vedi comando SEND)
-    private String author; // ogni richiesta ha il suo autore, serve per il server che lo usa per caprie chi è che si sta conettendo.
+    private String author; // ogni richiesta ha il suo autore, serve per il server che lo usa per caprie chi è che si sta communicando.
 
     //todo dovremmo aggiungere l'oggetto Email
 
@@ -81,6 +81,7 @@ public class Request implements Serializable {
         return "Request{" +
                 "command='" + command + '\'' +
                 ", parameters='" + parameters + '\'' +
+                ", auth='" + author + '\'' +
                 '}';
     }
 

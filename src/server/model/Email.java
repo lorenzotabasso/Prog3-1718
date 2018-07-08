@@ -45,9 +45,9 @@ public class Email extends Observable implements Serializable{
     private static final long serialVersionUID = 42L; // needed for serialization, it avoids InvalidClassException
 
     private UUID idEmail;
-    private boolean seen;
-    private String sender;
-    private ArrayList<String> receiver;
+    private boolean seen; // todo dovrebbe modificarlo il server  ??
+    private String sender; //from (sarebbe il nome del client ?? Dovrebbe essere un oggetto Account)
+    private ArrayList<String> receiver; //to (sarebbe il lista di nomi dei client ?? Dovrebbe essere un oggetto Account)
     private String subject;
     private String text;
     private Timestamp date;
