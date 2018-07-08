@@ -22,6 +22,8 @@ public class Client {
 
     private String dataPath;
 
+    private ResponseHandler protClientSide;
+
     private String inboxPath;
     private String outboxPath;
     private String draftsPath;
@@ -50,6 +52,8 @@ public class Client {
         this.user = new Account(name, surname, userEmail);
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
+
+        this.protClientSide = new ResponseHandler(this, serverAddress, serverPort);
 
         if (dataPath != null) {
             this.dataPath = dataPath;
@@ -118,6 +122,14 @@ public class Client {
      */
     public ObservableList<Email> getBin() {
         return bin;
+    }
+
+    /**
+     * Returns the protClientSide object.
+     * @return the protClientSide object.
+     */
+    public ResponseHandler getProtClientSide() {
+        return protClientSide;
     }
 
     /**

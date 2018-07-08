@@ -115,7 +115,12 @@ public class WriteViewController implements Observer {
                     receiver.addAll(Arrays.asList(output));
 
                     Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
-                    clientModel.write(thisEmail, "o"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
+
+                    // TODO: spostare write nel server e non nel client
+                    //clientModel.write(thisEmail, "o"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
+
+                    clientModel.getProtClientSide().sendComand(thisEmail);
+
                     closeTab();
                 }
             }

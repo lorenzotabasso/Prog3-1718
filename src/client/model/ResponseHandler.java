@@ -19,11 +19,16 @@ public class ResponseHandler {
     private ObjectOutputStream output;
     private Socket socket;
 
-    public ResponseHandler(Client thisClient, ObjectInputStream input, ObjectOutputStream output, Socket socket) {
-        this.clientModel = thisClient;
-        this.input = input;
-        this.output = output;
-        this.socket = socket;
+    public ResponseHandler(Client thisClient, String serverAddress, int serverPort) {
+        try {
+            this.clientModel = thisClient;
+            this.socket = new Socket(serverAddress, serverPort);
+
+            this.input = new ObjectInputStream(socket.getInputStream());
+            this.output = new ObjectOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Comandi: GET, AUT, SEND, DELETE, EXIT
@@ -99,6 +104,9 @@ public class ResponseHandler {
     }
 
     public void sendComand(Email toSend) {
+
+        // Alla fine di tutta l'iterazione, attenderà una response dal server
+        clientModel.setStatusProperty("Email inviata");
 
     }
 
