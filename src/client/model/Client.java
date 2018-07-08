@@ -20,10 +20,14 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private final String inboxPath = "src/server/data/client1/inbox/";
-    private final String outboxPath = "src/server/data/client1/outbox/";
-    private final String draftsPath = "src/server/data/client1/drafts/";
-    private final String binPath = "src/data/emails/bin/"; // TODO: togliere case default del bin in read()
+    private String dataPath;
+
+    private ResponseHandler protClientSide;
+
+    private String inboxPath;
+    private String outboxPath;
+    private String draftsPath;
+    private String binPath = "src/data/emails/bin/"; // TODO: togliere case default del bin in read()
 
     private Account user;
 
@@ -43,11 +47,22 @@ public class Client {
      * @param serverAddress the address of the server
      * @param serverPort the server's port which is listening to client calls
      */
-    public Client(String name, String surname, String userEmail, String serverAddress, int serverPort){
+    public Client(String name, String surname, String userEmail, String serverAddress, int serverPort, String dataPath){
 
         this.user = new Account(name, surname, userEmail);
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
+
+        this.protClientSide = new ResponseHandler(this, serverAddress, serverPort);
+
+        if (dataPath != null) {
+            this.dataPath = dataPath;
+
+            this.inboxPath = dataPath + "inbox/";
+            this.outboxPath = dataPath + "outbox/";
+            this.draftsPath = dataPath + "drafts/";
+        }
+
     }
 
     /**
@@ -57,10 +72,18 @@ public class Client {
      * @param serverAddress the address of the server
      * @param serverPort the server's port which is listening to client calls
      */
-    public Client(Account userAccount, String serverAddress, int serverPort){
+    public Client(Account userAccount, String serverAddress, int serverPort, String dataPath){
         this.user = userAccount;
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
+
+        if (dataPath != null) {
+            this.dataPath = dataPath;
+
+            this.inboxPath = dataPath + "inbox/";
+            this.outboxPath = dataPath + "outbox/";
+            this.draftsPath = dataPath + "drafts/";
+        }
     }
 
     // GETTERS ---------------------------------------------------------------------------------------------------------
@@ -99,6 +122,14 @@ public class Client {
      */
     public ObservableList<Email> getBin() {
         return bin;
+    }
+
+    /**
+     * Returns the protClientSide object.
+     * @return the protClientSide object.
+     */
+    public ResponseHandler getProtClientSide() {
+        return protClientSide;
     }
 
     /**
