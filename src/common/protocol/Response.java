@@ -1,7 +1,7 @@
 package common.protocol;
 
 public class Response {
-    private String requestStatus;
+    private int requestStatus;
     private String message;
 
     /**
@@ -11,7 +11,7 @@ public class Response {
      * @param message the message to be encapsulated in the Response object.
      *                It's composed by the server for the client
      */
-    public Response(String status, String message) {
+    public Response(int status, String message) {
         this.requestStatus = status;
         this.message = message;
     }
@@ -21,7 +21,7 @@ public class Response {
      *
      * @param requestStatus a string that indicates the status of the server which sends the response.
      */
-    public Response(String requestStatus) {
+    public Response(int requestStatus) {
         this.requestStatus = requestStatus;
         this.message = null;
     }
@@ -31,7 +31,7 @@ public class Response {
      *
      * @return the status carried by the Response object.
      */
-    public String getStatus() {
+    public int getStatus() {
         return requestStatus;
     }
 
@@ -39,7 +39,7 @@ public class Response {
      * Setter of status parameter.
      * @param status the new status to be set.
      */
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.requestStatus = status;
     }
 
