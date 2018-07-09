@@ -24,7 +24,7 @@ public class SendTask extends AbstractTask{
     }
 
     /**
-     * It executes an asynchronous SendTask which exchanges data with the server.
+     * It executes an asynchronous SendTask which exchanges emails with the server.
      *
      * @throws ClientException
      */

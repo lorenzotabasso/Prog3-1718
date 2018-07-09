@@ -15,7 +15,7 @@ public class GetTask extends AbstractTask{
     }
 
     /**
-     * It executes an asynchronous GetTask which exchanges data with the server.
+     * It executes an asynchronous GetTask which exchanges emails with the server.
      *
      * @throws ClientException
      */

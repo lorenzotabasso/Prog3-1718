@@ -12,7 +12,7 @@ public class ExitTask extends AbstractTask{
     }
 
     /**
-     * It executes an asynchronous ExitTask which exchanges data with the server.
+     * It executes an asynchronous ExitTask which exchanges emails with the server.
      *
      * @throws ClientException
      */

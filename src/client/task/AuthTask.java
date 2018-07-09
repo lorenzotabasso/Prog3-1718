@@ -12,7 +12,7 @@ public class AuthTask extends AbstractTask {
     }
 
     /**
-     * It executes an asynchronous AuthTask which exchanges data with the server. It's killed when the iteration with
+     * It executes an asynchronous AuthTask which exchanges emails with the server. It's killed when the iteration with
      * the server has finished.
      *
      * @throws ClientException

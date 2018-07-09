@@ -20,7 +20,7 @@ public class RequestHandler implements Runnable {
     private int counter;
 
     private boolean stopRequest = false;
-    private final String emailPath = "src/data/emails/";
+    private final String emailPath = "src/emails/emails/";
 
     /**
      * Constructs a handler.

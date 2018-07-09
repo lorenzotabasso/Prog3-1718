@@ -31,7 +31,7 @@ public class Client {
     private String inboxPath;
     private String outboxPath;
     private String draftsPath;
-    private String binPath = "src/data/emails/bin/"; // TODO: togliere case default del bin in read()
+    private String binPath = "src/emails/emails/bin/"; // TODO: togliere case default del bin in read()
 
     private Account user;
 
@@ -47,7 +47,7 @@ public class Client {
     // COSTRUCTORS -----------------------------------------------------------------------------------------------------
 
     /**
-     * Costructor of client object, It initialize all the client data
+     * Costructor of client object, It initialize all the client emails
      *
      * @param name name of the client user, used to initialize a new Account object
      * @param surname surname of the client user, used to initialize a new Account object
@@ -78,7 +78,7 @@ public class Client {
     }
 
     /**
-     * Costructor of client object, It initialize all the client data
+     * Costructor of client object, It initialize all the client emails
      *
      * @param userAccount the account object to assign to the user of this client
      * @param serverAddress the address of the server
@@ -310,7 +310,7 @@ public class Client {
     // TODO: spostare nel server i metodi read, write e delete
 
     /**
-     * It writes a serialized txt file containing all the data of the email passed through the "mess" parameter, and it updates
+     * It writes a serialized txt file containing all the emails of the email passed through the "mess" parameter, and it updates
      * the GUI, showing the new message in the right box (in/out-box or drafts)
      *
      * @param mess: the Email object to write on file
