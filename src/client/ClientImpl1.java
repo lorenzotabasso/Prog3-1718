@@ -1,12 +1,14 @@
 package client;
 
 import client.controller.MainViewController;
+import client.task.ExitTask;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import client.model.Client;
+import javafx.stage.WindowEvent;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -50,6 +52,14 @@ public class ClientImpl1 extends Application{
         primaryStage.setScene(scene);
         primaryStage.setTitle("Mailbox di " + clientModel.getUser().getName());
         primaryStage.show();
+
+        // it starts the EXIT Request before closing
+        primaryStage.setOnCloseRequest((WindowEvent e) -> {
+            exec.submit(new ExitTask(clientModel));
+            exec.shutdown();
+        });
+
+
     }
 
     /**
