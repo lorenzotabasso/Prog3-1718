@@ -73,7 +73,11 @@ public class Client {
             this.draftsPath = dataPath + "drafts/";
         }
 
-        initializeSocket();
+        try {
+            connect();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -97,16 +101,9 @@ public class Client {
             this.draftsPath = dataPath + "drafts/";
         }
 
-        initializeSocket();
-    }
-
-    private void initializeSocket() {
         try {
-            this.socket = new Socket(this.serverAddress, this.serverPort);
-
-            this.input = new ObjectInputStream(socket.getInputStream());
-            this.output = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
+            connect();
+        } catch (ProtocolException e) {
             e.printStackTrace();
         }
     }
@@ -306,13 +303,11 @@ public class Client {
     /**
      * It opens a connection from the client to the server
      *
-     * @param serverAddress the server address
-     * @param serverPort the server port
      * @throws ProtocolException
      */
-    public void connect(String serverAddress, int serverPort) throws ProtocolException {
+    public void connect() throws ProtocolException {
         try {
-            socket = new Socket(serverAddress, serverPort);
+            this.socket = new Socket(this.serverAddress, this.serverPort);
 
             try {
                 output = new ObjectOutputStream(socket.getOutputStream());
@@ -347,13 +342,6 @@ public class Client {
         } catch (IOException e) {
             throw new ProtocolException(e.getMessage(), ProtocolException.CONNECTION_ERROR);
         }
-    }
-
-    /**
-     *  GET Comand
-     */
-    public void getComand() {
-
     }
 
     /**

@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.task.GetTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -97,7 +98,7 @@ public class MainViewController implements Observer {
         status.textProperty().bind(clientModel.getStatus());
         clientModel.setStatusProperty("loading...");
 
-        //exec.execute();
+        exec.execute(new GetTask(clientModel));
 
         loadEmails("i");
     }
@@ -117,6 +118,7 @@ public class MainViewController implements Observer {
             public void handle(ActionEvent e) {
                 table.refresh();
                 //loadEmails("i"); // TODO: provvisorio, da implementare thread di aggiornnamento qui
+                exec.submit(new GetTask(clientModel));
             }
         });
 
@@ -149,9 +151,6 @@ public class MainViewController implements Observer {
 
             }
         });
-
-        // STATUS (Label)
-        //status.setText();
 
     }
 

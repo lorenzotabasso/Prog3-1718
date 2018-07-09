@@ -46,30 +46,4 @@ public class SendTask extends AbstractTask{
         }
 
     }
-
-    public Response sendRequest(Request forServer) {
-        Response res = null;
-
-        if (forServer != null) {
-            try {
-                clientModel.getOutput().writeObject(forServer);
-
-                res = (Response) clientModel.getInput().readObject();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return res;
-    }
-
-    public boolean manageResponse(Response rsp) {
-        if (rsp != null) {
-            if(rsp.getStatus() == 200) return true;
-        }
-        return false;
-    }
 }
