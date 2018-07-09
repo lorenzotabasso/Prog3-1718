@@ -70,6 +70,7 @@ public class ResponseHandler {
                 // nella Request c'è il campo autore, ma nell'autore, dobbiamo mettere il client
                 // o l'account dell'utente?
                 Request forServer = new Request("GET");
+                //forServer.setAuthor();
                 output.writeObject(forServer);
 
                 Response fromServer = (Response) input.readObject();

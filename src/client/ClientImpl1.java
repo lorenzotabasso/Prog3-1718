@@ -63,17 +63,5 @@ public class ClientImpl1 extends Application{
     public static void main(String[] args) {
         launch(args);
     }
-
-    // SUPPORT METHODS FOR JAVAFX --------------------------------------------------------------------------------------
-    // (To add in Start() method!)
-
-    public void initializeSocket(int port){
-        try {
-            Socket clientSocket = new Socket("localhost", port);
-            System.out.println("Client: Ho aperto il socket verso il server");
-
-            BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            System.out.println(input.readLine());
-        } catch (IOException e) { e.printStackTrace(); }
-    }
+    
 }

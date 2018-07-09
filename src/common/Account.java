@@ -1,4 +1,4 @@
-package client.model;
+package common;
 
 import java.util.Observable;
 import java.util.UUID;

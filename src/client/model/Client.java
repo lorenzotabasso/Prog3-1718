@@ -1,12 +1,17 @@
 package client.model;
 
+import common.Account;
 import common.Email;
+import common.protocol.Request;
+import common.protocol.Response;
+import exception.ProtocolException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.*;
+import java.net.Socket;
 
 /**
  * @author Lorenzo Tabasso
@@ -37,6 +42,10 @@ public class Client {
     private String serverAddress;
     private int serverPort;
 
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
+    private Socket socket;
+
     // COSTRUCTORS -----------------------------------------------------------------------------------------------------
 
     /**
@@ -64,6 +73,8 @@ public class Client {
             this.draftsPath = dataPath + "drafts/";
         }
 
+        initializeSocket();
+
     }
 
     /**
@@ -84,6 +95,19 @@ public class Client {
             this.inboxPath = dataPath + "inbox/";
             this.outboxPath = dataPath + "outbox/";
             this.draftsPath = dataPath + "drafts/";
+        }
+
+        initializeSocket();
+    }
+
+    private void initializeSocket() {
+        try {
+            this.socket = new Socket(this.serverAddress, this.serverPort);
+
+            this.input = new ObjectInputStream(socket.getInputStream());
+            this.output = new ObjectOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -167,6 +191,15 @@ public class Client {
      */
     public int getServerPort() {
         return serverPort;
+    }
+
+
+    public ObjectInputStream getInput() {
+        return input;
+    }
+
+    public ObjectOutputStream getOutput() {
+        return output;
     }
 
     // SETTERS ---------------------------------------------------------------------------------------------------------
@@ -266,6 +299,70 @@ public class Client {
                 ", serverAddress='" + serverAddress + '\'' +
                 ", serverPort=" + serverPort +
                 '}';
+    }
+
+    // PROTOCOL --------------------------------------------------------------------------------------------------------
+
+    /**
+     * It opens a connection from the client to the server
+     *
+     * @param serverAddress the server address
+     * @param serverPort the server port
+     * @throws ProtocolException
+     */
+    public void connect(String serverAddress, int serverPort) throws ProtocolException {
+        try {
+            socket = new Socket(serverAddress, serverPort);
+
+            try {
+                output = new ObjectOutputStream(socket.getOutputStream());
+                output.flush();
+
+                input = new ObjectInputStream(socket.getInputStream());
+
+                Request forServer = new Request("GET");
+                forServer.setAuthor(this.user.getName());
+
+                output.writeObject(forServer);
+
+                Response fromServer = (Response) input.readObject();
+
+                if (fromServer.getStatus() == 200 && fromServer.getMessage().equals("Online")) {
+
+                    // authenticateCommand(); fa qualcosa
+
+                    setStatusProperty("Online - connected to the Server");
+                }
+                else {
+                    setStatusProperty("Offline");
+                }
+
+            } catch (EOFException e) {
+                throw new ProtocolException("Connection closed by server", ProtocolException.CONNECTION_CLOSED_BY_SERVER);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                //throw new ProtocolException(e.getMessage(), ProtocolException.BAD_DATAGRAM_ERROR);
+                // TODO: capire la vera implementazione da fare
+            }
+        } catch (IOException e) {
+            throw new ProtocolException(e.getMessage(), ProtocolException.CONNECTION_ERROR);
+        }
+    }
+
+    /**
+     *  GET Comand
+     */
+    public void getComand() {
+
+    }
+
+    /**
+     * It starts the authenticating procedure with the server
+     *
+     * @param username
+     */
+    public void authenticateCommand(String username) {
+        // TODO: da fare! richiesto dal server per capire chi è l'utente!
     }
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------

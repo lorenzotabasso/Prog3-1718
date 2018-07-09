@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.task.SendTask;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -120,7 +121,7 @@ public class WriteViewController implements Observer {
                     // TODO: spostare write nel server e non nel client
                     //clientModel.write(thisEmail, "o"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
 
-                    clientModel.getProtClientSide().sendComand(thisEmail);
+                    exec.submit(new SendTask(clientModel, thisEmail)); // creo un thread che si occupa di inviare l'email.
 
                     closeTab();
                 }

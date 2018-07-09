@@ -2,9 +2,11 @@ package client.task;
 
 import client.model.Client;
 import common.Email;
+import common.protocol.Request;
+import common.protocol.Response;
 import exception.ClientException;
 
-// TODO: da finire
+import java.io.IOException;
 
 /**
  * @author Lorenzo Tabasso
@@ -30,14 +32,44 @@ public class SendTask extends AbstractTask{
     public void startTask() throws ClientException {
         clientModel.setStatusProperty("Invio email...");
 
-        // SEQUENZA DA IMPLEMENTARE:
+        Request rts = new Request("SEND");
+        rts.setParameters(toSend);
+        rts.setAuthor(clientModel.getUser().getName());
 
-        // autenticate() ...
+        Response rsp = sendRequest(rts);
 
-        // sendCommand() ...
+        if (manageResponse(rsp)) {
+            clientModel.setStatusProperty("Email inviata!");
+        }
+        else {
+            clientModel.setStatusProperty("Errore nel server, riprovare!");
+        }
 
-        // quitComand() ...
     }
 
-    // Metodo "Salva in bozze?"
+    public Response sendRequest(Request forServer) {
+        Response res = null;
+
+        if (forServer != null) {
+            try {
+                clientModel.getOutput().writeObject(forServer);
+
+                res = (Response) clientModel.getInput().readObject();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return res;
+    }
+
+    public boolean manageResponse(Response rsp) {
+        if (rsp != null) {
+            if(rsp.getStatus() == 200) return true;
+        }
+        return false;
+    }
 }
