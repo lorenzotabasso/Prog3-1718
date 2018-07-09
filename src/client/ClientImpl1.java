@@ -50,9 +50,6 @@ public class ClientImpl1 extends Application{
         primaryStage.setScene(scene);
         primaryStage.setTitle("Mailbox di " + clientModel.getUser().getName());
         primaryStage.show();
-
-        // Support methods list begin here: // TODO: spostare socket dentro Client, non ClientImpl
-        //initializeSocket(9000);
     }
 
     /**
@@ -63,5 +60,5 @@ public class ClientImpl1 extends Application{
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
