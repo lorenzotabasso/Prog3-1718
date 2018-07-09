@@ -9,10 +9,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import client.model.Client;
 import javafx.stage.WindowEvent;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.Socket;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

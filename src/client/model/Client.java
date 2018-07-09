@@ -2,8 +2,6 @@ package client.model;
 
 import common.Account;
 import common.Email;
-import common.protocol.Request;
-import common.protocol.Response;
 import exception.ProtocolException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;

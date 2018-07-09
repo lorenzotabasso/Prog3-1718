@@ -6,8 +6,6 @@ import common.protocol.Request;
 import common.protocol.Response;
 import exception.ClientException;
 
-import java.io.IOException;
-
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
