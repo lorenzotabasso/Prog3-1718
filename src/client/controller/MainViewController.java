@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.task.AuthTask;
 import client.task.GetTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -98,7 +99,7 @@ public class MainViewController implements Observer {
         status.textProperty().bind(clientModel.getStatus());
         clientModel.setStatusProperty("loading...");
 
-        exec.execute(new GetTask(clientModel));
+        exec.execute(new AuthTask(clientModel));
 
         loadEmails("i");
     }

@@ -74,7 +74,7 @@ public class Client {
         }
 
         try {
-            connect();
+            initializeSocket();
         } catch (ProtocolException e) {
             e.printStackTrace();
         }
@@ -102,7 +102,7 @@ public class Client {
         }
 
         try {
-            connect();
+            initializeSocket();
         } catch (ProtocolException e) {
             e.printStackTrace();
         }
@@ -302,55 +302,19 @@ public class Client {
 
     /**
      * It opens a connection from the client to the server
-     *
-     * @throws ProtocolException
      */
-    public void connect() throws ProtocolException {
+    public void initializeSocket() throws ProtocolException{
         try {
             this.socket = new Socket(this.serverAddress, this.serverPort);
 
-            try {
-                output = new ObjectOutputStream(socket.getOutputStream());
-                output.flush();
+            output = new ObjectOutputStream(socket.getOutputStream());
+            output.flush();
 
-                input = new ObjectInputStream(socket.getInputStream());
+            input = new ObjectInputStream(socket.getInputStream());
 
-                Request forServer = new Request("GET");
-                forServer.setAuthor(this.user.getName());
-
-                output.writeObject(forServer);
-
-                Response fromServer = (Response) input.readObject();
-
-                if (fromServer.getStatus() == 200 && fromServer.getMessage().equals("Online")) {
-
-                    // authenticateCommand(); fa qualcosa
-
-                    setStatusProperty("Online - connected to the Server");
-                }
-                else {
-                    setStatusProperty("Offline");
-                }
-
-            } catch (EOFException e) {
-                throw new ProtocolException("Connection closed by server", ProtocolException.CONNECTION_CLOSED_BY_SERVER);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                //throw new ProtocolException(e.getMessage(), ProtocolException.BAD_DATAGRAM_ERROR);
-                // TODO: capire la vera implementazione da fare
-            }
         } catch (IOException e) {
-            throw new ProtocolException(e.getMessage(), ProtocolException.CONNECTION_ERROR);
+            throw new ProtocolException("Server inesistente per la coppia IP-Porta", ProtocolException.CONNECTION_ERROR);
         }
-    }
-
-    /**
-     * It starts the authenticating procedure with the server
-     *
-     * @param username
-     */
-    public void authenticateCommand(String username) {
-        // TODO: da fare! richiesto dal server per capire chi è l'utente!
     }
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
