@@ -6,7 +6,11 @@ import exception.ProtocolException;
 import exception.ServerException;
 import protocol.Protocol;
 
-
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
 
 public abstract class AbstractTask implements Runnable{
 

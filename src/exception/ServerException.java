@@ -1,5 +1,11 @@
 package exception;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
+
 public class ServerException extends Exception{
 
     public static final int UKNOWN_ERROR = 0;

@@ -11,8 +11,9 @@ import java.net.Socket;
 import java.io.IOException;
 
 /**
- *
- * @author lorenzotabasso
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
  */
 
 public class ClientImpl3 extends Application{

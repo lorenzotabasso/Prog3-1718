@@ -11,6 +11,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
+
 public class ResponseHandler {
 
     private Client clientModel;

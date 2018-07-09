@@ -3,6 +3,12 @@ package client.model;
 import java.util.Observable;
 import java.util.UUID;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
+
 public class Account extends Observable {
     private UUID IDAccount;
     private String name;

@@ -28,6 +28,7 @@ La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzio
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
+ * @author Antonio Guarino
  */
 
 public class MainViewController implements Observer {

@@ -6,6 +6,12 @@ import exception.ClientException;
 
 // TODO: da finire
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
+
 public class SendTask extends AbstractTask{
 
     private Email toSend;

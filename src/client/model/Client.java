@@ -11,6 +11,7 @@ import java.io.*;
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
+ * @author Antonio Guarino
  */
 
 public class Client {

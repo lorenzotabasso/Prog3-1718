@@ -2,6 +2,12 @@ package common.protocol;
 
 import java.io.Serializable;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
+
 public class Request implements Serializable {
 
 

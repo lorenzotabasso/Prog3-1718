@@ -3,6 +3,12 @@ package client.task;
 import client.model.Client;
 import exception.ClientException;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
+
 // TODO: da finire
 
 public class SyncTask extends AbstractTask{

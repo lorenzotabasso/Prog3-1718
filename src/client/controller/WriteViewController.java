@@ -18,6 +18,7 @@ import java.util.concurrent.ExecutorService;
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
+ * @author Antonio Guarino
  */
 
 public class WriteViewController implements Observer {

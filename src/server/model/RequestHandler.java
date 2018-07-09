@@ -10,6 +10,7 @@ import java.net.Socket;
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
+ * @author Antonio Guarino
  */
 
 public class RequestHandler implements Runnable {

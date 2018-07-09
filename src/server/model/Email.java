@@ -39,6 +39,7 @@ import java.util.*;
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
+ * @author Antonio Guarino
  */
 
 public class Email extends Observable implements Serializable{

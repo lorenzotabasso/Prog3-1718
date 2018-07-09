@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
+ * @author Antonio Guarino
  */
 
 public class ClientImpl1 extends Application{
@@ -50,8 +51,8 @@ public class ClientImpl1 extends Application{
         primaryStage.setTitle("Mailbox di " + clientModel.getUser().getName());
         primaryStage.show();
 
-        // Support methods list begin here: // TODO: spostare socket dentro Client e Server
-        initializeSocket(9000);
+        // Support methods list begin here: // TODO: spostare socket dentro Client, non ClientImpl
+        //initializeSocket(9000);
     }
 
     /**
