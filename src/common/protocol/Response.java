@@ -1,12 +1,14 @@
 package common.protocol;
 
+import java.io.Serializable;
+
 /**
  * @author Lorenzo Tabasso
  * @author Youssef Mouaddine
  * @author Antonio Guarino
  */
 
-public class Response {
+public class Response implements Serializable {
     private int requestStatus;
     private String message;
 
