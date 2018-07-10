@@ -214,8 +214,8 @@ public class RequestHandler implements Runnable {
         //ora scrivo nella casella di tutti i destinatari dell'email
         for (String receiver : email.getReceiver()) {
 
-            if (search(receiver)) {
-                path = getLocation("inbox", email.getIdEmail(), receiver);
+            if (search(getUserByEmail(receiver))) {
+                path = getLocation("inbox", email.getIdEmail(), /*receiver*/getUserByEmail(receiver)); // TESTING
                 writeEmail(email, path);
 
             } else {
