@@ -19,3 +19,15 @@ prog3-project-1718.iml
 /src/server/data/client3/inbox/*.txt
 /src/server/data/client3/outbox/*.txt
 /src/server/data/client3/drafts/*.txt
+
+src/common/emails/antonio/inbox/*.txt
+/src/common/emails/antonio/outbox/*.txt
+/src/common/emails/antonio/drafts/*.txt
+
+/src/common/emails/lorenzo/inbox/*.txt
+/src/common/emails/lorenzo/outbox/*.txt
+/src/common/emails/lorenzo/drafts/*.txt
+
+/src/common/emails/youssef/inbox/*.txt
+/src/common/emails/youssef/outbox/*.txt
+/src/common/emails/youssef/drafts/*.txt

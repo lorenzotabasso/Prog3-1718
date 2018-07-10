@@ -20,7 +20,7 @@ public class RequestHandler implements Runnable {
     private int counter;
 
     private boolean stopRequest = false;
-    private final String emailPath = "src/data/emails/";
+    private final String emailPath = "src/common/emails";
 
     /**
      * Constructs a handler.
@@ -208,7 +208,7 @@ public class RequestHandler implements Runnable {
 
 
         //Scrivo nella casella di posta inviata
-        path = getLocation("outbox", email.getIdEmail(), email.getSender());
+        path = getLocation("outbox", email.getIdEmail(), getUserByEmail(email.getSender()));
         writeEmail(email, path);
 
         //ora scrivo nella casella di tutti i destinatari dell'email
@@ -225,6 +225,23 @@ public class RequestHandler implements Runnable {
         }
 
         return writeResponse(200, "Email sent to all receiver");
+    }
+
+    /**
+     * Support method of SendEmailRequest. It split the email address to write the email in the right folder
+     * of the server.
+     *
+     * @param senderEmail the email to split.
+     * @return a string with the name of the receiver.
+     */
+    public String getUserByEmail(String senderEmail){
+        String res = null;
+        if (senderEmail != null) {
+            String[] splittedEmail = senderEmail.split("[.@._]");
+            // es. {"lorenzo", "tabasso", "unito", "it"}
+            res = splittedEmail[0]; // the name of the sender in the email
+        }
+        return res;
     }
 
 

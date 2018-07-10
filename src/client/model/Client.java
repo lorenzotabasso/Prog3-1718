@@ -445,7 +445,10 @@ public class Client {
                         ObjectInputStream in = new ObjectInputStream(new FileInputStream(inboxPath + path));
                         toRestore = (Email) in.readObject();
 
-                        getInbox().add(toRestore); // update GUI
+                        if (!getInbox().contains(toRestore)) {
+                            getInbox().add(toRestore); // update GUI
+                        }
+
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();

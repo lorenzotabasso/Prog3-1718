@@ -101,7 +101,8 @@ public class MainViewController implements Observer {
 
         exec.execute(new AuthTask(clientModel));
 
-        loadEmails("i");
+        //loadEmails("i");
+        readAll();
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
@@ -120,6 +121,8 @@ public class MainViewController implements Observer {
                 table.refresh();
                 //loadEmails("i"); // TODO: provvisorio, da implementare thread di aggiornnamento qui
                 exec.submit(new GetTask(clientModel));
+                readAll();
+                //loadAllEmails();
             }
         });
 
@@ -184,8 +187,10 @@ public class MainViewController implements Observer {
                     case "Drafts":
                         loadEmails("d");
                         break;
-                    default:
+                    case "Inbox":
                         loadEmails("i");
+                        break;
+                    default:
                         break;
                 } // end switch
             } // end changed() definition
@@ -205,9 +210,15 @@ public class MainViewController implements Observer {
         date.setSortType(TableColumn.SortType.DESCENDING);
 
         switch (location){
-            case "o":
-                //clientModel.read("o");
+            case "i":
                 table.refresh();
+                //clientModel.read("i");
+                table.setItems(clientModel.getInbox());
+                break;
+
+            case "o":
+                table.refresh();
+                //clientModel.read("o");
                 table.setItems(clientModel.getOutbox());
                 break;
 
@@ -218,9 +229,7 @@ public class MainViewController implements Observer {
                 break;
 
             default:
-                //clientModel.read("i");
-                table.refresh();
-                table.setItems(clientModel.getInbox());
+                //table.refresh();
                 break;
         }
 
@@ -253,6 +262,13 @@ public class MainViewController implements Observer {
             return row;
         });
     }
+
+    public void loadAllEmails(){
+        loadEmails("i");
+        loadEmails("o");
+        loadEmails("d");
+    }
+
 
     // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
 
@@ -313,6 +329,12 @@ public class MainViewController implements Observer {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void readAll(){
+        clientModel.read("i");
+        clientModel.read("d");
+        clientModel.read("o");
     }
 
 } // end class

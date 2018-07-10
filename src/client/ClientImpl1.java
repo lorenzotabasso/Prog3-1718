@@ -34,8 +34,8 @@ public class ClientImpl1 extends Application{
         MainViewController mainViewController = fxmlLoader.getController();
 
         // Create emails client.model
-        clientModel = new Client("Lorenzo","Tabasso", "lorenzo.tabasso@unito.it",
-                "127.0.0.1", 9000, "src/common/emails/Lorenzo/");
+        clientModel = new Client("lorenzo","Tabasso", "lorenzo.tabasso@unito.it",
+                "127.0.0.1", 9000, "src/common/emails/lorenzo/");
 
         // Create Thread Pool
         exec = Executors.newSingleThreadExecutor();

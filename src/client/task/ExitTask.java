@@ -5,6 +5,12 @@ import common.protocol.Request;
 import common.protocol.Response;
 import exception.ClientException;
 
+/**
+ * @author Lorenzo Tabasso
+ * @author Youssef Mouaddine
+ * @author Antonio Guarino
+ */
+
 public class ExitTask extends AbstractTask{
 
     public ExitTask(Client clientModel) {
