@@ -35,5 +35,7 @@ public class SyncTask extends AbstractTask{
         // sarebbe bello contarle, così puoi dire "Hei! ha X email nuove!"
 
         //protocol.quitCommand();
+
+        //Thread.currentThread().interrupt(); // terminate this thread
     }
 }

@@ -72,10 +72,11 @@ public class WriteViewController implements Observer {
 
     /**
      * Overloaded version.
-     * It initialize the WriteView populating all its section. Used in the ReadView.
+     * It initialize the WriteView populating the receiver field. Used in the ReadView.
      *
      * @param exec the thread pool in which the Task will be executed.
-     * @param clientModel the Client client.model .
+     * @param clientModel the Client client.model.
+     * @param receiver the receiver to send the email.
      */
     public void init(ExecutorService exec, Client clientModel, String receiver){
         this.exec = exec;
@@ -85,6 +86,24 @@ public class WriteViewController implements Observer {
 
         from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
         to.setText(receiver);
+    }
+
+    /**
+     * Overloaded version.
+     * It initialize the WriteView populating the receiver field. Used in the ReadView.
+     *
+     * @param exec the thread pool in which the Task will be executed.
+     * @param clientModel the Client client.model .
+     */
+    public void init(ExecutorService exec, Client clientModel, Email toLoad){
+        this.exec = exec;
+        this.clientModel = clientModel;
+
+        initializeButtonsListeners();
+
+        from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
+        to.setText("");
+        subject.setText("RE: " + toLoad.getSubject());
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
@@ -137,7 +156,7 @@ public class WriteViewController implements Observer {
                 receiver.addAll(Arrays.asList(output));
 
                 Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
-                clientModel.write(thisEmail, "d"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "d"
+                clientModel.write(thisEmail, "d");
                 closeTab();
             }
         });

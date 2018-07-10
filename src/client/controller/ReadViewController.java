@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.task.DeleteTask;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import client.model.Client;
 import common.Email;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -90,7 +92,15 @@ public class ReadViewController implements Observer {
         reply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                openWriteTab();
+                if (thisEmail.getReceiver().size() == 1) {
+
+                    // there's only one receiver
+                    openWriteTab();
+                }
+                else {
+                    // there are more than one receivers
+                    openWriteTab(thisEmail);
+                }
             }
         });
 
@@ -98,7 +108,7 @@ public class ReadViewController implements Observer {
         replyToAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                openWriteTab(thisEmail);
             }
         });
 
@@ -106,7 +116,10 @@ public class ReadViewController implements Observer {
         forward.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                Email toLoad = thisEmail;
+                toLoad.setReceiver(new ArrayList<>()); // because the user will choice the new receiver
 
+                openWriteTab(toLoad);
             }
         });
 
@@ -114,7 +127,8 @@ public class ReadViewController implements Observer {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                clientModel.delete(thisEmail, "i"); // TODO: provvisorio. Implementare il metodo getLocation() in Client
+                //clientModel.delete(thisEmail, "i"); // TODO: provvisorio. Implementare il metodo getLocation() in Client
+                exec.submit(new DeleteTask(clientModel, thisEmail));
                 closeTab();
             }
         });
@@ -183,6 +197,29 @@ public class ReadViewController implements Observer {
             WriteViewController readViewController =  fxmlLoader.getController();
 
             readViewController.init(exec, clientModel, thisEmail.getSender());
+
+            TabPane inboxTab = findEnclosingTabPane(root);
+            inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab
+            inboxTab.getSelectionModel().select(tab); // Switch to Write tab
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Overloaded Version. It opens a new WriteView Tab.
+     */
+    private void openWriteTab(Email toLoad) {
+        try{
+            Tab tab = new Tab("Reply to " + toLoad.getSubject());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
+
+            tab.setContent(fxmlLoader.load());
+
+            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
+            WriteViewController writeViewController =  fxmlLoader.getController();
+
+            writeViewController.init(this.exec, this.clientModel, toLoad);
 
             TabPane inboxTab = findEnclosingTabPane(root);
             inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab

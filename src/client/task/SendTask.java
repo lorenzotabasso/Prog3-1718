@@ -43,5 +43,7 @@ public class SendTask extends AbstractTask{
             clientModel.setStatusProperty("Errore nel server, riprovare!");
         }
 
+        Thread.currentThread().interrupt(); // terminate this thread
+
     }
 }

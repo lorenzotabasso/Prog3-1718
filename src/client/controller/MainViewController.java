@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import client.model.Client;
 import common.Email;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -78,6 +79,7 @@ public class MainViewController implements Observer {
 
     private Client clientModel;
     private ExecutorService exec;
+    private Email selectedEmail;
 
     public MainViewController() {}
 
@@ -136,6 +138,21 @@ public class MainViewController implements Observer {
         reply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                selectedEmail = table.getSelectionModel().getSelectedItem();
+
+                if (selectedEmail.getReceiver().size() == 1) {
+                    openWriteTab(selectedEmail); // it opens the email object associated to the selected row in another tab.
+                }
+                else {
+                    // we load a a the same email with only the first receiver.
+
+                    Email toLoad = selectedEmail;
+                    ArrayList<String> newReceiver = new ArrayList<>();
+                    newReceiver.add(toLoad.getReceiver().get(0));
+                    toLoad.setReceiver(newReceiver);
+
+                    openWriteTab(toLoad);
+                }
 
             }
         });
@@ -144,7 +161,12 @@ public class MainViewController implements Observer {
         replyToAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-
+                if (selectedEmail.getReceiver().size() == 1) {
+                    openWriteTab(selectedEmail); // it opens the email object associated to the selected row in another tab.
+                }
+                else {
+                    openWriteTab(selectedEmail);
+                }
             }
         });
 
@@ -152,7 +174,10 @@ public class MainViewController implements Observer {
         forward.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                Email toLoad = selectedEmail;
+                toLoad.setReceiver(new ArrayList<>()); // because the user will choice the new receiver
 
+                openWriteTab(toLoad);
             }
         });
 
@@ -250,7 +275,7 @@ public class MainViewController implements Observer {
 
             row.itemProperty().addListener((obs, oldValue, newRowValue) -> {
                 if (newRowValue != null) {
-                    if (!newRowValue.getSeen()) {
+                    if (newRowValue.getSeen()) { // Test: tolo il ! per un momento
                         row.setStyle("-fx-font-weight: bold");
                     } else {
                         row.setStyle(" ");
@@ -320,9 +345,31 @@ public class MainViewController implements Observer {
             tab.setContent(fxmlLoader.load());
 
             //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
-            WriteViewController readViewController =  fxmlLoader.getController();
+            WriteViewController writeViewController =  fxmlLoader.getController();
 
-            readViewController.init(this.exec, this.clientModel);
+            writeViewController.init(this.exec, this.clientModel);
+
+            root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
+            root.getSelectionModel().select(tab); // Switch to Write tab
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * It opens a new WriteView Tab.
+     */
+    private void openWriteTab(Email toLoad) {
+        try{
+            Tab tab = new Tab("Reply to " + toLoad.getSubject());
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
+
+            tab.setContent(fxmlLoader.load());
+
+            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
+            WriteViewController writeViewController =  fxmlLoader.getController();
+
+            writeViewController.init(this.exec, this.clientModel, toLoad);
 
             root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
             root.getSelectionModel().select(tab); // Switch to Write tab

@@ -40,5 +40,7 @@ public class ExitTask extends AbstractTask{
             // anche se non ci arriverà mai...
             clientModel.setStatusProperty("Errori durante la disconnessione col server...");
         }
+
+        // we will not terminate this thread here but instead in ClientImpl
     }
 }

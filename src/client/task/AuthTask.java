@@ -39,5 +39,7 @@ public class AuthTask extends AbstractTask {
             clientModel.setStatusProperty("Utente inesistente sul server!");
         }
 
+        Thread.currentThread().interrupt(); // terminate this thread
+
     }
 }

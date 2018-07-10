@@ -1,3 +1,5 @@
-[da fare] - CLIENT - killare thread
+[FATTO] - CLIENT - killare thread
 [da fare] - SERVER - sistemare autenticazione in server (serve sia in AUTH che nel Send di un email)
 [da fare] - CLIENT - sistemare i metodi readAll/loadAll in client (problema della duplicazione nell'update!)
+[QUASI FINITO] - CLIENT - Listeners dei bottoni mancanti
+[da fare] - CLIENT - Observer/observable da usare?

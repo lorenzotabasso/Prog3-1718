@@ -168,6 +168,15 @@ public class Email extends Observable implements Serializable{
     public void setReceiver(String newReceiver) { this.receiver.add(newReceiver); }
 
     /**
+     * Setter for the receiver parameter.
+     *
+     * @param newReceiver the new receiver address
+     */
+    public void setReceiver(ArrayList<String> newReceiver) {
+        this.receiver = newReceiver;
+    }
+
+    /**
      * Setter for the subject parameter.
      *
      * @param newsubject the new subject for the email

@@ -38,5 +38,7 @@ public class GetTask extends AbstractTask{
             clientModel.setStatusProperty("Server non raggiungibile!");
         }
 
+        Thread.currentThread().interrupt(); // terminate this thread
+
     }
 }

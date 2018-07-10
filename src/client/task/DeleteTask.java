@@ -43,5 +43,6 @@ public class DeleteTask extends AbstractTask{
             clientModel.setStatusProperty("Errore nell'eliminazione dell'email!");
         }
 
+        Thread.currentThread().interrupt(); // terminate this thread
     }
 }
