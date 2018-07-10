@@ -31,7 +31,7 @@ public class Client {
     private String inboxPath;
     private String outboxPath;
     private String draftsPath;
-    private String binPath = "src/data/common.emails/bin/"; // TODO: togliere case default del bin in read()
+    private String binPath = "src/data/emails/bin/"; // TODO: togliere case default del bin in read()
 
     private Account user;
 
@@ -405,10 +405,10 @@ public class Client {
     } // end method
 
     /**
-     * It reads all the serialized txt files of the common.emails and it fill the ObservableList related to the Folder
+     * It reads all the serialized txt files of the emails and it fill the ObservableList related to the Folder
      * in which the files are located.
      *
-     * @param location the folder in which the common.emails are located: i (for inbox), o (for outbox), d (for draft),
+     * @param location the folder in which the emails are located: i (for inbox), o (for outbox), d (for draft),
      *                 and b (for bin).
      */
     public synchronized void read(String location){

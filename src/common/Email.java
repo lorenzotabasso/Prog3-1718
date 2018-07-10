@@ -14,13 +14,13 @@ posta elettronica degli utenti).
 
 La casella di posta elettronica contiene una lista eventualmente vuota di messaggi e rappresenta il client.model
 dell'applicazione. I messaggi di posta elettronica sono istanze di una classe email.Email che specifica ID, mittente,
-destinatario, argomento, testo e data di spedizione del messaggio.
+destinatario, argomento, testo e emails di spedizione del messaggio.
 
 La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzionalità ridotte a quanto serve per:
  - vedere il nome dell'account di posta elettronica (che qui assumiamo fisso per l'applicazione, che non prevede
     autenticazione da parte dell'utente)
  - vedere la lista dei messaggi memorizzati nella casella di posta. La lista sia
-    ordinata per data dai messaggi più recenti ai meno recenti
+    ordinata per emails dai messaggi più recenti ai meno recenti
  - visualizzare un messaggio della casella di posta selezionandolo dalla lista dei messaggi
  - scrivere un messaggio e inviarlo a uno o più destinatari
  - rimuovere un messaggio dalla casella di posta elettronica e vedere la lista dei messaggi aggiornata.

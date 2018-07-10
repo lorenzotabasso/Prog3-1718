@@ -18,7 +18,7 @@ public class SyncTask extends AbstractTask{
     }
 
     /**
-     * It executes an asynchronous SyncTask which exchanges data with the server.
+     * It executes an asynchronous SyncTask which exchanges emails with the server.
      *
      * @throws ClientException
      */

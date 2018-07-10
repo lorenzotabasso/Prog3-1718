@@ -12,7 +12,7 @@ public class ExitTask extends AbstractTask{
     }
 
     /**
-     * It executes an asynchronous ExitTask which exchanges data with the server.
+     * It executes an asynchronous ExitTask which exchanges emails with the server.
      *
      * @throws ClientException
      */
@@ -26,5 +26,13 @@ public class ExitTask extends AbstractTask{
         Response rsp = sendRequest(rts);
 
         // TODO: scrivere nel log che è avvenuta la disconnessione.
+
+        if (manageResponse(rsp)) {
+            clientModel.setStatusProperty("Disconnesso.");
+        }
+        else {
+            // anche se non ci arriverà mai...
+            clientModel.setStatusProperty("Errori durante la disconnessione col server...");
+        }
     }
 }

@@ -21,7 +21,7 @@ La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzio
  - vedere il nome dell'account di posta elettronica (che qui assumiamo fisso per l'applicazione, che non prevede
     autenticazione da parte dell'utente)
  - vedere la lista dei messaggi memorizzati nella casella di posta. La lista sia
-    ordinata per data dai messaggi più recenti ai meno recenti
+    ordinata per emails dai messaggi più recenti ai meno recenti
  - visualizzare un messaggio della casella di posta selezionandolo dalla lista dei messaggi
  - scrivere un messaggio e inviarlo a uno o più destinatari
  - rimuovere un messaggio dalla casella di posta elettronica e vedere la lista dei messaggi aggiornata.

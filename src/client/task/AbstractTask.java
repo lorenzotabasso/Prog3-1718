@@ -25,7 +25,7 @@ public abstract class AbstractTask implements Runnable{
     }
 
     /**
-     * It executes an asynchronous task which exchanges data with the server.
+     * It executes an asynchronous task which exchanges emails with the server.
      *
      * @throws ClientException
      * @throws ServerException

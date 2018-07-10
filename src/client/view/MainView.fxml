@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -25,8 +26,11 @@
                <bottom>
                   <HBox prefHeight="19.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label text="Client Status:" />
-                        <Label fx:id="status" text= "" />
+                        <Label text="Server status:">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
+                        <Label fx:id="status" text="" />
                      </children>
                   </HBox>
                </bottom>

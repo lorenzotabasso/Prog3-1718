@@ -16,7 +16,7 @@ public class DeleteTask extends AbstractTask{
     }
 
     /**
-     * It executes an asynchronous DeleteTask which exchanges data with the server.
+     * It executes an asynchronous DeleteTask which exchanges emails with the server.
      *
      * @throws ClientException
      */

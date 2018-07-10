@@ -1,12 +1,9 @@
 package client.task;
 
 import client.model.Client;
-import common.Email;
 import common.protocol.Request;
 import common.protocol.Response;
 import exception.ClientException;
-
-import java.io.IOException;
 
 public class GetTask extends AbstractTask{
 
@@ -15,7 +12,7 @@ public class GetTask extends AbstractTask{
     }
 
     /**
-     * It executes an asynchronous GetTask which exchanges data with the server.
+     * It executes an asynchronous GetTask which exchanges emails with the server.
      *
      * @throws ClientException
      */
