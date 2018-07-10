@@ -161,6 +161,8 @@ public class MainViewController implements Observer {
         replyToAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                selectedEmail = table.getSelectionModel().getSelectedItem();
+
                 if (selectedEmail.getReceiver().size() == 1) {
                     openWriteTab(selectedEmail); // it opens the email object associated to the selected row in another tab.
                 }
