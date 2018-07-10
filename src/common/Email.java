@@ -53,7 +53,6 @@ public class Email extends Observable implements Serializable{
     private String text;
     private Timestamp date;
 
-    // TODO: tipoEmail (draft, sent o inbox?)
 
     /**
      * Constructor of Email Object

@@ -22,7 +22,7 @@ public class AuthTask extends AbstractTask {
         clientModel.setStatusProperty("Autenticazione in corso...");
 
         Request rts = new Request("AUTH");
-        rts.setAuthor(clientModel.getUser().getName());
+        rts.setAuthor(clientModel.getUser().getUserEmail());
 
         Response rsp = sendRequest(rts);
 

@@ -20,7 +20,7 @@ public class RequestHandler implements Runnable {
     private int counter;
 
     private boolean stopRequest = false;
-    private final String emailPath = "src/data/emails/";
+    private final String emailPath = "src/common/emails";
 
     /**
      * Constructs a handler.
@@ -207,10 +207,6 @@ public class RequestHandler implements Runnable {
             return writeResponse(-1, "Invalid email");
 
 
-        //Scrivo nella casella di posta inviata
-        path = getLocation("outbox", email.getIdEmail(), email.getSender());
-        writeEmail(email, path);
-
         //ora scrivo nella casella di tutti i destinatari dell'email
         for (String receiver : email.getReceiver()) {
 
@@ -223,6 +219,10 @@ public class RequestHandler implements Runnable {
                 return writeResponse(-1, "Invalid receiver " + receiver);
             }
         }
+
+        //Scrivo nella casella di posta inviata
+        path = getLocation("outbox", email.getIdEmail(), email.getSender());
+        writeEmail(email, path);
 
         return writeResponse(200, "Email sent to all receiver");
     }

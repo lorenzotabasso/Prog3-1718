@@ -10,6 +10,7 @@ import java.util.UUID;
  */
 
 public class Account extends Observable {
+
     private UUID IDAccount;
     private String name;
     private String surname;

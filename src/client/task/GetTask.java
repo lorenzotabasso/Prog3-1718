@@ -24,7 +24,7 @@ public class GetTask extends AbstractTask{
         clientModel.setStatusProperty("Connessione in corso...");
 
         Request rts = new Request("GET");
-        rts.setAuthor(clientModel.getUser().getName());
+        rts.setAuthor(clientModel.getUser().getUserEmail());
 
         Response rsp = sendRequest(rts);
 
