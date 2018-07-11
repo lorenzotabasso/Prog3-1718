@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutorService;
  * @author Antonio Guarino
  */
 
-public class ReadViewController implements Observer {
+public class ReadViewController {
 
     // ReadView Components
     @FXML
@@ -92,15 +92,8 @@ public class ReadViewController implements Observer {
         reply.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (thisEmail.getReceiver().size() == 1) {
-
-                    // there's only one receiver
-                    openWriteTab();
-                }
-                else {
-                    // there are more than one receivers
-                    openWriteTab(thisEmail);
-                }
+                // there are more than one receivers
+                openWriteTab("reply", thisEmail);
             }
         });
 
@@ -108,7 +101,7 @@ public class ReadViewController implements Observer {
         replyToAll.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                openWriteTab(thisEmail);
+                openWriteTab("replyToAll", thisEmail);
             }
         });
 
@@ -119,7 +112,7 @@ public class ReadViewController implements Observer {
                 Email toLoad = thisEmail;
                 toLoad.setReceiver(new ArrayList<>()); // because the user will choice the new receiver
 
-                openWriteTab(toLoad);
+                openWriteTab("forward", toLoad);
             }
         });
 
@@ -146,19 +139,6 @@ public class ReadViewController implements Observer {
         text.setText(thisEmail.getText());
     }
 
-    // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
-
-    /**
-     * Implementation of update method in Observer interface.
-     *
-     * @param o the observable object.
-     * @param arg (optional) an argument passed to the notifyObservers method.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-
-    }
-
     // SUPPORT ---------------------------------------------------------------------------------------------------------
 
     /**
@@ -183,33 +163,36 @@ public class ReadViewController implements Observer {
         tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
     }
 
+//    /**
+//     * It opens a new WriteView Tab. It uses the second init() method in WriteView
+//     */
+//    private void openWriteTab() {
+//        try{
+//            Tab tab = new Tab("New Email");
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
+//
+//            tab.setContent(fxmlLoader.load());
+//
+//            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
+//            WriteViewController readViewController =  fxmlLoader.getController();
+//
+//            readViewController.init(exec, clientModel, thisEmail.getSender());
+//
+//            TabPane inboxTab = findEnclosingTabPane(root);
+//            inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab
+//            inboxTab.getSelectionModel().select(tab); // Switch to Write tab
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+
     /**
-     * It opens a new WriteView Tab.
+     * Overloaded Version. It opens a new WriteView Tab. It uses the third init() method in WriteView
      */
-    private void openWriteTab() {
-        try{
-            Tab tab = new Tab("New Email");
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
+    private void openWriteTab(String whichFunction, Email original) {
 
-            tab.setContent(fxmlLoader.load());
+        Email toLoad = original; // for security
 
-            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
-            WriteViewController readViewController =  fxmlLoader.getController();
-
-            readViewController.init(exec, clientModel, thisEmail.getSender());
-
-            TabPane inboxTab = findEnclosingTabPane(root);
-            inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab
-            inboxTab.getSelectionModel().select(tab); // Switch to Write tab
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * Overloaded Version. It opens a new WriteView Tab.
-     */
-    private void openWriteTab(Email toLoad) {
         try{
             Tab tab = new Tab("Reply to " + toLoad.getSubject());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
@@ -219,7 +202,14 @@ public class ReadViewController implements Observer {
             //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
             WriteViewController writeViewController =  fxmlLoader.getController();
 
-            writeViewController.init(this.exec, this.clientModel, toLoad);
+            switch (whichFunction){
+                case "reply":
+                    writeViewController.initBasedOnFunction(this.exec, this.clientModel, "reply", toLoad);
+                case "replyToAll":
+                    writeViewController.initBasedOnFunction(this.exec, this.clientModel, "replyToAll",toLoad);
+                case "forward":
+                    writeViewController.initBasedOnFunction(this.exec, this.clientModel, "forward",toLoad);
+            }
 
             TabPane inboxTab = findEnclosingTabPane(root);
             inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab
@@ -228,5 +218,7 @@ public class ReadViewController implements Observer {
             ex.printStackTrace();
         }
     }
+
+
 
 } // end class

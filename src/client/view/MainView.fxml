@@ -42,8 +42,12 @@
                             <cellValueFactory><PropertyValueFactory property="subject" /></cellValueFactory>
                         </TableColumn>
 
-                        <TableColumn fx:id="from" prefWidth="131.0" text="From">
+                        <TableColumn fx:id="to" prefWidth="75.0" text="To">
                             <cellValueFactory><PropertyValueFactory property="receiver" /></cellValueFactory>
+                        </TableColumn>
+
+                      <TableColumn fx:id="from" prefWidth="131.0" text="From">
+                            <cellValueFactory><PropertyValueFactory property="sender" /></cellValueFactory>
                         </TableColumn>
 
                         <TableColumn fx:id="date" minWidth="3.0" prefWidth="118.0" text="Date">

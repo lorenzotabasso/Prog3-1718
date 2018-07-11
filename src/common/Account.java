@@ -9,7 +9,7 @@ import java.util.UUID;
  * @author Antonio Guarino
  */
 
-public class Account extends Observable {
+public class Account {
 
     private UUID IDAccount;
     private String name;
@@ -50,20 +50,14 @@ public class Account extends Observable {
 
     public void setName(String name){
         this.name = name;
-        setChanged();
-        notifyObservers();
     }
 
     public void setSurname(String surname){
         this.surname = surname;
-        setChanged();
-        notifyObservers();
     }
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
-        setChanged();
-        notifyObservers();
     }
 
     // UTILITY ---------------------------------------------------------------------------------------------------------
