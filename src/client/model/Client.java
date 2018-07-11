@@ -179,6 +179,10 @@ public class Client {
         return output;
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
     // SETTERS ---------------------------------------------------------------------------------------------------------
 
     /**
@@ -260,6 +264,10 @@ public class Client {
      */
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 
     // UTILITY ---------------------------------------------------------------------------------------------------------

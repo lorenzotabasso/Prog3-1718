@@ -86,6 +86,7 @@ public class MainViewController {
     private Client clientModel;
     private ExecutorService exec;
     private Email selectedEmail; // needed for reply and forward
+    private String selectedCategory;
 
     public MainViewController() {}
 
@@ -120,13 +121,11 @@ public class MainViewController {
         // CASI
         /*
         1) refresh, refresh NOOK
-        2) refresh, no refresh
+        2) refresh, no refresh NOOK
         3) no refresh, no refresh
         4) no refresh, refresh
          */
 
-        readAll(); // funge DOPPIO READ!
-        //loadAllEmails(); // da testare
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
@@ -142,13 +141,14 @@ public class MainViewController {
         update.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                table.refresh();
+                //table.refresh();
 
                 exec.submit(new AuthTask(clientModel));
                 exec.submit(new GetTask(clientModel));
 
-                //readAll(); // da testare
-                loadAllEmails();
+                if (selectedCategory != null) loadEmails(selectedCategory);
+                else table.refresh();
+
             }
         });
 
@@ -224,18 +224,22 @@ public class MainViewController {
                 switch (new_val.getValue()) {
                     case "Sent":
                         editDraft.setDisable(true);
+                        selectedCategory = "o";
                         loadEmails("o");
                         break;
                     case "Drafts":
                         editDraft.setDisable(false);
+                        selectedCategory = "d";
                         loadEmails("d");
                         break;
                     case "Inbox":
                         editDraft.setDisable(true);
+                        selectedCategory = "i";
                         loadEmails("i");
                         break;
                     default: // Inbox
                         editDraft.setDisable(true);
+                        selectedCategory = "i";
                         loadEmails("i");
                         break;
                 } // end switch
@@ -317,6 +321,10 @@ public class MainViewController {
         loadEmails("i");
         loadEmails("o");
         loadEmails("d");
+    }
+
+    public void getCategory(){
+
     }
 
     // SUPPORT ---------------------------------------------------------------------------------------------------------
