@@ -298,7 +298,8 @@ public class Client {
     }
 
     public boolean serverIsOnline(){
-        return this.socket.isConnected();
+        if (this.socket == null) return false;
+        else return this.socket.isConnected();
     }
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
