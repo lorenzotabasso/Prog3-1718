@@ -26,7 +26,7 @@ public class Client {
     private ObservableList<Email> draft = FXCollections.observableArrayList();
     private ObservableList<Email> bin = FXCollections.observableArrayList();
 
-    private String dataPath;
+    private String dataPath = "src/common/emails/";
 
     private String inboxPath;
     private String outboxPath;
@@ -55,19 +55,15 @@ public class Client {
      * @param serverAddress the address of the server
      * @param serverPort the server's port which is listening to client calls
      */
-    public Client(String name, String surname, String userEmail, String serverAddress, int serverPort, String dataPath){
+    public Client(String name, String surname, String userEmail, String serverAddress, int serverPort){
 
         this.user = new Account(name, surname, userEmail);
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
 
-        if (dataPath != null) {
-            this.dataPath = dataPath;
-
-            this.inboxPath = dataPath + "inbox/";
-            this.outboxPath = dataPath + "outbox/";
-            this.draftsPath = dataPath + "drafts/";
-        }
+        this.inboxPath = dataPath + userEmail + "/inbox/";
+        this.outboxPath = dataPath + userEmail + "/outbox/";
+        this.draftsPath = dataPath + userEmail + "/drafts/";
 
         try {
             initializeSocket();
@@ -84,18 +80,14 @@ public class Client {
      * @param serverAddress the address of the server
      * @param serverPort the server's port which is listening to client calls
      */
-    public Client(Account userAccount, String serverAddress, int serverPort, String dataPath){
+    public Client(Account userAccount, String serverAddress, int serverPort){
         this.user = userAccount;
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
 
-        if (dataPath != null) {
-            this.dataPath = dataPath;
-
-            this.inboxPath = dataPath + "inbox/";
-            this.outboxPath = dataPath + "outbox/";
-            this.draftsPath = dataPath + "drafts/";
-        }
+        this.inboxPath = dataPath + user.getUserEmail() + "/inbox/";
+        this.outboxPath = dataPath + user.getUserEmail() + "/outbox/";
+        this.draftsPath = dataPath + user.getUserEmail() + "/drafts/";
 
         try {
             initializeSocket();
@@ -296,13 +288,17 @@ public class Client {
             this.socket = new Socket(this.serverAddress, this.serverPort);
 
             output = new ObjectOutputStream(socket.getOutputStream());
-            output.flush();
+            //output.flush(); // TESTARE
 
             input = new ObjectInputStream(socket.getInputStream());
 
         } catch (IOException e) {
             throw new ProtocolException("Server inesistente per la coppia IP-Porta", ProtocolException.CONNECTION_ERROR);
         }
+    }
+
+    public boolean serverIsOnline(){
+        return this.socket.isConnected();
     }
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
@@ -318,8 +314,6 @@ public class Client {
      *            the flag of each email defines in which folder the email just created must be saved in.
      */
     public synchronized void write(Email mess, String location){
-
-        // TODO: JavaFX Proprieties -> trasformare email con Proprieties in email senza
 
         try {
             switch (location) {
@@ -347,7 +341,7 @@ public class Client {
 
                 default:  // location.equals("d") Default case: save to drafts
                     getInbox().add(mess); // update GUI
-
+                    // TODO: TESTARE
                     try {
                         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(draftsPath + mess.getIdEmail() + ".txt"));
                         out.writeObject(mess);
@@ -413,8 +407,6 @@ public class Client {
      */
     public synchronized void read(String location){
 
-        // TODO: JavaFX Proprieties -> inizializzazione on the fly
-
         // con java.io.InvalidClassException: common.Email; local class incompatible leggere il seguente articolo
         // 1) https://stackoverflow.com/questions/7173352/java-io-invalidclassexception
         // 2) https://stackoverflow.com/questions/285793/what-is-a-serialversionuid-and-why-should-i-use-it
@@ -440,15 +432,14 @@ public class Client {
                     break;
                 }
 
+                ObservableList<Email> newInbox = FXCollections.observableArrayList();
+
                 for (String path: filesInFolder) {
                     try {
                         ObjectInputStream in = new ObjectInputStream(new FileInputStream(inboxPath + path));
                         toRestore = (Email) in.readObject();
 
-                        if (!getInbox().contains(toRestore)) {
-                            getInbox().add(toRestore); // update GUI
-                        }
-
+                        newInbox.add(toRestore);
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -456,7 +447,10 @@ public class Client {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
-                    } // end try-catch block
+                    } finally {
+                        inbox = newInbox;
+                    }
+                    // end try-catch block
 
                 } // end for
 
@@ -477,12 +471,14 @@ public class Client {
                     break;
                 }
 
+                ObservableList<Email> newOutbox = FXCollections.observableArrayList();
+
                 for (String path: filesInFolder) {
                     try {
                         ObjectInputStream in = new ObjectInputStream(new FileInputStream(outboxPath + path));
                         toRestore = (Email) in.readObject();
 
-                        getOutbox().add(toRestore); // update GUI
+                        newOutbox.add(toRestore); // update GUI
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -490,7 +486,10 @@ public class Client {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
-                    } // end try-catch block
+                    } finally {
+                        outbox = newOutbox;
+                    }
+                    // end try-catch block
 
                 } // end for
 
@@ -511,12 +510,14 @@ public class Client {
                     break;
                 }
 
+                ObservableList<Email> newDrafts = FXCollections.observableArrayList();
+
                 for (String path: filesInFolder) {
                     try {
                         ObjectInputStream in = new ObjectInputStream(new FileInputStream(draftsPath + path));
                         toRestore = (Email) in.readObject();
 
-                        getDraft().add(toRestore); // update GUI
+                        newDrafts.add(toRestore); // update GUI
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -524,16 +525,19 @@ public class Client {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
-                    } // end try-catch block
+                    } finally {
+                        draft = newDrafts;
+                    }
+                    // end try-catch block
 
                 } // end for
 
                 break;
 
-            default:  // location.equals("b")
+            default: // As Inbox
 
                 // filtering only the (serialized) .txt files
-                filesInFolder = new File(binPath).list(new FilenameFilter() {
+                filesInFolder = new File(inboxPath).list(new FilenameFilter() {
                     @Override
                     public boolean accept(File dir, String name) {
                         return name.toLowerCase().endsWith(".txt");
@@ -541,16 +545,18 @@ public class Client {
                 });
 
                 if (filesInFolder.length == 0) {
-                    System.out.println("client.model.client.read():" + binPath + " is empty!"); // DEBUG, da impementare meglio!
+                    System.out.println("client.model.client.read():" + inboxPath + " is empty!"); // DEBUG, da impementare meglio!
                     break;
                 }
 
+                ObservableList<Email> newInbox2 = FXCollections.observableArrayList();
+
                 for (String path: filesInFolder) {
                     try {
-                        ObjectInputStream in = new ObjectInputStream(new FileInputStream(binPath + path));
+                        ObjectInputStream in = new ObjectInputStream(new FileInputStream(inboxPath + path));
                         toRestore = (Email) in.readObject();
 
-                        getBin().add(toRestore); // update GUI
+                        newInbox2.add(toRestore);
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -558,7 +564,10 @@ public class Client {
                         e.printStackTrace();
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
-                    } // end try-catch block
+                    } finally {
+                        inbox = newInbox2;
+                    }
+                    // end try-catch block
 
                 } // end for
 
@@ -567,10 +576,5 @@ public class Client {
         } // end switch
 
     } // end read method
-
-    //TODO: da implementare (sia nel client che nel server, perchè il metodo del client chiama quello del server), serve in ReadViewController
-    public void getLocation(String emailType, String idEmail, String authorEmail) {
-        // return path to email
-    }
 
 } // end client class
