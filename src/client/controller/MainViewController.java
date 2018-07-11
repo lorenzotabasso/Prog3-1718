@@ -60,6 +60,9 @@ public class MainViewController {
     public Button forward;
 
     @FXML
+    public Button editDraft;
+
+    @FXML
     public Label status;
 
     @FXML
@@ -107,7 +110,8 @@ public class MainViewController {
         exec.execute(new AuthTask(clientModel));
 
         //loadEmails("i");
-        readAll();
+        readAll(); // funge
+        //loadAllEmails(); // da testare
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
@@ -167,6 +171,18 @@ public class MainViewController {
             }
         });
 
+        // EDIT DRAFT
+        editDraft.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                selectedEmail = table.getSelectionModel().getSelectedItem();
+                if (selectedEmail != null) openWriteTab("editDraft", selectedEmail);
+
+            }
+        });
+
+        editDraft.setDisable(true); // set the edit draft button as disabled from GUI start
+
     }
 
     /**
@@ -182,7 +198,7 @@ public class MainViewController {
         root.getChildren().add(new TreeItem<>("Sent"));
         root.getChildren().add(new TreeItem<>("Drafts"));
         folders.setRoot(root);
-        folders.getSelectionModel().select(1);
+        //folders.getSelectionModel().select(1);
 
         // adding listener to each tree node //todo tipo di listener
         folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
@@ -193,15 +209,19 @@ public class MainViewController {
 
                 switch (new_val.getValue()) {
                     case "Sent":
+                        editDraft.setDisable(true);
                         loadEmails("o");
                         break;
                     case "Drafts":
+                        editDraft.setDisable(false);
                         loadEmails("d");
                         break;
                     case "Inbox":
+                        editDraft.setDisable(true);
                         loadEmails("i");
                         break;
                     default: // Inbox
+                        editDraft.setDisable(true);
                         loadEmails("i");
                         break;
                 } // end switch
@@ -222,8 +242,6 @@ public class MainViewController {
         date.setSortType(TableColumn.SortType.DESCENDING);
 
         table.refresh();
-
-        // TODO: da finire di mettere a posto
 
         switch (location){
             case "i":

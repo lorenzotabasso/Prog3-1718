@@ -187,6 +187,11 @@ public class WriteViewController {
                 to.setText("");
                 subject.setText("RE: " + toLoad.getSubject());
                 text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " + toLoad.toString() + "}");
+
+            case "editDraft":
+                to.setText(toLoad.getText());
+                subject.setText(toLoad.getSubject());
+                text.setText(toLoad.getText());
         }
     }
 
@@ -202,7 +207,7 @@ public class WriteViewController {
             @Override
             public void handle(ActionEvent event) {
 
-                boolean testTo = (to == null || to.getText().trim().isEmpty());
+                boolean testTo = (to == null || to.getText().trim().isEmpty() || !to.getText().contains("@unito.it"));
                 boolean testFrom = (from == null || from.getText().trim().isEmpty());
                 boolean testSubject = (subject == null || subject.getText().trim().isEmpty());
 

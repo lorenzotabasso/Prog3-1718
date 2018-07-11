@@ -1,10 +1,6 @@
 [da fare] - CLIENT - sistemare i metodi readAll/loadAll in client (problema della duplicazione nell'update!)
-[QUASI FINITO] - CLIENT - Listeners dei bottoni mancanti
 [da fare] - CLIENT - Sistemare gli errori nei listener dei bottoni, aprono le finestre con parametri sbagliati
-[da fare] - CLIENT - Bottone modifica nelle bozze
-[da fare] - CLIENT - Log nel client, stampare gli errori a stdout, e nella status bar.
 [da fare] - SERVER - Log nel server
-[da fare] - SERVER - Modifica GET del server
 
 [da fare] - CLIENT e SERVER - Pulizia ?? (Solo se abbiamo tempo)
 
@@ -13,3 +9,7 @@
 [FATTO] - CLIENT - killare thread
 [FATTO] - SERVER - sistemare autenticazione in server (serve sia in AUTH che nel Send di un email)
 [FATTO] - CLIENT - Observer/observable da usare?
+[FATTO] - CLIENT - Bottone modifica nelle bozze
+[FATTO] - CLIENT - Listeners dei bottoni mancanti
+[FATTO] - CLIENT - Log nel client, stampare gli errori a stdout, e nella status bar.
+[FATTO] - SERVER - Modifica GET del server
