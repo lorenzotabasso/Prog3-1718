@@ -42,14 +42,10 @@ public abstract class AbstractTask implements Runnable{
             startTask();
 
         } catch (ClientException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Unable to send this email.");
-            alert.setContentText("Seems that the server is offline, I will save your email in drafts and I will try to reconect to he server.");
-            alert.showAndWait();
             clientModel.setStatusProperty("Impossibile connettersi al server. Errore: " + e.getExtendedErrorCode());
         } catch (ServerException e) {
-            clientModel.setStatusProperty("Errore nel Server. Errore: " + e.getExtendedErrorCode());
+            //clientModel.setStatusProperty("Errore nel Server. Errore: " + e.getExtendedErrorCode());
+            System.out.println(e.getMessage());
         }
     }
 

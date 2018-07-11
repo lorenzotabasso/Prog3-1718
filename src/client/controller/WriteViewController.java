@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.task.SaveTask;
 import client.task.SendTask;
 import exception.ClientException;
 import javafx.event.ActionEvent;
@@ -141,12 +142,7 @@ public class WriteViewController implements Observer {
 
                     Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
 
-                    // TODO: spostare write nel server e non nel client
-                    //clientModel.write(thisEmail, "o"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
-
                     exec.submit(new SendTask(clientModel, thisEmail)); // creo un thread che si occupa di inviare l'email.
-
-
 
                     closeTab();
                 }
@@ -162,7 +158,9 @@ public class WriteViewController implements Observer {
                 receiver.addAll(Arrays.asList(output));
 
                 Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
-                clientModel.write(thisEmail, "d");
+
+                exec.submit(new SaveTask(clientModel, thisEmail)); // creo un thread che si occupa di inviare la bozza.
+
                 closeTab();
             }
         });
