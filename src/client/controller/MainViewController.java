@@ -212,9 +212,8 @@ public class MainViewController {
         root.getChildren().add(new TreeItem<>("Sent"));
         root.getChildren().add(new TreeItem<>("Drafts"));
         folders.setRoot(root);
-        //folders.getSelectionModel().select(1);
 
-        // adding listener to each tree node //todo tipo di listener
+        // adding listener to each tree node
         folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
             @Override
             public void changed(
@@ -304,7 +303,7 @@ public class MainViewController {
 
             row.itemProperty().addListener((obs, oldValue, newRowValue) -> {
                 if (newRowValue != null) {
-                    if (newRowValue.getSeen()) { // Test: tolo il ! per un momento
+                    if (!newRowValue.getSeen()) { // Test: tolo il ! per un momento
                         row.setStyle("-fx-font-weight: bold");
                     } else {
                         row.setStyle(" ");
@@ -390,7 +389,6 @@ public class MainViewController {
             // it opens the email object associated to the selected row in another tab.
             Tab tab = new Tab("Reply to " + toLoad.getSubject());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
-
 
             tab.setContent(fxmlLoader.load());
 

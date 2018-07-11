@@ -39,7 +39,7 @@
                   <TableView fx:id="table" prefHeight="308.0" prefWidth="430.0" BorderPane.alignment="CENTER">
 
                     <columns>
-                        <TableColumn fx:id="subject" prefWidth="247.0" text="Subject">
+                        <TableColumn id="subject" fx:id="subject" prefWidth="247.0" text="Subject">
                             <cellValueFactory><PropertyValueFactory property="subject" /></cellValueFactory>
                         </TableColumn>
 

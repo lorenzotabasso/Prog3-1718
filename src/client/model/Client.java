@@ -296,7 +296,6 @@ public class Client {
             this.socket = new Socket(this.serverAddress, this.serverPort);
 
             output = new ObjectOutputStream(socket.getOutputStream());
-            //output.flush(); // TESTARE
 
             input = new ObjectInputStream(socket.getInputStream());
 
@@ -312,101 +311,6 @@ public class Client {
     }
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
-
-    // TODO: spostare nel server i metodi read, write e delete
-
-    /**
-     * It writes a serialized txt file containing all the data of the email passed through the "mess" parameter, and it updates
-     * the GUI, showing the new message in the right box (in/out-box or drafts)
-     *
-     * @param mess: the Email object to write on file
-     * @param location: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft).
-     *            the flag of each email defines in which folder the email just created must be saved in.
-     */
-    public synchronized void write(Email mess, String location){
-
-        try {
-            switch (location) {
-                case "i":  // inbox
-                    getInbox().add(mess); // update GUI
-
-                    try {
-                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(inboxPath + mess.getIdEmail() + ".txt"));
-                        out.writeObject(mess);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-
-                case "o":  // outbox
-                    getOutbox().add(mess); // update GUI
-
-                    try {
-                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(outboxPath + mess.getIdEmail() + ".txt"));
-                        out.writeObject(mess);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-
-                default:  // location.equals("d") Default case: save to drafts
-                    getInbox().add(mess); // update GUI
-                    // TODO: TESTARE
-                    try {
-                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(draftsPath + mess.getIdEmail() + ".txt"));
-                        out.writeObject(mess);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } // end try-catch block
-
-    } // end write method
-
-    /**
-     * It removes the email from the ObservableList in which is located, it moves the email to the bin and it updates the GUI.
-     * @param mess: the Email to be removed
-     * @param location: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft).
-     *            the flag of each email defines in which folder the email just created must be saved in.
-     */
-    public synchronized void delete(Email mess, String location){ // TODO: finire di implementare, delete() non è efficace
-        switch (location) {
-            case "i": {
-                getInbox().remove(mess); // update GUI
-
-                // moving the email file from inbox to bin
-                File transotiry = new File(inboxPath + "email" + mess.getIdEmail() + ".txt");
-                if (transotiry.delete())
-                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
-                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
-                break;
-            }
-            case "o": {
-                getOutbox().remove(mess); // update GUI
-
-                // moving the email file from inbox to bin
-                File transotiry = new File(outboxPath + "email" + mess.getIdEmail() + ".txt");
-                if (transotiry.delete())
-                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
-                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
-                break;
-            }
-            default: { // location.equals("d")
-                getDraft().remove(mess); // update GUI
-
-                // moving the email file from inbox to bin
-                File transotiry = new File(draftsPath + "email" + mess.getIdEmail() + ".txt");
-                if (transotiry.delete())
-                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
-                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
-                break;
-            }
-        } // end switch
-    } // end method
 
     /**
      * It reads all the serialized txt files of the emails and it fill the ObservableList related to the Folder
@@ -586,5 +490,97 @@ public class Client {
         } // end switch
 
     } // end read method
+
+//    /**
+//     * It writes a serialized txt file containing all the data of the email passed through the "mess" parameter, and it updates
+//     * the GUI, showing the new message in the right box (in/out-box or drafts)
+//     *
+//     * @param mess: the Email object to write on file
+//     * @param location: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft).
+//     *            the flag of each email defines in which folder the email just created must be saved in.
+//     */
+//    public synchronized void write(Email mess, String location){
+//
+//        try {
+//            switch (location) {
+//                case "i":  // inbox
+//                    getInbox().add(mess); // update GUI
+//
+//                    try {
+//                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(inboxPath + mess.getIdEmail() + ".txt"));
+//                        out.writeObject(mess);
+//                    } catch (IOException e) {
+//                        System.out.println(e.getMessage());
+//                    }
+//                    break;
+//
+//                case "o":  // outbox
+//                    getOutbox().add(mess); // update GUI
+//
+//                    try {
+//                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(outboxPath + mess.getIdEmail() + ".txt"));
+//                        out.writeObject(mess);
+//                    } catch (IOException e) {
+//                        System.out.println(e.getMessage());
+//                    }
+//                    break;
+//
+//                default:  // location.equals("d") Default case: save to drafts
+//                    getInbox().add(mess); // update GUI
+//                    try {
+//                        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(draftsPath + mess.getIdEmail() + ".txt"));
+//                        out.writeObject(mess);
+//                    } catch (IOException e) {
+//                        System.out.println(e.getMessage());
+//                    }
+//                    break;
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } // end try-catch block
+//
+//    } // end write method
+//
+//    /**
+//     * It removes the email from the ObservableList in which is located, it moves the email to the bin and it updates the GUI.
+//     * @param mess: the Email to be removed
+//     * @param location: the flag associated to the email: i (for inbox), o (for outbox) and d (for draft).
+//     *            the flag of each email defines in which folder the email just created must be saved in.
+//     */
+//    public synchronized void delete(Email mess, String location){
+//        switch (location) {
+//            case "i": {
+//                getInbox().remove(mess); // update GUI
+//
+//                // moving the email file from inbox to bin
+//                File transotiry = new File(inboxPath + "email" + mess.getIdEmail() + ".txt");
+//                if (transotiry.delete())
+//                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
+//                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
+//                break;
+//            }
+//            case "o": {
+//                getOutbox().remove(mess); // update GUI
+//
+//                // moving the email file from inbox to bin
+//                File transotiry = new File(outboxPath + "email" + mess.getIdEmail() + ".txt");
+//                if (transotiry.delete())
+//                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
+//                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
+//                break;
+//            }
+//            default: { // location.equals("d")
+//                getDraft().remove(mess); // update GUI
+//
+//                // moving the email file from inbox to bin
+//                File transotiry = new File(draftsPath + "email" + mess.getIdEmail() + ".txt");
+//                if (transotiry.delete())
+//                    System.out.println("File " + transotiry.getAbsolutePath() + " deleted successfully");
+//                else System.out.println("Errore while deleting " + transotiry.getAbsolutePath());
+//                break;
+//            }
+//        } // end switch
+//    } // end method
 
 } // end client class

@@ -93,36 +93,6 @@ public class WriteViewController {
         to.setText(receiver);
     }
 
-//    /**
-//     * Overloaded version.
-//     * It initialize the WriteView populating the receiver field. Used in the Mainview.
-//     *
-//     * @param exec the thread pool in which the Task will be executed.
-//     * @param clientModel the Client client.model .
-//     * @param whichFunction a string that makes the view change based on the function which initialized the controller.
-//     *                      The possibilities are: "reply", "replyToAll" and "forward"
-//     * @param toLoad email to show in the WriteView
-//     */
-//    public void init(ExecutorService exec, Client clientModel, String whichFunction, Email toLoad){
-//        this.exec = exec;
-//        this.clientModel = clientModel;
-//
-//        initializeButtonsListeners();
-//
-//        from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
-//
-//        switch (whichFunction) {
-//            case "reply":
-//                to.setText(toLoad.getSender());
-//            case "replyToAll":
-//                to.setText(toLoad.getSender());
-//            case "forward":
-//                to.setText("");
-//        }
-//
-//        subject.setText("RE: " + toLoad.getSubject());
-//    }
-
     /**
      * Overloaded version.
      * It initialize the WriteView populating the receiver field. Used in the Mainview.
@@ -156,7 +126,11 @@ public class WriteViewController {
 
                 to.setText(toLoad.getSender());
                 subject.setText("RE: " + toLoad.getSubject());
-                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " + toLoad.toString() + "}");
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " +
+                        "Sender: " + toLoad.getSender() + "\n" +
+                        "Receiver: " + toLoad.getReceiver().toString() + "\n" +
+                        "Subject: " + toLoad.getSubject() + "\n" +
+                        "Text: " + toLoad.getText() + "\n" + "}");
 
             case "replyToAll":
 
@@ -181,12 +155,20 @@ public class WriteViewController {
                 }
 
                 subject.setText("RE: " + toLoad.getSubject());
-                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " + toLoad.toString() + "}");
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " +
+                        "Sender: " + toLoad.getSender() + "\n" +
+                        "Receiver: " + toLoad.getReceiver().toString() + "\n" +
+                        "Subject: " + toLoad.getSubject() + "\n" +
+                        "Text: " + toLoad.getText() + "\n" + "}");
 
             case "forward":
                 to.setText("");
                 subject.setText("RE: " + toLoad.getSubject());
-                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " + toLoad.toString() + "}");
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " +
+                        "Sender: " + toLoad.getSender() + "\n" +
+                        "Receiver: " + toLoad.getReceiver().toString() + "\n" +
+                        "Subject: " + toLoad.getSubject() + "\n" +
+                        "Text: " + toLoad.getText() + "\n" + "}");
 
             case "editDraft":
                 to.setText(toLoad.getText());
