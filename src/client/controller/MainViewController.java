@@ -79,7 +79,7 @@ public class MainViewController implements Observer {
 
     private Client clientModel;
     private ExecutorService exec;
-    private Email selectedEmail;
+    private Email selectedEmail; // needed for reply and forward
 
     public MainViewController() {}
 
@@ -98,8 +98,8 @@ public class MainViewController implements Observer {
         initializeButtonsListeners();
         initTree();
 
-        status.textProperty().bind(clientModel.getStatus());
         clientModel.setStatusProperty("loading...");
+        status.textProperty().bind(clientModel.getStatus());
 
         exec.execute(new AuthTask(clientModel));
 
@@ -122,9 +122,12 @@ public class MainViewController implements Observer {
             public void handle(ActionEvent e) {
                 table.refresh();
                 //loadEmails("i"); // TODO: provvisorio, da implementare thread di aggiornnamento qui
+
+                exec.submit(new AuthTask(clientModel));
                 exec.submit(new GetTask(clientModel));
-                readAll();
-                //loadAllEmails();
+
+                //readAll(); // da testare
+                loadAllEmails();
             }
         });
 
@@ -217,7 +220,8 @@ public class MainViewController implements Observer {
                     case "Inbox":
                         loadEmails("i");
                         break;
-                    default:
+                    default: // Inbox
+                        loadEmails("i");
                         break;
                 } // end switch
             } // end changed() definition
@@ -236,22 +240,24 @@ public class MainViewController implements Observer {
 
         date.setSortType(TableColumn.SortType.DESCENDING);
 
+        table.refresh();
+
         switch (location){
             case "i":
-                table.refresh();
-                //clientModel.read("i");
+                clientModel.read("i");
+                //table.refresh();
                 table.setItems(clientModel.getInbox());
                 break;
 
             case "o":
-                table.refresh();
-                //clientModel.read("o");
+                //table.refresh();
+                clientModel.read("o");
                 table.setItems(clientModel.getOutbox());
                 break;
 
             case "d":
-                //clientModel.read("d");
-                table.refresh();
+                //table.refresh();
+                clientModel.read("d");
                 table.setItems(clientModel.getDraft());
                 break;
 

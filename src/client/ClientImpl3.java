@@ -35,7 +35,7 @@ public class ClientImpl3 extends Application{
 
         // Create emails client.model
         clientModel = new Client("antonio","Guarino", "antonio.guarino@unito.it",
-                "127.0.0.1", 9000, "src/common/emails/antonio/");
+                "127.0.0.1", 9000);
 
         // Create Thread Pool
         exec = Executors.newSingleThreadExecutor();
