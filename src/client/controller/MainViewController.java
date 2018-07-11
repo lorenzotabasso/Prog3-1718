@@ -242,6 +242,8 @@ public class MainViewController implements Observer {
 
         table.refresh();
 
+        // TODO: da finire di mettere a posto
+
         switch (location){
             case "i":
                 clientModel.read("i");
