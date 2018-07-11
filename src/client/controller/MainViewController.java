@@ -109,8 +109,23 @@ public class MainViewController {
 
         exec.execute(new AuthTask(clientModel));
 
-        //loadEmails("i");
-        readAll(); // funge
+        // CASI
+        /*
+        1) read, read OK
+        2) read, load NOOK
+        3) load, read NOOK, all'avvio carica le bozze
+        4) load, load NOOK, all'avvio carica le bozze
+         */
+
+        // CASI
+        /*
+        1) refresh, refresh
+        2) refresh, no refresh
+        3) no refresh, no refresh
+        4) no refresh, refresh
+         */
+
+        readAll(); // funge DOPPIO READ!
         //loadAllEmails(); // da testare
     }
 
@@ -128,7 +143,6 @@ public class MainViewController {
             @Override
             public void handle(ActionEvent e) {
                 table.refresh();
-                //loadEmails("i"); // TODO: provvisorio, da implementare thread di aggiornnamento qui
 
                 exec.submit(new AuthTask(clientModel));
                 exec.submit(new GetTask(clientModel));
@@ -241,7 +255,7 @@ public class MainViewController {
 
         date.setSortType(TableColumn.SortType.DESCENDING);
 
-        table.refresh();
+        table.refresh(); // da testare
 
         switch (location){
             case "i":
