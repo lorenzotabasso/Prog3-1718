@@ -50,8 +50,6 @@ public abstract class AbstractTask implements Runnable{
             clientModel.setStatusProperty("Impossibile connettersi al server. Errore: " + e.getExtendedErrorCode());
         } catch (ServerException e) {
             clientModel.setStatusProperty("Errore nel Server. Errore: " + e.getExtendedErrorCode());
-        } finally {
-            //todo aggiunger exit (clientModel.close();)
         }
     }
 
