@@ -10,12 +10,12 @@ prog3-project-1718.iml
 
 src/common/emails/antonio.guarino@unito.it/inbox/*.txt
 src/common/emails/antonio.guarino@unito.it/outbox/*.txt
-src/common/emails/antonio.guarino@unito.it/drafts/*.txt
+src/common/emails/antonio.guarino@unito.it/draft/*.txt
 
 src/common/emails/lorenzo.tabasso@unito.it/inbox/*.txt
 src/common/emails/lorenzo.tabasso@unito.it/outbox/*.txt
-src/common/emails/lorenzo.tabasso@unito.it/drafts/*.txt
+src/common/emails/lorenzo.tabasso@unito.it/draft/*.txt
 
 src/common/emails/youssef.mouaddine@unito.it/inbox/*.txt
 src/common/emails/youssef.mouaddine@unito.it/outbox/*.txt
-src/common/emails/youssef.mouaddine@unito.it/drafts/*.txt
+src/common/emails/youssef.mouaddine@unito.it/draft/*.txt

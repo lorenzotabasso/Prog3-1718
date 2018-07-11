@@ -119,7 +119,7 @@ public class MainViewController {
 
         // CASI
         /*
-        1) refresh, refresh
+        1) refresh, refresh NOOK
         2) refresh, no refresh
         3) no refresh, no refresh
         4) no refresh, refresh
@@ -255,7 +255,7 @@ public class MainViewController {
 
         date.setSortType(TableColumn.SortType.DESCENDING);
 
-        table.refresh(); // da testare
+        //table.refresh(); // da testare
 
         switch (location){
             case "i":

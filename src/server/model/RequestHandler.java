@@ -135,7 +135,7 @@ public class RequestHandler implements Runnable {
             return writeResponse(-1, "Invalid email");
 
 
-        path = getLocation("drafts", email.getIdEmail(), email.getSender());
+        path = getLocation("draft", email.getIdEmail(), email.getSender());
         writed = writeEmail(email, path);
 
 
