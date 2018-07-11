@@ -42,7 +42,7 @@ import java.util.*;
  * @author Antonio Guarino
  */
 
-public class Email extends Observable implements Serializable{
+public class Email implements Serializable{
     private static final long serialVersionUID = 42L; // needed for serialization, it avoids InvalidClassException
 
     private UUID idEmail;
@@ -145,8 +145,6 @@ public class Email extends Observable implements Serializable{
         }
         else {
             this.seen = value;
-            setChanged();
-            notifyObservers();
             return this.seen;
         }
     }
@@ -217,26 +215,6 @@ public class Email extends Observable implements Serializable{
                 ",\n text='" + text + '\'' +
                 ",\n date=" + date + '\n' +
                 '}';
-    }
-
-    @Override
-    public void notifyObservers() { // TODO: da finire
-        super.notifyObservers();
-    }
-
-    @Override
-    public synchronized void addObserver(Observer o) {
-        super.addObserver(o);
-    }
-
-    @Override
-    public synchronized void deleteObservers() {
-        super.deleteObservers();
-    }
-
-    @Override
-    protected synchronized void setChanged() {
-        super.setChanged();
     }
 
 } // end Email Class

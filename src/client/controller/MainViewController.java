@@ -34,7 +34,7 @@ La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzio
  * @author Antonio Guarino
  */
 
-public class MainViewController implements Observer {
+public class MainViewController {
 
     // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
     // SEGUIREMO L'APPROCCIO 1
@@ -60,6 +60,9 @@ public class MainViewController implements Observer {
     public Button forward;
 
     @FXML
+    public Button editDraft;
+
+    @FXML
     public Label status;
 
     @FXML
@@ -70,6 +73,9 @@ public class MainViewController implements Observer {
 
     @FXML
     public TableColumn subject;
+
+    @FXML
+    public TableColumn to;
 
     @FXML
     public TableColumn from;
@@ -104,7 +110,8 @@ public class MainViewController implements Observer {
         exec.execute(new AuthTask(clientModel));
 
         //loadEmails("i");
-        readAll();
+        readAll(); // funge
+        //loadAllEmails(); // da testare
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
@@ -142,21 +149,7 @@ public class MainViewController implements Observer {
             @Override
             public void handle(ActionEvent e) {
                 selectedEmail = table.getSelectionModel().getSelectedItem();
-
-                if (selectedEmail.getReceiver().size() == 1) {
-                    openWriteTab(selectedEmail); // it opens the email object associated to the selected row in another tab.
-                }
-                else {
-                    // we load a a the same email with only the first receiver.
-
-                    Email toLoad = selectedEmail;
-                    ArrayList<String> newReceiver = new ArrayList<>();
-                    newReceiver.add(toLoad.getReceiver().get(0));
-                    toLoad.setReceiver(newReceiver);
-
-                    openWriteTab(toLoad);
-                }
-
+                openWriteTab("reply", selectedEmail); // it opens the email object associated to the selected row in another tab.
             }
         });
 
@@ -165,13 +158,7 @@ public class MainViewController implements Observer {
             @Override
             public void handle(ActionEvent e) {
                 selectedEmail = table.getSelectionModel().getSelectedItem();
-
-                if (selectedEmail.getReceiver().size() == 1) {
-                    openWriteTab(selectedEmail); // it opens the email object associated to the selected row in another tab.
-                }
-                else {
-                    openWriteTab(selectedEmail);
-                }
+                openWriteTab("replyToAll", selectedEmail); // it opens the email object associated to the selected row in another tab.
             }
         });
 
@@ -179,12 +166,22 @@ public class MainViewController implements Observer {
         forward.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                Email toLoad = selectedEmail;
-                toLoad.setReceiver(new ArrayList<>()); // because the user will choice the new receiver
-
-                openWriteTab(toLoad);
+                selectedEmail = table.getSelectionModel().getSelectedItem();
+                openWriteTab("forward", selectedEmail);
             }
         });
+
+        // EDIT DRAFT
+        editDraft.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                selectedEmail = table.getSelectionModel().getSelectedItem();
+                if (selectedEmail != null) openWriteTab("editDraft", selectedEmail);
+
+            }
+        });
+
+        editDraft.setDisable(true); // set the edit draft button as disabled from GUI start
 
     }
 
@@ -201,7 +198,7 @@ public class MainViewController implements Observer {
         root.getChildren().add(new TreeItem<>("Sent"));
         root.getChildren().add(new TreeItem<>("Drafts"));
         folders.setRoot(root);
-        folders.getSelectionModel().select(1);
+        //folders.getSelectionModel().select(1);
 
         // adding listener to each tree node //todo tipo di listener
         folders.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
@@ -212,15 +209,19 @@ public class MainViewController implements Observer {
 
                 switch (new_val.getValue()) {
                     case "Sent":
+                        editDraft.setDisable(true);
                         loadEmails("o");
                         break;
                     case "Drafts":
+                        editDraft.setDisable(false);
                         loadEmails("d");
                         break;
                     case "Inbox":
+                        editDraft.setDisable(true);
                         loadEmails("i");
                         break;
                     default: // Inbox
+                        editDraft.setDisable(true);
                         loadEmails("i");
                         break;
                 } // end switch
@@ -242,8 +243,6 @@ public class MainViewController implements Observer {
 
         table.refresh();
 
-        // TODO: da finire di mettere a posto
-
         switch (location){
             case "i":
                 clientModel.read("i");
@@ -263,8 +262,10 @@ public class MainViewController implements Observer {
                 table.setItems(clientModel.getDraft());
                 break;
 
-            default:
+            default: // same as inbox
+                clientModel.read("i");
                 //table.refresh();
+                table.setItems(clientModel.getInbox());
                 break;
         }
 
@@ -302,20 +303,6 @@ public class MainViewController implements Observer {
         loadEmails("i");
         loadEmails("o");
         loadEmails("d");
-    }
-
-
-    // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
-
-    /**
-     * Implementation of update method in Observer interface.
-     *
-     * @param o the observable object.
-     * @param arg (optional) an argument passed to the notifyObservers method.
-     */
-    @Override
-    public void update(Observable o, Object arg) { // TODO: a cosa serve l'oggetto arg? capirlo.
-
     }
 
     // SUPPORT ---------------------------------------------------------------------------------------------------------
@@ -367,24 +354,33 @@ public class MainViewController implements Observer {
     }
 
     /**
-     * It opens a new WriteView Tab.
+     * it opens a new WriteView. It's invoked after pressing the buttons Reply, Reply to all and Forward.
+     *
+     * @param whichFunction a string that makes the view change based on the function which initialized the controller.
+     *                      The possibilities are: "reply", "replyToAll" and "forward"
+     * @param original email to show in the WriteView
      */
-    private void openWriteTab(Email toLoad) {
-        try{
+    private void openWriteTab(String whichFunction, Email original) {
+
+        Email toLoad = original; // for safety
+
+        try {
+            // it opens the email object associated to the selected row in another tab.
             Tab tab = new Tab("Reply to " + toLoad.getSubject());
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
+
 
             tab.setContent(fxmlLoader.load());
 
             //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
             WriteViewController writeViewController =  fxmlLoader.getController();
 
-            writeViewController.init(this.exec, this.clientModel, toLoad);
+            writeViewController.initBasedOnFunction(this.exec, this.clientModel, whichFunction, toLoad);
 
             root.getTabs().add(tab); // Add the new tab beside the "Inbox" tab
             root.getSelectionModel().select(tab); // Switch to Write tab
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

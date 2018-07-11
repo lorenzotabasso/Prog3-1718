@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @author Antonio Guarino
  */
 
-public class WriteViewController implements Observer {
+public class WriteViewController {
 
     @FXML
     public VBox root;
@@ -93,22 +93,106 @@ public class WriteViewController implements Observer {
         to.setText(receiver);
     }
 
+//    /**
+//     * Overloaded version.
+//     * It initialize the WriteView populating the receiver field. Used in the Mainview.
+//     *
+//     * @param exec the thread pool in which the Task will be executed.
+//     * @param clientModel the Client client.model .
+//     * @param whichFunction a string that makes the view change based on the function which initialized the controller.
+//     *                      The possibilities are: "reply", "replyToAll" and "forward"
+//     * @param toLoad email to show in the WriteView
+//     */
+//    public void init(ExecutorService exec, Client clientModel, String whichFunction, Email toLoad){
+//        this.exec = exec;
+//        this.clientModel = clientModel;
+//
+//        initializeButtonsListeners();
+//
+//        from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
+//
+//        switch (whichFunction) {
+//            case "reply":
+//                to.setText(toLoad.getSender());
+//            case "replyToAll":
+//                to.setText(toLoad.getSender());
+//            case "forward":
+//                to.setText("");
+//        }
+//
+//        subject.setText("RE: " + toLoad.getSubject());
+//    }
+
     /**
      * Overloaded version.
-     * It initialize the WriteView populating the receiver field. Used in the ReadView.
+     * It initialize the WriteView populating the receiver field. Used in the Mainview.
      *
      * @param exec the thread pool in which the Task will be executed.
      * @param clientModel the Client client.model .
+     * @param whichFunction a string that makes the view change based on the function which initialized the controller.
+     *                      The possibilities are: "reply", "replyToAll" and "forward"
+     * @param original email to show in the WriteView
      */
-    public void init(ExecutorService exec, Client clientModel, Email toLoad){
+    public void initBasedOnFunction(ExecutorService exec, Client clientModel, String whichFunction, Email original){
         this.exec = exec;
         this.clientModel = clientModel;
+
+        Email toLoad = original; // for safety
 
         initializeButtonsListeners();
 
         from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
-        to.setText("");
-        subject.setText("RE: " + toLoad.getSubject());
+
+        switch (whichFunction) {
+
+            case "new":
+                to.setText(toLoad.getSender());
+
+            case "reply":
+
+                // ci sono 2 casi:
+                // 1) l'email ha un solo destinatario. --> rispondere solo a uno
+                // 2) l'email ha più di un destinatario. --> rispondere solo a uno
+
+                to.setText(toLoad.getSender());
+                subject.setText("RE: " + toLoad.getSubject());
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " + toLoad.toString() + "}");
+
+            case "replyToAll":
+
+                // ci sono 2 casi:
+                // 1) l'email ha un solo destinatario. --> rispondere solo a uno
+                // 2) l'email ha più di un destinatario. --> rispondere a tutti
+
+                if (toLoad.getReceiver().size() == 1){
+                    to.setText(toLoad.getSender());
+                }
+                else {
+                    String finalsReceivers = "";
+                    for (String newReceiver : toLoad.getReceiver()){
+                        if (toLoad.getReceiver().get(0).equals(newReceiver)){
+                            finalsReceivers.concat(newReceiver);
+                        }
+                        else {
+                            finalsReceivers.concat("," + finalsReceivers.concat(newReceiver));
+                        }
+                    }
+                    to.setText(finalsReceivers);
+                }
+
+                subject.setText("RE: " + toLoad.getSubject());
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " + toLoad.toString() + "}");
+
+            case "forward":
+                to.setText("");
+                subject.setText("RE: " + toLoad.getSubject());
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " + toLoad.toString() + "}");
+
+            case "editDraft":
+                to.setText(toLoad.getText());
+                subject.setText(toLoad.getSubject());
+                text.setText(toLoad.getText());
+        }
     }
 
     // EVENT HANDLERS INITIALIZATION -----------------------------------------------------------------------------------
@@ -123,7 +207,7 @@ public class WriteViewController implements Observer {
             @Override
             public void handle(ActionEvent event) {
 
-                boolean testTo = (to == null || to.getText().trim().isEmpty());
+                boolean testTo = (to == null || to.getText().trim().isEmpty() || !to.getText().contains("@unito.it"));
                 boolean testFrom = (from == null || from.getText().trim().isEmpty());
                 boolean testSubject = (subject == null || subject.getText().trim().isEmpty());
 
@@ -172,19 +256,6 @@ public class WriteViewController implements Observer {
                 closeTab();
             }
         });
-    }
-
-    // IMPLEMENTATIONS -------------------------------------------------------------------------------------------------
-
-    /**
-     * Implementation of update method in Observer interface
-     *
-     * @param o:   the observable object.
-     * @param arg: (optional) an argument passed to the notifyObservers method.
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-
     }
 
     // SUPPORT ---------------------------------------------------------------------------------------------------------

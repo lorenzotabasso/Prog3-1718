@@ -42,10 +42,11 @@ public abstract class AbstractTask implements Runnable{
             startTask();
 
         } catch (ClientException e) {
+            System.out.println(e.getMessage() + ", codice di errore: " + e.getExtendedErrorCode());
             clientModel.setStatusProperty("Impossibile connettersi al server. Errore: " + e.getExtendedErrorCode());
         } catch (ServerException e) {
-            //clientModel.setStatusProperty("Errore nel Server. Errore: " + e.getExtendedErrorCode());
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + ", codice di errore: " + e.getExtendedErrorCode());
+            clientModel.setStatusProperty("Errore nel Server. Errore: " + e.getExtendedErrorCode());
         }
     }
 
@@ -59,7 +60,7 @@ public abstract class AbstractTask implements Runnable{
                     res = (Response) clientModel.getInput().readObject();
                 }
                 else
-                    throw new ClientException("Server offline", 1);
+                    throw new ClientException("Server offline", ClientException.CONNECTION_ERROR);
 
             } catch (IOException e) {
                 throw new ClientException(e.getMessage(), 1);
