@@ -31,7 +31,7 @@ public class DeleteTask extends AbstractTask{
         clientModel.setStatusProperty("Eliminazione dell'email in corso...");
 
         Request rts = new Request("DELETE");
-        rts.setParameters(toDelete.getIdEmail());
+        rts.setParameters(toDelete);
         rts.setAuthor(clientModel.getUser().getName());
 
         Response rsp = sendRequest(rts);
