@@ -22,6 +22,8 @@ public class ServerImpl {
             s.log("Server connesso... \n");
             s.init();
 
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -63,7 +63,7 @@ public class Client {
 
         this.inboxPath = dataPath + userEmail + "/inbox/";
         this.outboxPath = dataPath + userEmail + "/outbox/";
-        this.draftsPath = dataPath + userEmail + "/drafts/";
+        this.draftsPath = dataPath + userEmail + "/draft/"; //aggiunger s
 
         try {
             initializeSocket();
@@ -87,7 +87,7 @@ public class Client {
 
         this.inboxPath = dataPath + user.getUserEmail() + "/inbox/";
         this.outboxPath = dataPath + user.getUserEmail() + "/outbox/";
-        this.draftsPath = dataPath + user.getUserEmail() + "/drafts/";
+        this.draftsPath = dataPath + user.getUserEmail() + "/draft/"; //aggiunger s
 
         try {
             initializeSocket();
@@ -297,8 +297,10 @@ public class Client {
         }
     }
 
-    public boolean serverIsOnline(){
-        return this.socket.isConnected();
+    public boolean serverIsOnline() {
+
+        return this.socket != null && this.socket.isConnected();
+
     }
 
     // OTHER METHODS ---------------------------------------------------------------------------------------------------

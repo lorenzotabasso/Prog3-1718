@@ -57,6 +57,8 @@ public class RequestHandler implements Runnable {
                     assert response != null;
                     log("(response) " + response.toString());
                     out.writeObject(response);
+
+                    out.flush();
                 }
 
             } catch (ClassNotFoundException e) {
@@ -99,9 +101,7 @@ public class RequestHandler implements Runnable {
             response = saveEmailRequest((Email) request.getParameters());
 
         else if (request.getCommand().startsWith("DELETE")) {
-            //[0] -> id email || [1] -> type email
-            String[] parts = request.getParameters().toString().split(" ");
-            response = deleteRequest(parts[0], parts[1], request.getAuthor());
+            response = deleteRequest((Email) request.getParameters(), request.getAuthor());
 
         } else if (request.getCommand().startsWith("EXIT"))
             response = exitRequest();
@@ -164,28 +164,28 @@ public class RequestHandler implements Runnable {
     /**
      * The Client it requires to delete an Email.
      *
-     * @param idEmail   : id of the Email
-     * @param typeEmail : the type of the email (inbox, outbox, draft)
-     * @param user      : the user who do the request
+     * @param email : object of Email
+     * @param user  : the user who do the request
      * @return response  with status 200 + message if the delete operation is confirmed
      * otherwise response  with status -1 + message
      **/
 
-    private Response deleteRequest(String idEmail, String typeEmail, String user) {
+    private Response deleteRequest(Email email, String user) {
 
-        File file = new File(getLocation(typeEmail, idEmail, user));
 
-        if (file.delete()) {
+        String dir = emailPath + "/" + user;
+        String eP = email.getIdEmail() + ".txt";
 
-            log("File deleted successfully");
-            return writeResponse(200, "Email deleted successfully");
+        File file = (getEmailPath(dir, eP));
 
-        } else {
-
-            log("Failed to delete the file");
-            return writeResponse(-1, "Failed to delete the file");
+        if (file != null) {
+            if (file.delete()) {
+                log("Email " + file.getName() + "  deleted successfully");
+                return writeResponse(200, "Email deleted successfully");
+            }
         }
-
+        log("Failed to delete the email ");
+        return writeResponse(-1, "Failed to delete the email");
     }
 
 
@@ -228,16 +228,6 @@ public class RequestHandler implements Runnable {
 
         return writeResponse(200, "Email sent to all receiver");
     }
-
-  /*  public String getUserByEmail(String senderEmail) {
-        String res = null;
-        if (senderEmail != null) {
-            String[] splittedEmail = senderEmail.split("[.@._]");
-            // es. {"lorenzo", "tabasso", "unito", "it"}
-            res = splittedEmail[0]; // the name of the sender in the email
-        }
-        return res;
-    }*/
 
 
     /**
@@ -364,6 +354,27 @@ public class RequestHandler implements Runnable {
             }
         }
         return false;
+    }
+
+
+    private File getEmailPath(String filePath, String fileEmail) {
+
+        File file = new File(filePath);
+
+        if (file.isDirectory()) {
+
+            for (File temp : file.listFiles()) {
+                if (temp.isDirectory()) {
+                    log("Searching directory ... " + temp.getAbsoluteFile());
+                    for (File f : temp.listFiles()) {
+                        if (fileEmail.equals(f.getName().toLowerCase())) {
+                            return f;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 

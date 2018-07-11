@@ -32,7 +32,7 @@ public class DeleteTask extends AbstractTask{
 
         Request rts = new Request("DELETE");
         rts.setParameters(toDelete);
-        rts.setAuthor(clientModel.getUser().getName());
+        rts.setAuthor(clientModel.getUser().getUserEmail());
 
         Response rsp = sendRequest(rts);
 
