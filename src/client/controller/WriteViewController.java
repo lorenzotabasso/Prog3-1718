@@ -117,6 +117,7 @@ public class WriteViewController {
 
             case "new":
                 to.setText(toLoad.getSender());
+                break;
 
             case "reply":
 
@@ -126,11 +127,12 @@ public class WriteViewController {
 
                 to.setText(toLoad.getSender());
                 subject.setText("RE: " + toLoad.getSubject());
-                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " +
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "\n" +
                         "Sender: " + toLoad.getSender() + "\n" +
                         "Receiver: " + toLoad.getReceiver().toString() + "\n" +
                         "Subject: " + toLoad.getSubject() + "\n" +
-                        "Text: " + toLoad.getText() + "\n" + "}");
+                        "Text: " +toLoad.getText() + "\n");
+                break;
 
             case "replyToAll":
 
@@ -155,25 +157,31 @@ public class WriteViewController {
                 }
 
                 subject.setText("RE: " + toLoad.getSubject());
-                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " +
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "\n" +
                         "Sender: " + toLoad.getSender() + "\n" +
                         "Receiver: " + toLoad.getReceiver().toString() + "\n" +
                         "Subject: " + toLoad.getSubject() + "\n" +
-                        "Text: " + toLoad.getText() + "\n" + "}");
+                        "Text: " +toLoad.getText() + "\n");
+                break;
 
             case "forward":
                 to.setText("");
                 subject.setText("RE: " + toLoad.getSubject());
-                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "{ " +
+                text.setText("\n\n" + "[---------- Begin of original message ----------]" + "\n" +
                         "Sender: " + toLoad.getSender() + "\n" +
                         "Receiver: " + toLoad.getReceiver().toString() + "\n" +
                         "Subject: " + toLoad.getSubject() + "\n" +
-                        "Text: " + toLoad.getText() + "\n" + "}");
+                        "Text: " +toLoad.getText() + "\n");
+                break;
 
             case "editDraft":
                 to.setText(toLoad.getText());
                 subject.setText(toLoad.getSubject());
                 text.setText(toLoad.getText());
+                break;
+
+            default:
+                break;
         }
     }
 
