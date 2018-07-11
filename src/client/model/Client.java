@@ -297,6 +297,10 @@ public class Client {
         }
     }
 
+    public boolean serverIsOnline(){
+        return this.socket.isConnected();
+    }
+
     // OTHER METHODS ---------------------------------------------------------------------------------------------------
 
     // TODO: spostare nel server i metodi read, write e delete

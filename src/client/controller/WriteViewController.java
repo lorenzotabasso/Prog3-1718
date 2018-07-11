@@ -1,6 +1,7 @@
 package client.controller;
 
 import client.task.SendTask;
+import exception.ClientException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,7 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Lorenzo Tabasso
@@ -141,6 +145,8 @@ public class WriteViewController implements Observer {
                     //clientModel.write(thisEmail, "o"); // Usiamo "i" a scopo di DEBUG, in realtà sarebbe "o"
 
                     exec.submit(new SendTask(clientModel, thisEmail)); // creo un thread che si occupa di inviare l'email.
+
+
 
                     closeTab();
                 }

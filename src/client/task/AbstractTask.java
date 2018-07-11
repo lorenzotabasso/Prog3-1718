@@ -6,9 +6,11 @@ import common.protocol.Response;
 import exception.ClientException;
 import exception.ProtocolException;
 import exception.ServerException;
+import javafx.scene.control.Alert;
 
 
 import java.io.IOException;
+import java.net.Socket;
 
 /**
  * @author Lorenzo Tabasso
@@ -37,10 +39,14 @@ public abstract class AbstractTask implements Runnable{
 
         try {
             clientModel.setStatusProperty("Connessione al server in corso...");
-
-
             startTask();
+
         } catch (ClientException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Unable to send this email.");
+            alert.setContentText("Seems that the server is offline, I will save your email in drafts and I will try to reconect to he server.");
+            alert.showAndWait();
             clientModel.setStatusProperty("Impossibile connettersi al server. Errore: " + e.getExtendedErrorCode());
         } catch (ServerException e) {
             clientModel.setStatusProperty("Errore nel Server. Errore: " + e.getExtendedErrorCode());
@@ -49,16 +55,21 @@ public abstract class AbstractTask implements Runnable{
         }
     }
 
-    public Response sendRequest(Request forServer) {
+    public Response sendRequest(Request forServer) throws ClientException{
         Response res = null;
 
         if (forServer != null) {
             try {
-                clientModel.getOutput().writeObject(forServer);
+                if (clientModel.serverIsOnline()) {
+                    clientModel.getOutput().writeObject(forServer);
+                    res = (Response) clientModel.getInput().readObject();
+                }
+                else
+                    throw new ClientException("Server offline", 1);
 
-                res = (Response) clientModel.getInput().readObject();
-
-            } catch (IOException | ClassNotFoundException e) {
+            } catch (IOException e) {
+                throw new ClientException(e.getMessage(), 1);
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -72,4 +83,5 @@ public abstract class AbstractTask implements Runnable{
         }
         return false;
     }
+
 }
