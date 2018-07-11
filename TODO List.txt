@@ -4,3 +4,7 @@
 [QUASI FINITO] - CLIENT - Listeners dei bottoni mancanti
 [da fare] - CLIENT - Observer/observable da usare?
 [da fare] - CLIENT - Sistemare gli errori nei listener dei bottoni, aprono le finestre con parametri sbagliati
+
+[#1] - CLIENT - Sistemare la chiusura del Client, cosicchè il server chiude il thread
+[#2] - CLIENT - Cambiare il modo i come il Client prenda il path. (bug)
+
