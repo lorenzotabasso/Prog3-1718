@@ -144,17 +144,29 @@ public class WriteViewController {
                     to.setText(toLoad.getSender());
                 }
                 else {
-                    String finalsReceivers = "";
-                    for (String newReceiver : toLoad.getReceiver()){
-                        if (toLoad.getReceiver().get(0).equals(newReceiver)){
-                            finalsReceivers.concat(newReceiver);
-                        }
-                        else {
-                            finalsReceivers.concat("," + finalsReceivers.concat(newReceiver));
-                        }
+//                    String finalsReceivers = "";
+//                    String t = "";
+//                    for (String newReceiver : toLoad.getReceiver()){
+//                        if (toLoad.getReceiver().get(0).equals(newReceiver)){
+//                            finalsReceivers.concat(newReceiver);
+//                        }
+//                        else {
+//                            t =
+//                            finalsReceivers.concat("," + finalsReceivers.concat(newReceiver));
+//                        }
+//                    }
+
+                    if (toLoad.getReceiver().get(0).equals(from.getText())) {
+                        to.setText(toLoad.getSender() + "," + toLoad.getReceiver().get(1));
                     }
-                    to.setText(finalsReceivers);
+                    else {
+                        to.setText(toLoad.getSender() + "," + toLoad.getReceiver().get(0));
+                    }
+
+                    //to.setText(finalsReceivers);
                 }
+
+                //to.setText(toLoad.getSender());
 
                 subject.setText("RE: " + toLoad.getSubject());
                 text.setText("\n\n" + "[---------- Begin of original message ----------]" + "\n" +

@@ -202,14 +202,7 @@ public class ReadViewController {
             //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
             WriteViewController writeViewController =  fxmlLoader.getController();
 
-            switch (whichFunction){
-                case "reply":
-                    writeViewController.initBasedOnFunction(this.exec, this.clientModel, "reply", toLoad);
-                case "replyToAll":
-                    writeViewController.initBasedOnFunction(this.exec, this.clientModel, "replyToAll",toLoad);
-                case "forward":
-                    writeViewController.initBasedOnFunction(this.exec, this.clientModel, "forward",toLoad);
-            }
+            writeViewController.initBasedOnFunction(this.exec, this.clientModel, whichFunction, toLoad);
 
             TabPane inboxTab = findEnclosingTabPane(root);
             inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab
