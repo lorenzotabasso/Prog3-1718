@@ -18,13 +18,6 @@ public class Account {
 
     // COSTRUCTORS -----------------------------------------------------------------------------------------------------
 
-    public Account(String email){
-        this.IDAccount = UUID.randomUUID();
-        this.name = "";
-        this.surname = "";
-        this.userEmail = email;
-    }
-
     public Account(String name, String surname, String email){
         this.IDAccount = UUID.randomUUID();
         this.name = name;

@@ -12,8 +12,9 @@ public class Request implements Serializable {
 
 
     private String command;
-    private Object parameters; // può essere String (status della get) oppure Email (vedi comando SEND)
-    private String author; // ogni richiesta ha il suo autore, serve per il server che lo usa per caprie chi è che si sta communicando.
+    private Object parameters; // it can be String (get's status) or Email (see SEND comand)
+    private String author; // every request has his own author, in order to make the server understand who is sending request to him.
+
 
     //todo dovremmo aggiungere l'oggetto Email
 
