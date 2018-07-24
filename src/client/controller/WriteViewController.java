@@ -76,32 +76,13 @@ public class WriteViewController {
     }
 
     /**
-     * Overloaded version.
-     * It initialize the WriteView populating the receiver field. Used in the ReadView.
-     *
-     * @param exec the thread pool in which the Task will be executed.
-     * @param clientModel the Client client.model.
-     * @param receiver the receiver to send the email.
-     */
-    public void init(ExecutorService exec, Client clientModel, String receiver){
-        this.exec = exec;
-        this.clientModel = clientModel;
-
-        initializeButtonsListeners();
-
-        from.setText(clientModel.getUser().getUserEmail()); // Username already compiled for every new email.
-        to.setText(receiver);
-    }
-
-    /**
-     * Overloaded version.
-     * It initialize the WriteView populating the receiver field. Used in the Mainview.
+     * It initialize the WriteView populating the receiver field. Used in MainView and in ReadView.
      *
      * @param exec the thread pool in which the Task will be executed.
      * @param clientModel the Client client.model .
      * @param whichFunction a string that makes the view change based on the function which initialized the controller.
-     *                      The possibilities are: "reply", "replyToAll" and "forward"
-     * @param original email to show in the WriteView
+     *                      The possibilities are: "reply", "replyToAll" and "forward".
+     * @param original email to show in the WriteView.
      */
     public void initBasedOnFunction(ExecutorService exec, Client clientModel, String whichFunction, Email original){
         this.exec = exec;
@@ -120,11 +101,6 @@ public class WriteViewController {
                 break;
 
             case "reply":
-
-                // ci sono 2 casi:
-                // 1) l'email ha un solo destinatario. --> rispondere solo a uno
-                // 2) l'email ha più di un destinatario. --> rispondere solo a uno
-
                 to.setText(toLoad.getSender());
                 subject.setText("RE: " + toLoad.getSubject());
                 text.setText("\n\n" + "[---------- Begin of original message ----------]" + "\n" +
@@ -135,38 +111,17 @@ public class WriteViewController {
                 break;
 
             case "replyToAll":
-
-                // ci sono 2 casi:
-                // 1) l'email ha un solo destinatario. --> rispondere solo a uno
-                // 2) l'email ha più di un destinatario. --> rispondere a tutti
-
                 if (toLoad.getReceiver().size() == 1){
                     to.setText(toLoad.getSender());
                 }
                 else {
-//                    String finalsReceivers = "";
-//                    String t = "";
-//                    for (String newReceiver : toLoad.getReceiver()){
-//                        if (toLoad.getReceiver().get(0).equals(newReceiver)){
-//                            finalsReceivers.concat(newReceiver);
-//                        }
-//                        else {
-//                            t =
-//                            finalsReceivers.concat("," + finalsReceivers.concat(newReceiver));
-//                        }
-//                    }
-
                     if (toLoad.getReceiver().get(0).equals(from.getText())) {
                         to.setText(toLoad.getSender() + "," + toLoad.getReceiver().get(1));
                     }
                     else {
                         to.setText(toLoad.getSender() + "," + toLoad.getReceiver().get(0));
                     }
-
-                    //to.setText(finalsReceivers);
                 }
-
-                //to.setText(toLoad.getSender());
 
                 subject.setText("RE: " + toLoad.getSubject());
                 text.setText("\n\n" + "[---------- Begin of original message ----------]" + "\n" +
@@ -228,7 +183,7 @@ public class WriteViewController {
 
                     Email thisEmail = new Email(from.getText(), receiver, subject.getText(), text.getText());
 
-                    exec.submit(new SendTask(clientModel, thisEmail)); // creo un thread che si occupa di inviare l'email.
+                    exec.submit(new SendTask(clientModel, thisEmail)); // create new SendTask (a thread) which will send the email
 
                     closeTab();
                 }

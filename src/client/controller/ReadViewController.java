@@ -13,11 +13,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import client.model.Client;
 import common.Email;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.ExecutorService;
 
 /**
@@ -29,6 +26,7 @@ import java.util.concurrent.ExecutorService;
 public class ReadViewController {
 
     // ReadView Components
+
     @FXML
     public VBox root;
 
@@ -120,7 +118,6 @@ public class ReadViewController {
         delete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //clientModel.delete(thisEmail, "i"); // TODO: provvisorio. Implementare il metodo getLocation() in Client
                 exec.submit(new DeleteTask(clientModel, thisEmail));
                 closeTab();
             }
@@ -163,31 +160,8 @@ public class ReadViewController {
         tabPane.getTabs().remove(tabPane.getSelectionModel().getSelectedItem());
     }
 
-//    /**
-//     * It opens a new WriteView Tab. It uses the second init() method in WriteView
-//     */
-//    private void openWriteTab() {
-//        try{
-//            Tab tab = new Tab("New Email");
-//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/client/view/WriteView.fxml"));
-//
-//            tab.setContent(fxmlLoader.load());
-//
-//            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
-//            WriteViewController readViewController =  fxmlLoader.getController();
-//
-//            readViewController.init(exec, clientModel, thisEmail.getSender());
-//
-//            TabPane inboxTab = findEnclosingTabPane(root);
-//            inboxTab.getTabs().add(tab); // Add the new tab beside the "Read" tab
-//            inboxTab.getSelectionModel().select(tab); // Switch to Write tab
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-
     /**
-     * Overloaded Version. It opens a new WriteView Tab. It uses the third init() method in WriteView
+     * It opens a new WriteView Tab. It uses the third initBasedOnFunction() method in WriteView
      */
     private void openWriteTab(String whichFunction, Email original) {
 
@@ -199,7 +173,6 @@ public class ReadViewController {
 
             tab.setContent(fxmlLoader.load());
 
-            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
             WriteViewController writeViewController =  fxmlLoader.getController();
 
             writeViewController.initBasedOnFunction(this.exec, this.clientModel, whichFunction, toLoad);

@@ -12,21 +12,7 @@ import javafx.scene.control.*;
 import client.model.Client;
 import common.Email;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.ExecutorService;
-
-/* Dal Testo del progetto
-La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzionalità ridotte a quanto serve per:
- - vedere il nome dell'account di posta elettronica (che qui assumiamo fisso per l'applicazione, che non prevede
-    autenticazione da parte dell'utente)
- - vedere la lista dei messaggi memorizzati nella casella di posta. La lista sia
-    ordinata per emails dai messaggi più recenti ai meno recenti
- - visualizzare un messaggio della casella di posta selezionandolo dalla lista dei messaggi
- - scrivere un messaggio e inviarlo a uno o più destinatari
- - rimuovere un messaggio dalla casella di posta elettronica e vedere la lista dei messaggi aggiornata.
- */
 
 /**
  * @author Lorenzo Tabasso
@@ -36,8 +22,8 @@ La vista sia una tipica finestra di client di mail (es. Thunderbird), con funzio
 
 public class MainViewController {
 
-    // UTILISSIMO https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
-    // SEGUIREMO L'APPROCCIO 1
+    // Utility https://stackoverflow.com/questions/40557492/mvc-with-javafx-and-fxml
+    // We will follow the first approach
 
     // MainView components
 
@@ -109,22 +95,6 @@ public class MainViewController {
         status.textProperty().bind(clientModel.getStatus());
 
         exec.execute(new AuthTask(clientModel));
-
-        // CASI
-        /*
-        1) read, read OK
-        2) read, load NOOK
-        3) load, read NOOK, all'avvio carica le bozze
-        4) load, load NOOK, all'avvio carica le bozze
-         */
-
-        // CASI
-        /*
-        1) refresh, refresh NOOK
-        2) refresh, no refresh NOOK
-        3) no refresh, no refresh
-        4) no refresh, refresh
-         */
 
     }
 
@@ -244,6 +214,7 @@ public class MainViewController {
                 } // end switch
             } // end changed() definition
         }); // end ChangeListener
+
     } // end initTree
 
     // POPULATING ------------------------------------------------------------------------------------------------------
@@ -257,8 +228,6 @@ public class MainViewController {
     private void loadEmails(String location) {
 
         date.setSortType(TableColumn.SortType.DESCENDING);
-
-        //table.refresh(); // da testare
 
         switch (location){
             case "i":
@@ -303,7 +272,7 @@ public class MainViewController {
 
             row.itemProperty().addListener((obs, oldValue, newRowValue) -> {
                 if (newRowValue != null) {
-                    if (!newRowValue.getSeen()) { // Test: tolo il ! per un momento
+                    if (!newRowValue.getSeen()) {
                         row.setStyle("-fx-font-weight: bold");
                     } else {
                         row.setStyle(" ");
@@ -314,16 +283,6 @@ public class MainViewController {
 
             return row;
         });
-    }
-
-    public void loadAllEmails(){
-        loadEmails("i");
-        loadEmails("o");
-        loadEmails("d");
-    }
-
-    public void getCategory(){
-
     }
 
     // SUPPORT ---------------------------------------------------------------------------------------------------------
@@ -340,7 +299,6 @@ public class MainViewController {
 
             tab.setContent(fxmlLoader.load());
 
-            //ReadViewController readViewController =  new ReadViewController(); // in caso d'emergenza, questa riga funge
             ReadViewController readViewController =  fxmlLoader.getController();
 
             readViewController.init(this.exec, this.clientModel, toShow);
@@ -362,7 +320,6 @@ public class MainViewController {
 
             tab.setContent(fxmlLoader.load());
 
-            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
             WriteViewController writeViewController =  fxmlLoader.getController();
 
             writeViewController.init(this.exec, this.clientModel);
@@ -392,7 +349,6 @@ public class MainViewController {
 
             tab.setContent(fxmlLoader.load());
 
-            //WriteViewController readViewController =  new WriteViewController(); // in caso d'emergenza, questa riga funge
             WriteViewController writeViewController =  fxmlLoader.getController();
 
             writeViewController.initBasedOnFunction(this.exec, this.clientModel, whichFunction, toLoad);
@@ -402,12 +358,6 @@ public class MainViewController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void readAll(){
-        clientModel.read("i");
-        clientModel.read("d");
-        clientModel.read("o");
     }
 
 } // end class
